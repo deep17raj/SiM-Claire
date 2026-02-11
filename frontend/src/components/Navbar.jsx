@@ -16,7 +16,7 @@ const Navbar = () => {
             height={40} // Defines aspect ratio
             priority
             // h-10 sets height to 40px, w-auto automatically adjusts width based on aspect ratio
-            className="h-20 w-auto object-contain -translate-y-[22px]" 
+            className="h-20 w-auto object-contain -translate-y-5.5" 
             />
         </div>
         <span className="text-[#f2671c] font-bold text-2xl tracking-tight">
