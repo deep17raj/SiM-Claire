@@ -3,39 +3,32 @@ import Image from "next/image";
 // Data array makes it easy to add or remove partners later
 const partners = [
   {
-    id: "makemytrip",
-    name: "MakeMyTrip",
-    src: "/logos/makemytrip.png", // Path to your public folder
+    id: "visa",
+    name: "Visa",
+    src: "/visa.jpg", // Path to your public folder
     width: 140,
-    hasWhiteBox: false,
-  },
-  {
-    id: "gpay",
-    name: "Google Pay",
-    src: "/logos/gpay.png",
-    width: 120,
-    hasWhiteBox: true, // This will wrap it in the white card
-  },
-  {
-    id: "paytm",
-    name: "Paytm",
-    src: "/logos/paytm.png",
-    width: 120,
     hasWhiteBox: true,
   },
   {
-    id: "orca",
-    name: "Orca Dive Club",
-    src: "/logos/orca.png",
-    width: 100,
-    hasWhiteBox: false,
+    id: "master",
+    name: "Master Card",
+    src: "/mastercard.png",
+    width: 140,
+    hasWhiteBox: true, // This will wrap it in the white card
   },
   {
-    id: "stamp",
-    name: "Stamp The Passport",
-    src: "/logos/stamp.png",
+    id: "apple",
+    name: "Apple Pay",
+    src: "/apple.png",
     width: 140,
-    hasWhiteBox: false,
+    hasWhiteBox: true,
+  },
+  {
+    id: "google",
+    name: "Google Pay",
+    src: "/gpay2.png",
+    width: 140,
+    hasWhiteBox: true,
   },
 ];
 

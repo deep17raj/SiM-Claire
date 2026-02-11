@@ -6,14 +6,14 @@ const destinations = [
     id: "au",
     name: "Australia",
     price: "₹299.00",
-    bgImg: "https://images.unsplash.com/photo-1523428096881-5bd79d0f3091?q=80&w=800&auto=format&fit=crop", // Sydney
+    bgImg: "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?q=80&w=3330&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Sydney
     flag: "https://flagcdn.com/w40/au.png",
   },
   {
     id: "az",
     name: "Azerbaijan",
     price: "₹499.00",
-    bgImg: "https://images.unsplash.com/photo-1601222448375-9c5ce6068222?q=80&w=800&auto=format&fit=crop", // Baku
+    bgImg: "https://images.unsplash.com/photo-1596306499398-8d88944a5ec4?q=80&w=3212&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Baku
     flag: "https://flagcdn.com/w40/az.png",
   },
   {
