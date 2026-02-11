@@ -34,8 +34,8 @@ const partners = [
 
 const TrustedBy = () => {
   return (
-    // The background color matches the light gray in your image
-    <section className="w-full max-w-350 mx-auto   bg-[#f3f4f6] rounded-2xl py-6 md:py-10">
+    <div className="px-4 py-8">
+      <section className="w-full max-w-350 mx-auto   bg-[#f3f4f6] rounded-2xl py-6 md:py-10">
       
         
         {/* Section Title */}
@@ -75,6 +75,9 @@ const TrustedBy = () => {
 
       
     </section>
+    </div>
+    // The background color matches the light gray in your image
+    
   );
 };
 

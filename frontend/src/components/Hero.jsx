@@ -2,7 +2,8 @@ import Image from "next/image";
 
 const Hero = () => {
   return (
-    <div className="w-full max-w-[1400px] h-160 mx-auto aspect-video relative rounded-2xl overflow-hidden">
+    <div className="px-4 py-8">
+       <div className="w-full max-w-[1400px] h-160 mx-auto aspect-video relative rounded-2xl overflow-hidden">
       
       <Image
         src="/hero3.png"
@@ -45,6 +46,8 @@ const Hero = () => {
 
 
     </div>
+    </div>
+   
   );
 };
 
