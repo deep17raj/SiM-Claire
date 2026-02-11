@@ -12,7 +12,7 @@ const partners = [
   {
     id: "master",
     name: "Master Card",
-    src: "/mastercard.png",
+    src: "/master3.png",
     width: 140,
     hasWhiteBox: true, // This will wrap it in the white card
   },
