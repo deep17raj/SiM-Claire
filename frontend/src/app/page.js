@@ -3,6 +3,7 @@ import Destinations from "@/components/Destinations";
 import TrustedBy from "@/components/TrustedBy";
 import Image from "next/image";
 import Hero from "../components/Hero"
+import HowItWorks from "@/components/HowItWorks";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <Destinations/>
       <TrustedBy/>
       <CompatibilityBanner/>
+      <HowItWorks/>
     </div>
   );
 }
