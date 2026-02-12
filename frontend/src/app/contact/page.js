@@ -1,6 +1,24 @@
-import React from 'react';
+'use client'; // <--- This makes it a Next.js Client Component
+
+import { useState } from 'react';
 
 const ContactForm = () => {
+  // Simple state to handle form submission loading (optional but good for UX)
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    console.log("Form submitted!");
+    
+    setTimeout(() => {
+        setIsSubmitting(false);
+        alert("Message sent!");
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-[#fdfdfd] text-slate-800 relative overflow-hidden font-sans">
       
@@ -28,7 +46,8 @@ const ContactForm = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Get in touch with us</h1>
             <p className="text-slate-500 max-w-md mx-auto leading-relaxed">
               Have a question or need help? Reach out to us at{' '}
-              <a href="mailto:support@trvlpass.com" className="text-[#f2671c] font-medium hover:underline">
+              {/* Note: Use standard <a> for mailto links, Link is only for internal pages */}
+              <a href="mailto:support@simclaire.com" className="text-[#f2671c] font-medium hover:underline">
                 support@simclaire.com
               </a>{' '}
               or fill out the form below.
@@ -36,7 +55,7 @@ const ContactForm = () => {
           </div>
 
           {/* Form */}
-          <form className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Full Name */}
               <div className="relative z-0 w-full group">
@@ -70,7 +89,7 @@ const ContactForm = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Phone Number with Country Code */}
+              {/* Phone Number */}
               <div className="flex items-end gap-3">
                 <div className="flex items-center gap-1 border-b-2 border-slate-200 pb-2.5 mb-[1px]">
                     <span className="text-xl">🇮🇳</span>
@@ -105,7 +124,7 @@ const ContactForm = () => {
               </div>
             </div>
 
-            {/* eSIM ICCID with Tooltip */}
+            {/* eSIM ICCID */}
             <div className="relative z-0 w-full group">
                 <div className="absolute right-0 top-3 text-slate-400 hover:text-[#f2671c] cursor-help group/tooltip z-10">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -148,12 +167,15 @@ const ContactForm = () => {
             <div className="pt-4 flex justify-center">
                 <button 
                     type="submit" 
-                    className="group relative px-10 py-3 font-semibold text-[#f2671c] border-2 border-[#f2671c] rounded-lg overflow-hidden transition-all duration-300 hover:text-white cursor-pointer"
+                    disabled={isSubmitting}
+                    className="group relative px-10 py-3 font-semibold text-[#f2671c] border-2 border-[#f2671c] rounded-lg overflow-hidden transition-all duration-300 hover:text-white cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                    <span className="absolute inset-0 w-0 bg-[#f2671c] transition-all duration-300 ease-out group-hover:w-full"></span>
+                    <span className={`absolute inset-0 w-0 bg-[#f2671c] transition-all duration-300 ease-out ${isSubmitting ? 'w-full' : 'group-hover:w-full'}`}></span>
                     <span className="relative flex items-center gap-2">
-                        Send Message
-                        <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
+                        {!isSubmitting && (
+                          <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        )}
                     </span>
                 </button>
             </div>
@@ -169,7 +191,7 @@ const ContactForm = () => {
       </main>
 
       <footer className="mt-8 text-slate-400 text-sm">
-        © 2024 Global eSIM Solutions. All rights reserved.
+        © 2026 SiMClaire. All rights reserved.
       </footer>
     </div>
   );
