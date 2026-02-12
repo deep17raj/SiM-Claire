@@ -64,7 +64,7 @@ const WhyChooseUs = () => {
         <div className="mt-16 text-center max-w-3xl mx-auto px-4">
           <p className="text-slate-600 text-lg md:text-xl font-light leading-relaxed">
              We believe that staying connected shouldn't be a luxury or a headache. 
-             <span className="font-semibold text-[#f2671c]"> TrvlPass </span> 
+             <span className="font-semibold text-[#f2671c]"> SiMClaire </span> 
              bridges the gap between premium global connectivity and local affordability. 
              By utilizing cutting-edge eSIM technology, we eliminate the need for physical SIM cards, hidden roaming fees, and the stress of finding Wi-Fi.
           </p>
