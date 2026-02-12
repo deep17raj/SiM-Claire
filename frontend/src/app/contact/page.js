@@ -45,12 +45,12 @@ const ContactForm = () => {
             </div>
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Get in touch with us</h1>
             <p className="text-slate-500 max-w-md mx-auto leading-relaxed">
-              Have a question or need help? Reach out to us at{' '}
+              For assistance, please contact{' '}
               {/* Note: Use standard <a> for mailto links, Link is only for internal pages */}
               <a href="mailto:support@simclaire.com" className="text-[#f2671c] font-medium hover:underline">
                 support@simclaire.com
               </a>{' '}
-              or fill out the form below.
+              or submit your inquiry using the form below.
             </p>
           </div>
 
