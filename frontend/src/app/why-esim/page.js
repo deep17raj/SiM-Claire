@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CompatibilityChecker from "./CompatibilityChecker";
 
 const WhyChooseUs = () => {
   return (
@@ -83,6 +84,7 @@ const WhyChooseUs = () => {
         </div>
 
       </div>
+      <CompatibilityChecker/>
     </section>
   );
 };
