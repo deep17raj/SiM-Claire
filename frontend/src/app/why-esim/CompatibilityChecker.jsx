@@ -91,7 +91,7 @@ const CompatibilityChecker = () => {
         <header className="flex flex-col items-center text-center mb-20 relative">
           <div className="flex items-center justify-center gap-6 mb-8">
             <div className="relative w-24 h-24 md:w-28 md:h-28">
-              <div className="absolute inset-0 bg-[#f2671c]/10 rounded-[32px] rotate-6"></div>
+              <div className="absolute inset-0 bg-brand/10 rounded-[32px] rotate-6"></div>
               <div className="absolute inset-0 bg-white shadow-2xl rounded-[32px] flex items-center justify-center border border-slate-100">
                 {/* Main Smartphone Icon */}
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f2671c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -107,7 +107,7 @@ const CompatibilityChecker = () => {
             </div>
           </div>
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
-            Compatibility Checker: <span className="text-[#f2671c]">Is Your Device eSIM Ready?</span>
+            Compatibility Checker: <span className="text-brand">Is Your Device eSIM Ready?</span>
           </h1>
           <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
             Verify if your hardware is ready for the digital SIM revolution. Select your brand to see the full list of compatible models.
@@ -123,21 +123,21 @@ const CompatibilityChecker = () => {
                 key={brand.id}
                 className={`group relative flex flex-col items-center p-6 rounded-[32px] border border-slate-100 shadow-sm transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-white to-slate-50 ${
                     brand.active 
-                    ? 'border-[#f2671c] bg-gradient-to-br from-white to-[#fff5f0] shadow-[0_25px_50px_-12px_rgba(242,103,28,0.15)] ring-1 ring-[#f2671c]/20' 
+                    ? 'border-brand bg-gradient-to-br from-white to-[#fff5f0] shadow-[0_25px_50px_-12px_rgba(242,103,28,0.15)] ring-1 ring-brand/20' 
                     : ''
                 }`}
               >
                 {/* Icon Container: Inherits text color for hover/active states */}
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 ${
                     brand.active 
-                    ? 'bg-gradient-to-br from-[#f2671c] to-[#ff8c4a] text-white shadow-[0_10px_15px_-3px_rgba(242,103,28,0.3)]' 
+                    ? 'bg-gradient-to-br from-brand to-[#ff8c4a] text-white shadow-[0_10px_15px_-3px_rgba(242,103,28,0.3)]' 
                     : 'bg-slate-50 text-slate-600'
                 }`}>
                   {/* Renders the specific SVG from the BrandIcons object */}
                   {BrandIcons[brand.iconKey]}
                 </div>
                 
-                <span className={`text-base font-bold transition-colors ${brand.active ? 'text-[#f2671c]' : 'text-slate-900'}`}>
+                <span className={`text-base font-bold transition-colors ${brand.active ? 'text-brand' : 'text-slate-900'}`}>
                     {brand.name}
                 </span>
                 <span className={`text-[10px] mt-1 uppercase tracking-widest font-semibold transition-colors ${brand.active ? 'text-orange-400' : 'text-slate-400'}`}>
@@ -163,7 +163,7 @@ const CompatibilityChecker = () => {
               <ul className="space-y-5">
                 {category.models.map((model, mIdx) => (
                   <li key={mIdx} className="flex items-center gap-4 text-slate-600 group cursor-default">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-[#f2671c] flex-shrink-0">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-secondary flex-shrink-0">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
                     <span className="font-medium group-hover:text-slate-900 transition-colors">
@@ -177,10 +177,10 @@ const CompatibilityChecker = () => {
         </div>
 
         {/* Info Banner */}
-        <div className="mt-24 bg-slate-900 rounded-[40px] p-8 md:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#f2671c] opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
+        <div className="mt-24 bg-secondary  rounded-[40px] p-8 md:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
           <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
-            <div className="w-20 h-20 bg-[#f2671c] rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/20">
+            <div className="w-20 h-20 bg-brand rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/20">
                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                  <circle cx="12" cy="12" r="10"></circle>
                  <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -220,7 +220,7 @@ const CompatibilityChecker = () => {
             <button className="px-10 py-4 rounded-2xl border border-slate-200 font-bold hover:bg-white hover:shadow-xl hover:border-slate-300 transition-all text-slate-700">
               Help Center
             </button>
-            <button className="px-10 py-4 rounded-2xl bg-[#f2671c] text-white font-bold hover:bg-[#e05a15] hover:scale-105 transition-all shadow-2xl shadow-[#f2671c]/30">
+            <button className="px-10 py-4 rounded-2xl bg-brand text-white font-bold hover:bg-[#e05a15] hover:scale-105 transition-all shadow-2xl shadow-brand/30">
               Get Your eSIM
             </button>
           </div>

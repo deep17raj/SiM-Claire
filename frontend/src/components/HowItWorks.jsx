@@ -80,7 +80,7 @@ const HowItWorks = () => {
             <div key={step.id} className="relative mt-8 md:mt-10">
               
               {/* Floating Icon Box */}
-              <div className="absolute -top-10 left-6 w-20 h-20 bg-[#f2671c] rounded-2xl flex items-center justify-center text-white shadow-md z-10">
+              <div className="absolute -top-10 left-6 w-20 h-20 bg-secondary rounded-2xl flex items-center justify-center text-white shadow-md z-10">
                 {step.icon}
               </div>
 
@@ -104,7 +104,7 @@ const HowItWorks = () => {
             Stuck somewhere? Go to our support page for FAQs and troubleshooting.
           </p>
           <Link href="/support">
-            <button className="px-8 py-3 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[15px] rounded-lg hover:text-[#f2671c] hover:border-[#f2671c] transition-all duration-300 active:scale-95 cursor-pointer">
+            <button className="px-8 py-3 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[15px] rounded-lg hover:text-brand hover:border-brand transition-all duration-300 active:scale-95 cursor-pointer">
               Get Support
             </button>
           </Link>

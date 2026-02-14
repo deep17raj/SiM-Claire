@@ -30,28 +30,28 @@ const HeroSearch = () => {
         {/* The New Header Title */}
         <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
           Planning a trip? Check our rates <br className="hidden md:block" />
-          <span className="text-[#f2671c]">for your destination.</span>
+          <span className="text-brand">for your destination.</span>
         </h1>
 
         {/* Search Bar Container */}
         <div className="w-full max-w-2xl relative group">
           <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
             {/* Search Icon SVG */}
-            <svg className="text-gray-400 w-6 h-6 group-focus-within:text-[#f2671c] transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="text-gray-400 w-6 h-6 group-focus-within:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
           </div>
           <input 
             type="text"
-            className="w-full pl-14 pr-6 py-4 bg-white border border-gray-200 rounded-full shadow-lg shadow-gray-200/50 outline-none text-lg transition-all focus:ring-2 focus:ring-[#f2671c] focus:border-transparent placeholder:text-gray-400" 
+            className="w-full pl-14 pr-6 py-4 bg-white border border-gray-200 rounded-full shadow-lg shadow-gray-200/50 outline-none text-lg transition-all focus:ring-2 focus:ring-brand focus:border-transparent placeholder:text-gray-400" 
             placeholder="Search for a country or region..." 
           />
         </div>
 
         {/* Tabs (Country / Region / Global) */}
         <div className="flex bg-gray-100 p-1.5 rounded-full border border-gray-200">
-          <button className="px-8 py-2 rounded-full bg-white shadow-sm text-[#f2671c] font-bold text-sm transition-all">
+          <button className="px-8 py-2 rounded-full bg-white shadow-sm text-brand font-bold text-sm transition-all">
             Country
           </button>
           <button className="px-8 py-2 rounded-full text-gray-500 font-medium text-sm hover:text-gray-800 transition-all">
@@ -95,7 +95,7 @@ const HeroSearch = () => {
             </div>
 
             {/* Chevron Icon */}
-            <div className="text-gray-300 group-hover:text-[#f2671c] transition-colors">
+            <div className="text-gray-300 group-hover:text-brand transition-colors">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
@@ -106,7 +106,7 @@ const HeroSearch = () => {
 
       {/* 3. VIEW ALL BUTTON */}
       <div className="mt-16 text-center">
-        <button className="px-10 py-3.5 rounded-full border-2 border-[#f2671c] text-[#f2671c] font-bold hover:bg-[#f2671c] hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95">
+        <button className="px-10 py-3.5 rounded-full border-2 border-brand text-brand font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95">
             View All 150+ Countries
         </button>
       </div>

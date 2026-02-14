@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         // 'm-4' and 'rounded-3xl' gives it that modern "floating" card look seen in your image
         <div className="px-4 py-8">
-            <footer className="w-full max-w-[1400px] mx-auto bg-[#f2671c] text-white mx-4 mb-4 rounded-3xl pt-12 pb-8 px-6 md:px-12 mt-12">
+            <footer className="w-full max-w-[1400px] mx-auto bg-secondary text-white mx-4 mb-4 rounded-3xl pt-12 pb-8 px-6 md:px-12 mt-12">
                 <div className="">
 
                     {/* Top Section: Grid Layout */}
@@ -13,15 +13,25 @@ const Footer = () => {
 
                         {/* Column 1: Brand & Socials (Spans 2 columns on large screens) */}
                         <div className="lg:col-span-2">
-                            <Link href="/" className="flex items-center gap-2 mb-4">
-                                {/* White version of your logo icon */}
-                                <div className="text-white">
-                                    <Image src="/logo.png" alt="logo" width={32} height={32}/>
-                                </div>
-                                <span className="font-bold text-2xl tracking-tight">
-                                    SiMClaire
-                                </span>
-                            </Link>
+                            <Link href="/" className="flex  items-center gap-2 mb-4">
+    {/* 1. Wrapper: Size h-12 w-12 (48px) is usually perfect for a navbar logo */}
+    <div className="relative h-16 w-16 translate-y-2 flex-shrink-0">
+        <Image
+            src="/logo.svg"
+            alt="SiMClaire Logo"
+            fill
+            /* - object-contain: Ensures the whole logo fits without cropping
+               - scale-125: Zooms in slightly if your SVG has too much empty space around it 
+            */
+            className="object-cover scale-125" 
+        />
+    </div>
+
+    {/* 2. Text: Align vertical rhythm */}
+    <span className="font-bold text-2xl tracking-tight text-white">
+        SiM <span className="text-brand">Claire</span>
+    </span>
+</Link>
 
                             <p className="text-white/80 text-sm mb-6 max-w-xs">
                                 Get instant coverage with no roaming surprises.

@@ -3,58 +3,59 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../public/logo.png";
+import logo from "../../public/logo.svg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     // Added 'z-50' to ensure navbar stays on top of other content
-    <nav className="w-full max-w-[1400px] mx-auto bg-white shadow-md rounded-full px-6 md:px-8 py-4 flex items-center justify-between sticky top-4 z-50 relative">
+    <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full px-6 md:px-8 py-4 flex items-center justify-between sticky top-4 z-50 relative">
       
       {/* 1. Logo Section */}
       <Link href="/" className="flex items-center gap-2 z-50">
-        <div className="relative h-10 w-auto">
-          <Image
-            src={logo}
-            alt="Company Logo"
-            width={160}
-            height={40}
-            priority
-            className="h-20 w-auto object-contain -translate-y-5.5"
-          />
-        </div>
-        <span className="text-[#f2671c] font-bold text-xl md:text-2xl tracking-tight whitespace-nowrap">
-          SiM Claire
-        </span>
-      </Link>
+  <div className="relative h-10 w-auto">
+    <Image
+      src={logo}
+      alt="Company Logo"
+      width={200}
+      height={40}
+      priority
+      className="h-40 w-auto object-contain -translate-y-12.5"
+    />
+  </div>
+  {/* Added -ml-6 to pull text closer to the logo */}
+  <span className="-ml-6 text-tertary font-bold text-xl md:text-2xl lg:text-3xl tracking-tight whitespace-nowrap">
+    SiM <span className="text-brand">Claire</span>
+  </span>
+</Link>
 
       {/* 2. Desktop Navigation Links (Hidden on Mobile) */}
-      <div className="hidden lg:flex items-center space-x-8 text-gray-800 font-medium text-[15px]">
-        <Link href="/destination" className="hover:text-[#f2671c] transition-colors">
+      <div className="hidden lg:flex items-center space-x-8 text-tertary font-medium text-[15px]">
+        <Link href="/destination" className="hover:text-brand transition-colors">
           Choose a Destination
         </Link>
-        <Link href="/why-esim" className="hover:text-[#f2671c] transition-colors">
+        <Link href="/why-esim" className="hover:text-brand transition-colors">
           Why an eSIM?
         </Link>
-        <Link href="/support" className="hover:text-[#f2671c] transition-colors">
+        <Link href="/support" className="hover:text-brand transition-colors">
           Get Support
         </Link>
-        <Link href="/contact" className="hover:text-[#f2671c] transition-colors">
+        <Link href="/contact" className="hover:text-brand transition-colors">
           Contact
         </Link>
-        <Link href="/my-esims" className="hover:text-[#f2671c] transition-colors">
+        <Link href="/my-esims" className="hover:text-brand transition-colors">
           My eSIMs & Top Up
         </Link>
       </div>
 
       {/* 3. Desktop Auth Buttons (Hidden on Mobile) */}
-      <div className="hidden lg:flex items-center gap-6 text-gray-900 font-semibold text-[15px]">
-        <Link href="/signup" className="hover:text-[#f2671c] transition-colors">
+      <div className="hidden lg:flex items-center gap-6 text-tertary font-semibold text-[15px]">
+        <Link href="/signup" className="hover:text-brand transition-colors">
           Sign Up
         </Link>
         <div className="h-5 w-[1px] bg-gray-300"></div>
-        <Link href="/login" className="hover:text-[#f2671c] transition-colors">
+        <Link href="/login" className="hover:text-brand transition-colors">
           Log In
         </Link>
       </div>
@@ -62,7 +63,7 @@ const Navbar = () => {
       {/* 4. Mobile Hamburger Button (Visible on LG and below) */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden text-gray-800 hover:text-[#f2671c] focus:outline-none z-50 p-2"
+        className="lg:hidden text-gray-800 hover:text-brand focus:outline-none z-50 p-2"
       >
         {/* Toggle Icon: Shows 'X' if open, 'Hamburger' if closed */}
         {isOpen ? (
@@ -81,35 +82,35 @@ const Navbar = () => {
         <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white rounded-2xl shadow-xl border border-gray-100 p-6 flex flex-col gap-4 lg:hidden animate-in slide-in-from-top-2 duration-200">
           <Link 
             href="/destination" 
-            className="text-gray-800 font-medium text-lg hover:text-[#f2671c]"
+            className="text-gray-800 font-medium text-lg hover:text-brand"
             onClick={() => setIsOpen(false)} // Close menu on click
           >
             Choose a Destination
           </Link>
           <Link 
             href="/why-esim" 
-            className="text-gray-800 font-medium text-lg hover:text-[#f2671c]"
+            className="text-gray-800 font-medium text-lg hover:text-brand"
             onClick={() => setIsOpen(false)}
           >
             Why an eSIM?
           </Link>
           <Link 
             href="/support" 
-            className="text-gray-800 font-medium text-lg hover:text-[#f2671c]"
+            className="text-gray-800 font-medium text-lg hover:text-brand"
             onClick={() => setIsOpen(false)}
           >
             Get Support
           </Link>
           <Link 
             href="/contact" 
-            className="text-gray-800 font-medium text-lg hover:text-[#f2671c]"
+            className="text-gray-800 font-medium text-lg hover:text-brand"
             onClick={() => setIsOpen(false)}
           >
             Contact
           </Link>
           <Link 
             href="/my-esims" 
-            className="text-gray-800 font-medium text-lg hover:text-[#f2671c]"
+            className="text-gray-800 font-medium text-lg hover:text-brand"
             onClick={() => setIsOpen(false)}
           >
             My eSIMs & Top Up
@@ -120,14 +121,14 @@ const Navbar = () => {
           <div className="flex flex-col gap-4">
              <Link 
                 href="/signup" 
-                className="text-center w-full py-3 rounded-xl bg-[#f2671c] text-white font-bold hover:bg-orange-600 transition-colors"
+                className="text-center w-full py-3 rounded-xl bg-brand text-white font-bold hover:bg-brand transition-colors"
                 onClick={() => setIsOpen(false)}
              >
                Sign Up
              </Link>
              <Link 
                 href="/login" 
-                className="text-center w-full py-3 rounded-xl border-2 border-gray-200 text-gray-800 font-bold hover:border-[#f2671c] hover:text-[#f2671c] transition-colors"
+                className="text-center w-full py-3 rounded-xl border-2 border-gray-200 text-gray-800 font-bold hover:border-brand hover:text-brand transition-colors"
                 onClick={() => setIsOpen(false)}
              >
                Log In
