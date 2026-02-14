@@ -15,7 +15,7 @@ export default function LoginPage() {
         */}
         <div className="w-full md:w-1/2 lg:w-[55%] relative h-64 md:h-auto bg-[#e8f4f1]">
           <Image
-            src="/login.jpeg" 
+            src="/login.png" 
             alt="Clare the Beaver relaxing on a beach"
             fill
             priority
@@ -29,11 +29,11 @@ export default function LoginPage() {
             
             {/* Header */}
             <div className="mb-8 md:mb-10 text-left">
-              <h1 className="text-3xl md:text-4xl font-bold text-[#1e3a50] tracking-tight uppercase mb-2">
-                HELLO, I'M CLARE
+              <h1 className="text-3xl md:text-4xl font-bold text-[#1e3a50] tracking-tight  mb-2">
+                Good to see you!
               </h1>
               <p className="text-lg text-gray-500 font-normal">
-                I'll help you in the journey!
+                Are you ready to start your journey?
               </p>
             </div>
 

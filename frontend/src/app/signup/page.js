@@ -20,7 +20,7 @@ export default function SignupPage() {
             alt="Clare the Beaver greeting you"
             fill
             priority
-            className="object-cover object-[center_24%]"
+            className="object-cover object-[center_42%]"
           />
         </div>
 
@@ -31,7 +31,7 @@ export default function SignupPage() {
             {/* Header */}
             <div className="mb-8 text-left">
               <h1 className="text-3xl md:text-4xl font-bold text-[#1e3a50] tracking-tight mb-3">
-                Hello!
+                Hello!, I am Claire.
               </h1>
               <p className="text-lg text-gray-500 font-normal">
                 Welcome! I'll help you on this journey!
