@@ -134,7 +134,7 @@ const Testimonials = () => {
       `}</style>
 
       <div className="w-full max-w-[1400px] mx-auto px-4 mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold text-center text-[#2d3240] max-w-2xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-center text-secondary max-w-2xl mx-auto">
           Words of praise from others about our presence.
         </h2>
       </div>
@@ -143,8 +143,6 @@ const Testimonials = () => {
         {/* Row 1 */}
         <MarqueeRow data={firstRowData} direction="left" speed="15s" />
         
-        {/* Row 2 */}
-        <MarqueeRow data={secondRowData} direction="right" speed="15s" />
       </div>
 
     </section>

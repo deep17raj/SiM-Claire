@@ -49,7 +49,7 @@ const TrustedBy = () => {
       <section className="w-full max-w-350 mx-auto bg-bget rounded-2xl py-6 md:py-10 overflow-hidden">
         
         {/* Section Title */}
-        <h2 className="text-2xl md:text-3xl font-bold text-[#2d3240] text-center mb-10 md:mb-14">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-secondary text-center mb-10 md:mb-14">
           Trusted by
         </h2>
 

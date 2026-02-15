@@ -11,10 +11,10 @@ export default function Home() {
     <div>
       <Hero/>
       <Destinations/>
-      <TrustedBy/>
       <CompatibilityBanner/>
       <HowItWorks/>
       <Testimonials/>
+      <TrustedBy/>
     </div>
   );
 }
