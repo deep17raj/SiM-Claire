@@ -11,7 +11,7 @@ const Hero = () => {
           name="dest"
           type="text"
           placeholder="Search destination"
-          className="w-full bg-white pl-12 pr-6 py-4 border-4 border-secondary rounded-full text-black text-lg outline-none shadow-lg placeholder-gray-500 transition-all focus:scale-[1.02]"
+          className="w-full bg-white pl-12 pr-6 py-4 border-4 border-brand rounded-full text-black text-lg outline-none shadow-lg placeholder-gray-500 transition-all focus:scale-[1.02]"
         />
 
         {/* Search Icon */}
@@ -20,7 +20,7 @@ const Hero = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="none"
-            stroke="var(--color-secondary)" // Uses your custom CSS variable
+            stroke="var(--color-brand)" // Uses your custom CSS variable
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -34,9 +34,19 @@ const Hero = () => {
       </div>
 
       {/* 2. Hero Image Container */}
-      <div className="w-full max-w-[1400px] mx-auto aspect-video md:h-[700px] relative rounded-2xl overflow-hidden shadow-md">
+      {/* <div className="w-full max-w-[1400px] mx-auto aspect-video md:h-[700px] relative rounded-2xl overflow-hidden shadow-md">
         <Image
           src="https://res.cloudinary.com/dw1nrygug/image/upload/v1771090065/hero1_h3bhrb.png"
+          alt="Hero Image"
+          fill
+          priority
+          className="object-cover"
+        />
+      </div> */}
+      <div className="text-secondary  mx-auto font-bold text-5xl"><span>Building Your Bridge To The world With Sim Claire</span></div>
+      <div className="w-full max-w-[1400px] mx-auto aspect-video md:h-[700px] relative rounded-2xl overflow-hidden shadow-md">
+        <Image
+          src="https://res.cloudinary.com/dyalxye1e/image/upload/v1771129381/blue_gradient_travel_Presentation_169_gemvqk.png"
           alt="Hero Image"
           fill
           priority

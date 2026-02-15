@@ -177,7 +177,7 @@ const CompatibilityChecker = () => {
         </div>
 
         {/* Info Banner */}
-        <div className="mt-24 bg-secondary  rounded-[40px] p-8 md:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
+        {/* <div className="mt-24 bg-secondary  rounded-[40px] p-8 md:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-brand opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
           <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
             <div className="w-20 h-20 bg-brand rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/20">
@@ -204,7 +204,7 @@ const CompatibilityChecker = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Footer Actions */}
         <footer className="mt-20 flex flex-col md:flex-row items-center justify-between py-12 border-t border-slate-200">

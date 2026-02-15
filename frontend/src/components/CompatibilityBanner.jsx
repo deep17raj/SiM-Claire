@@ -1,3 +1,4 @@
+import Image from "next/image";
 const CompatibilityBanner = () => {
   return (
     <section className=" px-4 py-8">
@@ -12,25 +13,32 @@ const CompatibilityBanner = () => {
         <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4 w-full md:w-auto">
           
           {/* Phone Icon Box (Using your custom orange color) */}
-          <div className="w-12 h-16 bg-secondary rounded-xl flex flex-col items-center justify-center shrink-0 relative shadow-sm">
+          <div className="w-20 h-24 bg-tertary rounded-xl flex flex-col items-center justify-center shrink-0 relative shadow-sm">
             {/* Checkmark */}
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="mb-1">
+            {/* <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="mb-1">
               <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
+            </svg> */}
+            <Image
+                      src="/simCompat2.png"
+                      alt="Hero Image"
+                      fill
+                      priority
+                      className="object-cover"
+                    />
             {/* Bottom line of the phone */}
             <div className="w-4 h-1 bg-white rounded-full absolute bottom-2"></div>
           </div>
 
           <div>
-            <p className="text-gray-600 text-[15px]">Is my device</p>
-            <p className="text-[#2d3240] font-bold text-lg">eSIM Compatible?</p>
+            <p className="text-gray-600 text-[15px]">Is your device</p>
+            <p className="text-[#2d3240] font-bold text-lg">Ready?</p>
           </div>
         </div>
 
         {/* 2. Second Text Block */}
         <div className="text-center lg:text-left w-full lg:w-auto">
-          <p className="text-gray-600 text-[15px]">SiMClaire eSIMs are compatible</p>
-          <p className="text-[#2d3240] font-bold text-[15px]">with most modern devices</p>
+          <p className="text-gray-600 text-[15px]">SIM Claire works with most</p>
+          <p className="text-[#2d3240] font-bold text-[15px]">unlocked iPhone & Android models.</p>
         </div>
 
         {/* Vertical Divider (Hidden on mobile/tablet, visible on desktop) */}
@@ -41,15 +49,19 @@ const CompatibilityBanner = () => {
 
         {/* 3. Third Text Block */}
         <div className="text-center lg:text-left w-full lg:w-auto">
-          <p className="text-gray-600 text-[15px]">Check your device compatibility</p>
-          <p className="text-[#2d3240] font-bold text-[15px]">before purchasing your eSIM.</p>
+          <p className="text-gray-600 text-[15px]">Find out if your phone</p>
+          <p className="text-[#2d3240] font-bold text-[15px]">is eSIM compatible.</p>
         </div>
 
         {/* 4. Action Button */}
-        <div className="w-full lg:w-auto flex justify-center lg:justify-end shrink-0">
+        <div className="w-full lg:w-auto flex flex-col items-center lg:items-end shrink-0">
           <button className="px-6 py-2.5 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[15px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
             Check Compatibility
           </button>
+          {/* Added the subtext from the image (fixing the 'yif' typo to 'if') */}
+          <p className="text-[11px] text-gray-400 mt-2 italic">
+            Quickly see if the device is supported
+          </p>
         </div>
 
       </div>
