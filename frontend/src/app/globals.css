@@ -13,6 +13,7 @@
   --color-brand: #f28628;
   --color-secondary: #077770;
   --color-tertary: #ffffff;
+  --color-bget: #f3f4f6;
 }
 
 @media (prefers-color-scheme: dark) {

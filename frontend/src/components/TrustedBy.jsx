@@ -35,7 +35,7 @@ const partners = [
 const TrustedBy = () => {
   return (
     <div className="px-4 py-8">
-      <section className="w-full max-w-350 mx-auto   bg-[#f3f4f6] rounded-2xl py-6 md:py-10">
+      <section className="w-full max-w-350 mx-auto   bg-bget rounded-2xl py-6 md:py-10">
       
         
         {/* Section Title */}

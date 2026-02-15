@@ -7,7 +7,7 @@ const CompatibilityBanner = () => {
         - Rounded corners
         - Flexbox for responsive stacking
       */}
-      <div className=" w-full max-w-350 mx-auto bg-[#f3f4f6] rounded-2xl p-6 lg:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 shadow-sm">
+      <div className=" w-full max-w-350 mx-auto bg-bget rounded-2xl p-6 lg:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 shadow-sm">
         
         {/* 1. Icon & First Text Block */}
         <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4 w-full md:w-auto">

@@ -49,7 +49,7 @@ const HowItWorks = () => {
   return (
     <section className="py-16 ">
       {/* px-0 on mobile to allow full-width scrolling, px-4 on md+ */}
-      <div className="w-full max-w-[1400px] mx-auto bg-[#f9fafb] rounded-2xl px-0 md:px-4">
+      <div className="w-full max-w-[1400px] mx-auto bg-bget rounded-2xl px-0 md:px-4">
         
         {/* Header Section */}
         <div className="flex flex-col justify-center items-center mb-12 text-center md:text-left px-4">
