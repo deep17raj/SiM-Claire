@@ -73,12 +73,12 @@ const WhyChooseUs = () => {
           
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             {/* Primary Action */}
-            <Link href="/destination" className="px-10 py-3.5 rounded-lg  text-xs md:text-[16px] border-2 border-brand text-brand font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 cursor-pointer">
+            <Link href="/destination" className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
                Start Your Journey
             </Link>
             
             {/* Secondary Action */}
-            <Link href="/how-it-works" className="px-10 py-3 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[16px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
+            <Link href="/how-it-works" className="px-16 py-4.5 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[16px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
                How it Works
             </Link>
           </div>

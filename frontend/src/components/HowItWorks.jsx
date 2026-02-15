@@ -62,7 +62,7 @@ const HowItWorks = () => {
         
         {/* Main Header */}
         <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-2xl md:text-4xl font-bold text-[#2d6a4f] uppercase tracking-wide mb-2 md:mb-3">
+            <h2 className="text-2xl md:text-4xl font-bold text-secondary uppercase tracking-wide mb-2 md:mb-3">
                 How It Works
             </h2>
             <p className="text-lg md:text-xl text-gray-500 font-normal">
@@ -120,7 +120,7 @@ const HowItWorks = () => {
                Stuck somewhere? Go to our support page for FAQs.
             </p>
             <Link href="/support">
-                <button className="px-8 py-3 md:px-10 md:py-3.5 border-2 border-brand text-brand font-bold text-xs md:text-[16px] rounded-lg hover:bg-brand hover:text-white transition-all duration-300 active:scale-95 cursor-pointer  ">
+                <button className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer  ">
                     Get Support
                 </button>
             </Link>

@@ -160,7 +160,7 @@ const Destinations = () => {
         ))}
       </div>
       <div className=" flex justify-center  items-center mt-8  ">
-        <button className="text-brand text-xs md:text-[16px] border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">View All Countries</button>
+        <button className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">View All Countries</button>
       </div>
 
     </section>

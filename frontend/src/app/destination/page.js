@@ -106,7 +106,7 @@ const HeroSearch = () => {
 
       {/* 3. VIEW ALL BUTTON */}
       <div className="mt-16 text-center">
-        <button className="px-10 py-3.5 rounded-lg  text-xs md:text-[16px] border-2 border-brand text-brand font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 cursor-pointer">
+        <button className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
             View All 150+ Countries
         </button>
       </div>
