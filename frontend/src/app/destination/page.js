@@ -54,10 +54,10 @@ const HeroSearch = () => {
           <button className="px-8 py-2 rounded-full bg-white shadow-sm text-brand font-bold text-sm transition-all">
             Country
           </button>
-          <button className="px-8 py-2 rounded-full text-gray-500 font-medium text-sm hover:text-gray-800 transition-all">
+          <button className="px-8 py-2 rounded-full text-secondary font-medium text-sm hover:text-gray-800 transition-all">
             Region
           </button>
-          <button className="px-8 py-2 rounded-full text-gray-500 font-medium text-sm hover:text-gray-800 transition-all">
+          <button className="px-8 py-2 rounded-full text-secondary font-medium text-sm hover:text-gray-800 transition-all">
             Global
           </button>
         </div>
