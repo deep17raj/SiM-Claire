@@ -5,37 +5,37 @@ import React from "react";
 const testimonialsData = [
   {
     id: 1,
-    quote: "Exceeded our expectations with innovative designs that brought our vision to life - a truly remarkable creative agency.",
+    quote: "I was skeptical about using an eSIM for the first time, but SiMClaire made it incredibly easy. I scanned the code at Heathrow airport, and my data was active before I even reached the baggage claim. No more hunting for local SIM cards!",
     name: "Samantha Johnson",
-    title: "CEO and Co-founder of ABC Company",
+    title: "Vacationing in UK",
     avatar: "/avatars/avatar1.png", 
   },
   {
     id: 2,
-    quote: "Their ability to capture our brand essence in every project is unparalleled - an invaluable creative collaborator.",
+    quote: "Traveling across Europe usually means hunting for Wi-Fi or buying expensive local SIMs. With SiMClaire's regional plan, I crossed from France to Italy without losing signal once. It just worked seamlessly in the background.",
     name: "Isabella Rodriguez",
-    title: "Marketing Director at XYZ Corp",
+    title: "Backpacking through Europe",
     avatar: "/avatars/avatar2.png",
   },
   {
     id: 3,
-    quote: "Creative geniuses who listen, understand, and craft captivating visuals - an agency that truly understands our needs.",
+    quote: "As a frequent flyer, roaming charges used to kill my budget. SiMClaire is a total game-changer. I scanned the QR code before my flight to Tokyo, and had instant 5G data the moment the plane touched down.",
     name: "Gabrielle Williams",
-    title: "Head of Product at StartupIO",
+    title: "Business Traveler",
     avatar: "/avatars/avatar3.png",
   },
   {
     id: 4,
-    quote: "From concept to execution, their creativity knows no bounds - a game-changer for our brand's success.",
+    quote: "The data speed was impressive! I was able to FaceTime my family from a remote beach in Bali without any lag. It was much more reliable than the hotel Wi-Fi and the setup took literally seconds.",
     name: "Natalie Martinez",
-    title: "Brand Manager at Enterprise Solutions",
+    title: "Vacationing in Indonesia",
     avatar: "/avatars/avatar4.png",
   },
   {
     id: 5,
-    quote: "Their team's artistic flair and strategic approach resulted in remarkable campaigns - a reliable creative partner.",
+    quote: "I used to pay $10/day to my home carrier just to check emails abroad. SiMClaire gave me 10GB for a fraction of that price. It's an absolute no-brainer for anyone traveling to the USA.",
     name: "John Peter",
-    title: "CEO and Co-founder of ABC Company",
+    title: "Frequent Flyer",
     avatar: "/avatars/avatar5.png",
   },
 ];
@@ -141,10 +141,10 @@ const Testimonials = () => {
 
       <div className="flex flex-col gap-8">
         {/* Row 1 */}
-        <MarqueeRow data={firstRowData} direction="left" speed="50s" />
+        <MarqueeRow data={firstRowData} direction="left" speed="15s" />
         
         {/* Row 2 */}
-        <MarqueeRow data={secondRowData} direction="right" speed="60s" />
+        <MarqueeRow data={secondRowData} direction="right" speed="15s" />
       </div>
 
     </section>
