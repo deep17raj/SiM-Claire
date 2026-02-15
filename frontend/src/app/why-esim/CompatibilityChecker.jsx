@@ -121,7 +121,7 @@ const CompatibilityChecker = () => {
             {brands.map((brand) => (
               <button 
                 key={brand.id}
-                className={`group relative flex flex-col items-center p-6 rounded-[32px] border border-slate-100 shadow-sm transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-white to-slate-50 ${
+                className={`group relative flex flex-col items-center cursor-pointer p-6 rounded-[32px] border border-slate-100 shadow-sm transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-white to-slate-50 ${
                     brand.active 
                     ? 'border-brand bg-gradient-to-br from-white to-[#fff5f0] shadow-[0_25px_50px_-12px_rgba(242,103,28,0.15)] ring-1 ring-brand/20' 
                     : ''
@@ -131,16 +131,16 @@ const CompatibilityChecker = () => {
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 ${
                     brand.active 
                     ? 'bg-gradient-to-br from-brand to-[#ff8c4a] text-white shadow-[0_10px_15px_-3px_rgba(242,103,28,0.3)]' 
-                    : 'bg-slate-50 text-slate-600'
+                    : 'bg-slate-50 text-secondary'
                 }`}>
                   {/* Renders the specific SVG from the BrandIcons object */}
                   {BrandIcons[brand.iconKey]}
                 </div>
                 
-                <span className={`text-base font-bold transition-colors ${brand.active ? 'text-brand' : 'text-slate-900'}`}>
+                <span className={`text-base font-bold transition-colors ${brand.active ? 'text-brand' : 'text-secondary'}`}>
                     {brand.name}
                 </span>
-                <span className={`text-[10px] mt-1 uppercase tracking-widest font-semibold transition-colors ${brand.active ? 'text-orange-400' : 'text-slate-400'}`}>
+                <span className={`text-[10px] mt-1 uppercase tracking-widest font-semibold transition-colors ${brand.active ? 'text-orange-400' : 'text-secondary'}`}>
                     {brand.sub}
                 </span>
               </button>
@@ -217,10 +217,10 @@ const CompatibilityChecker = () => {
             <p className="text-slate-500 font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
           </div>
           <div className="flex items-center gap-6">
-            <button className="px-10 py-4 rounded-2xl border border-slate-200 font-bold hover:bg-white hover:shadow-xl hover:border-slate-300 transition-all text-slate-700">
+            <button className="px-10 py-4 rounded-2xl border border-slate-200 font-bold hover:bg-white hover:shadow-xl hover:border-slate-300 transition-all text-slate-700 cursor-pointer">
               Help Center
             </button>
-            <button className="px-10 py-4 rounded-2xl bg-brand text-white font-bold hover:bg-[#e05a15] hover:scale-105 transition-all shadow-2xl shadow-brand/30">
+            <button className="px-10 py-4 rounded-2xl bg-brand text-white font-bold hover:bg-[#e05a15] hover:scale-105 transition-all shadow-2xl shadow-brand/30 cursor-pointer">
               Get Your eSIM
             </button>
           </div>
