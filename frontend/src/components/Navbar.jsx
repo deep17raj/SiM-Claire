@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "../../public/logo.svg";
+import logo from "../../public/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const Navbar = () => {
     <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full px-4 md:px-8 py-4 flex items-center justify-between sticky top-4 z-50 relative">
       
       {/* 1. Logo Section */}
-      <Link href="/" className="flex items-center gap-2 z-50">
+      <Link href="/" className="flex items-center text-center  z-50">
   <div className="relative h-10 w-auto">
     <Image
       src={logo}
@@ -21,11 +21,11 @@ const Navbar = () => {
       width={200}
       height={40}
       priority
-      className="h-40 w-auto object-contain -translate-y-12.5"
+      className="h-20 w-auto object-contain -translate-y-4.5"
     />
   </div>
   {/* Added -ml-6 to pull text closer to the logo */}
-  <span className="-ml-6 text-tertary font-bold text-xl md:text-2xl lg:text-3xl tracking-tight whitespace-nowrap">
+  <span className="-ml-6 text-tertary font-bold text-3xl  lg:text-3xl tracking-tight whitespace-nowrap">
     SiM <span className="text-brand">Claire</span>
   </span>
 </Link>

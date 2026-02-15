@@ -20,7 +20,7 @@ export default async function CategoryPage({ params }) {
   }
 
   return (
-    <div className="bg-[#fafafa] min-h-screen font-sans text-slate-900 pb-20">
+    <div className="bg-[#fafafa] min-h-screen  text-slate-900 pb-20">
       
       {/* Header Section */}
       <div className="bg-secondary text-white pt-12 pb-24 px-4 relative overflow-hidden">
@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }) {
                     </div>
                 </div>
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-bold mb-2">{categoryData.title}</h1>
+                    <h1 className="text-2xl md:text-4xl font-bold mb-2">{categoryData.title}</h1>
                     <p className="text-white/80 text-lg">{categoryData.description}</p>
                 </div>
             </div>
@@ -50,7 +50,7 @@ export default async function CategoryPage({ params }) {
         <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100">
             
             {/* Static Search UI (Visual only) */}
-            <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+            {/* <div className="p-6 border-b border-slate-100 bg-slate-50/50">
                 <div className="relative">
                     <Search className="absolute left-4 top-3.5 text-slate-400" size={20} />
                     <input 
@@ -59,7 +59,7 @@ export default async function CategoryPage({ params }) {
                         className="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand/50 transition-all"
                     />
                 </div>
-            </div>
+            </div> */}
 
             {/* FAQ List */}
             <div className="divide-y divide-slate-100">
