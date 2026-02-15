@@ -40,15 +40,16 @@ const TypewriterSequence = () => {
   // We break the text into segments to apply different styles (Orange, Regular, Teal)
   const segments = [
     {
-      text: "Meet Claire: Your Trusted Travel Companion",
-      className: "text-xl md:text-3xl font-bold text-brand block mb-6", // Orange Heading
-      delay: 0
-    },
-    {
       text: "At SiM Claire, we believe every journey deserves a seamless connection. Our mission is simple: to keep you connected effortlessly, wherever your adventures take you.",
       className: "text-md md:text-lg text-slate-600 leading-relaxed block mb-6", // Body 1
-      delay: 1500 // Start typing after previous line finishes
+      delay: 0 // Start typing after previous line finishes
     },
+    {
+      text: "Meet Claire: Your Trusted Travel Companion",
+      className: "text-xl md:text-3xl font-bold text-brand block mb-6", // Orange Heading
+      delay: 5000
+    },
+    
     {
       text: "Claire isn't just our name; she's the heart of our brand - a resourceful beaver embodying our commitment to building reliable bridges across the globe. Claire represents our promise to deliver robust, easy-to-use eSIM solutions so you can focus on what truly matters:",
       className: "text-md md:text-lg text-slate-600 leading-relaxed block ", // Body 2
