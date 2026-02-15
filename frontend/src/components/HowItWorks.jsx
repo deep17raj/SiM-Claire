@@ -2,13 +2,12 @@ import React from 'react';
 import Link from "next/link";
 
 const steps = [
-  // ... (Your steps array remains the same)
   {
     id: 1,
-    title: "PICK YOUR PLAN",
-    description: "Find the perfect data plan for your journey",
+    title: "Pick Your Plan",
+    description: "Get the right plan designed for you.",
     icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21" />
         <circle cx="12" cy="11" r="3" />
         <path d="M14 13l2 2" />
@@ -17,29 +16,40 @@ const steps = [
   },
   {
     id: 2,
-    title: "SCAN & ACTIVATE",
-    description: "Instantly install your digital eSIM",
+    title: "Confirm & Pay",
+    description: "Make the payment to complete your purchase.",
     icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
         <path d="M12 18h.01" />
-        <rect x="9" y="7" width="2" height="2" />
-        <rect x="13" y="7" width="2" height="2" />
-        <rect x="9" y="11" width="2" height="2" />
-        <rect x="13" y="11" width="2" height="2" />
+        <path d="M16 15l-4 4-2-2" />
       </svg>
     ),
   },
   {
     id: 3,
-    title: "CONNECT & EXPLORE",
-    description: "Enjoy seamless data connection, globally!",
+    title: "Complete KYC",
+    description: "Upload your documents to stay compliant.",
     icon: (
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="8" r="4" />
-        <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" />
-        <rect x="16" y="10" width="6" height="10" rx="1" />
-        <path d="M19 13a2 2 0 0 1 2-2" />
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    ),
+  },
+  {
+    id: 4,
+    title: "Activate eSIM",
+    description: "Scan the QR code and activate your eSIM.",
+    icon: (
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+        <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+        <line x1="12" y1="20" x2="12.01" y2="20"></line>
       </svg>
     ),
   },
@@ -47,73 +57,72 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-16 ">
-      {/* px-0 on mobile to allow full-width scrolling, px-4 on md+ */}
-      <div className="w-full max-w-[1400px] mx-auto bg-bget rounded-2xl px-0 md:px-4">
+    <section className="py-12 md:py-20 px-4 bg-[#fcfcfc]">
+      <div className="w-full max-w-[1200px] mx-auto">
         
-        {/* Header Section */}
-        <div className="flex flex-col justify-center items-center mb-12 text-center md:text-left py-6 px-4">
-            <h2 className="text-2xl md:text-4xl font-bold text-secondary mb-3">
-                How it Works
+        {/* Main Header */}
+        <div className="text-center mb-10 md:mb-16">
+            <h2 className="text-2xl md:text-4xl font-bold text-[#2d6a4f] uppercase tracking-wide mb-2 md:mb-3">
+                How It Works
             </h2>
-            <p className="text-xl md:text-2xl text-gray-700 font-medium">
-                Global connectivity – unlocked in 3 simple steps.
+            <p className="text-lg md:text-xl text-gray-500 font-normal">
+                Global connectivity unlocked in 4 simple steps
             </p>
         </div>
 
-        {/* Steps Container 
-            - overflow-x-auto: Enables horizontal scroll
-            - snap-x: Enables snapping behavior
-            - pb-8: Bottom padding for scrollbar space
-            - no-scrollbar: Optional utility to hide scrollbar if you have it in your CSS
+        {/* Grid Layout:
+            - grid-cols-2: Mobile (2 columns, 2 rows = 2x2)
+            - md:grid-cols-4: Desktop (4 columns, 1 row = 1x4)
         */}
-        <div className="flex flex-row md:items-center justify-between gap-6 overflow-x-auto snap-x snap-mandatory px-4 md:px-0 pb-8 md:pb-0 scroll-smooth">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           
           {steps.map((step, index) => (
-           <React.Fragment key={step.id}>
-    
-    {/* Step Card 
-        - min-w-[85vw]: ensures proper width on mobile scroll
-        - flex-1: allows equal spacing on desktop
-    */}
-    <div className="min-w-[65vw] md:min-w-0 md:flex-1 h-full min-h-[200px] border-[3px] border-secondary rounded-[32px] p-8 flex flex-col items-center text-center bg-white transition-transform  duration-300 snap-center flex-shrink-0 shadow-sm hover:shadow-xl">
-        
-        {/* Icon Box */}
-        <div className="w-20 h-20 bg-secondary rounded-2xl flex items-center justify-center mb-6 shadow-lg transform group-hover:scale-110 transition-transform duration-300">
-            {step.icon}
-        </div>
+            <div 
+                key={step.id} 
+                /* Card Sizing:
+                   - p-5: Reduced padding on mobile to fit 2 cols
+                   - md:p-8: Larger padding on desktop
+                   - min-h-[...]: Ensures uniform height
+                */
+                className="bg-white rounded-[1.5rem] md:rounded-[2.5rem] p-3 md:p-5 flex flex-col items-center text-center shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-50 relative hover:shadow-lg transition-shadow duration-300 min-h-[180px] md:min-h-[250px]"
+            >
+                
+                {/* Number Badge (Top Left) */}
+                <div className="absolute top-4 left-4 md:top-6 md:left-6 w-8 h-8 md:w-10 md:h-10 bg-secondary rounded-full flex items-center justify-center text-white font-bold text-sm md:text-lg shadow-md">
+                    {index + 1}
+                </div>
 
-        {/* Content */}
-        <h3 className="text-brand font-bold text-lg uppercase tracking-wider mb-3">
-            {step.title}
-        </h3>
-        <p className="text-gray-600 text-[15px] leading-relaxed font-medium px-2">
-            {step.description}
-        </p>
-    </div>
+                {/* Icon Area */}
+                <div className="mb-4 md:mb-8 text-secondary opacity-90 p-3 md:p-4 bg-green-50 rounded-2xl md:rounded-3xl mt-4 md:mt-0">
+                    {/* Scale SVG down slightly on mobile via CSS class if needed, or rely on viewBox */}
+                    <div className="scale-75 md:scale-100">
+                         {step.icon}
+                    </div>
+                </div>
 
-    {/* Arrow Icon (Rendered between steps, hidden on mobile) */}
-    {index < steps.length - 1 && (
-        <div className="hidden md:flex flex-shrink-0 text-secondary/30 items-center justify-center px-2">
-            {/* New Arrow: A bold Chevron */}
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M9 18l6-6-6-6"/>
-            </svg>
-        </div>
-    )}
+                {/* Title */}
+                <h3 className="text-secondary font-bold text-lg md:text-xl  tracking-normal ">
+                    {step.title}
+                </h3>
 
-</React.Fragment>
+                {/* Description */}
+                <p className="text-gray-500 text-sm md:text-sm leading-relaxed max-w-xs mx-auto">
+                    {step.description}
+                </p>
+            </div>
           ))}
           
         </div>
 
         {/* Support Link */}
-        <div className="mt-8 md:mt-16 text-center px-4 py-6">
-            <p className="text-gray-600 text-lg mb-4">
-               Stuck somewhere? Go to our support page for FAQs and troubleshooting.
+        <div className="mt-12 md:mt-16 text-center">
+            <p className="text-gray-500 text-lg md:text-xl mb-4">
+               Stuck somewhere? Go to our support page for FAQs.
             </p>
-            <Link href="/support" className=''>
-                <button className="text-brand border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">Get Support</button>
+            <Link href="/support">
+                <button className="px-8 py-3 md:px-10 md:py-3.5 border-2 border-brand text-brand font-bold text-xs md:text-[16px] rounded-lg hover:bg-brand hover:text-white transition-all duration-300 active:scale-95 cursor-pointer  ">
+                    Get Support
+                </button>
             </Link>
         </div>
 

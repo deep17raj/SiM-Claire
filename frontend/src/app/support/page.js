@@ -140,7 +140,7 @@ export default function SupportPage() {
             {/* Left Side Info */}
             <div className="md:w-1/3">
               <h2 className="text-2xl md:text-4xl font-bold text-secondary mb-6">Popular Faqs</h2>
-              <p className="text-slate-600 mb-8">Quick access to the most frequently requested information.</p>
+              <p className="text-slate-600 subheading mb-5">Quick access to the most frequently requested information.</p>
               
               <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">
                 <div className="flex items-center gap-3 mb-2">
@@ -224,7 +224,7 @@ const CategoryCard = ({ icon, title, count, desc }) => (
         {icon}
       </div>
     </div>
-    <h3 className="text-lg font-bold text-secondary mb-2">{title}</h3>
+    <h3 className="subheading sec font-bold text-secondary mb-2">{title}</h3>
     <p className="text-sm text-slate-600 leading-relaxed flex-grow">{desc}</p>
     <div className="mt-4 text-xs font-bold text-brand uppercase tracking-wider">{count}</div>
   </div>

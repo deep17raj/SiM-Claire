@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     // Added 'z-50' to ensure navbar stays on top of other content
-    <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full px-4 md:px-8 py-4 flex items-center justify-between sticky top-4 z-50 relative">
+    <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full pr-4 md:pr-6 py-4 flex items-center justify-between sticky top-4 z-50 relative">
       
       {/* 1. Logo Section */}
       <Link href="/" className="flex items-center text-center  z-50">
@@ -21,7 +21,7 @@ const Navbar = () => {
       width={200}
       height={40}
       priority
-      className="h-20 w-auto object-contain -translate-y-4.5"
+      className="h-18 w-auto object-contain -translate-y-3.5"
     />
   </div>
   {/* Added -ml-6 to pull text closer to the logo */}

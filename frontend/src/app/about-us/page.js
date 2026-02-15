@@ -35,12 +35,10 @@ export default function AboutPage() {
           </h2>
 
           <p className="text-md md:text-lg text-slate-600 leading-relaxed block mb-2">
-            Claire isn't just our name; she's the heart of our brand - a resourceful beaver embodying our commitment to building reliable bridges across the globe. Claire represents our promise to deliver robust, easy-to-use eSIM solutions so you can focus on what truly matters:
+            Claire isn't just our name; she's the heart of our brand - a resourceful beaver embodying our commitment to building reliable bridges across the globe. Claire represents our promise to deliver robust, easy-to-use eSIM solutions so you can focus on what truly matters: experiencing the world.
           </p>
 
-          <span className="text-xl font-bold text-secondary block mt-2">
-            experiencing the world.
-          </span>
+          
 
         </div>
 

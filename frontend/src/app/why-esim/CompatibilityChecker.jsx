@@ -116,7 +116,7 @@ const CompatibilityChecker = () => {
 
         {/* Brand Selection Grid */}
         <div className="mb-20">
-          <h3 className="text-center text-xs font-bold uppercase tracking-[0.3em] text-slate-400 mb-10">Premium Brand Selection</h3>
+          <h3 className="text-center subheading tracking-[0.3em] text-slate-400 mb-10">Premium Brand Selection</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {brands.map((brand) => (
               <button 
@@ -137,10 +137,10 @@ const CompatibilityChecker = () => {
                   {BrandIcons[brand.iconKey]}
                 </div>
                 
-                <span className={`text-base font-bold transition-colors ${brand.active ? 'text-brand' : 'text-secondary'}`}>
+                <span className={`subheading sec font-bold transition-colors ${brand.active ? 'text-brand' : 'text-secondary'}`}>
                     {brand.name}
                 </span>
-                <span className={`text-[10px] mt-1 uppercase tracking-widest font-semibold transition-colors ${brand.active ? 'text-orange-400' : 'text-secondary'}`}>
+                <span className={`desc mt-1  tracking-widest font-semibold transition-colors ${brand.active ? 'text-orange-400' : 'text-secondary'}`}>
                     {brand.sub}
                 </span>
               </button>
@@ -152,7 +152,7 @@ const CompatibilityChecker = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
           {deviceCategories.map((category, idx) => (
             <div key={idx} className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 h-fit break-inside-avoid">
-              <h4 className="text-2xl font-extrabold text-slate-900 mb-8 flex items-center justify-between">
+              <h4 className="subheading font-extrabold text-slate-900 mb-8 flex items-center justify-between">
                 {category.title}
                 {category.badge && (
                   <span className="text-[10px] font-bold px-3 py-1 bg-green-100 text-green-700 rounded-full uppercase tracking-wider">
@@ -166,7 +166,7 @@ const CompatibilityChecker = () => {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-secondary flex-shrink-0">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    <span className="font-medium group-hover:text-slate-900 transition-colors">
+                    <span className="desc hv  transition-colors">
                         {model}
                     </span>
                   </li>
@@ -214,13 +214,13 @@ const CompatibilityChecker = () => {
               <div className="w-12 h-12 rounded-full border-4 border-white bg-slate-200 overflow-hidden shadow-sm flex items-center justify-center text-xs font-bold text-slate-400">U2</div>
               <div className="w-12 h-12 rounded-full border-4 border-white bg-slate-200 overflow-hidden shadow-sm flex items-center justify-center text-xs font-bold text-slate-400">U3</div>
             </div>
-            <p className="text-slate-500 font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
+            <p className="text-slate-500 text-lg md:text-xl font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
           </div>
-          <div className="flex items-center gap-6">
-            <button className="px-10 py-4 rounded-2xl border border-slate-200 font-bold hover:bg-white hover:shadow-xl hover:border-slate-300 transition-all text-slate-700 cursor-pointer">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <button className="px-11.5 py-3.5 border-2 text-xs md:text-[16px] border-[#2d3240] text-[#2d3240] font-bold cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
               Help Center
             </button>
-            <button className="px-10 py-4 rounded-2xl bg-brand text-white font-bold hover:bg-[#e05a15] hover:scale-105 transition-all shadow-2xl shadow-brand/30 cursor-pointer">
+            <button className="px-10 py-3.5 rounded-lg  text-xs md:text-[16px] border-2 border-brand text-brand font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 cursor-pointer">
               Get Your eSIM
             </button>
           </div>

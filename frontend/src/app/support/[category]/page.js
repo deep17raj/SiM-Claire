@@ -39,7 +39,7 @@ export default async function CategoryPage({ params }) {
                 </div>
                 <div>
                     <h1 className="text-2xl md:text-4xl font-bold mb-2">{categoryData.title}</h1>
-                    <p className="text-white/80 text-lg">{categoryData.description}</p>
+                    <p className="text-white/80 subheading">{categoryData.description}</p>
                 </div>
             </div>
          </div>

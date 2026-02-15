@@ -30,15 +30,15 @@ const CompatibilityBanner = () => {
           </div>
 
           <div>
-            <p className="text-gray-600 text-[15px]">Is your device</p>
-            <p className="text-[#2d3240] font-bold text-lg">Ready?</p>
+            <p className="text-gray-600 text-sm">Is your device</p>
+            <p className="text-[#2d3240] font-bold text-lg md:text-xl">Ready?</p>
           </div>
         </div>
 
         {/* 2. Second Text Block */}
         <div className="text-center lg:text-left w-full lg:w-auto">
-          <p className="text-gray-600 text-[15px]">SIM Claire works with most</p>
-          <p className="text-[#2d3240] font-bold text-[15px]">unlocked iPhone & Android models.</p>
+          <p className="text-gray-600 text-sm">SIM Claire works with most</p>
+          <p className="text-[#2d3240] font-bold text-lg md:text-xl">unlocked iPhone & Android models.</p>
         </div>
 
         {/* Vertical Divider (Hidden on mobile/tablet, visible on desktop) */}
@@ -49,17 +49,17 @@ const CompatibilityBanner = () => {
 
         {/* 3. Third Text Block */}
         <div className="text-center lg:text-left w-full lg:w-auto">
-          <p className="text-gray-600 text-[15px]">Find out if your phone</p>
-          <p className="text-[#2d3240] font-bold text-[15px]">is eSIM compatible.</p>
+          <p className="text-gray-600 text-sm">Find out if your phone</p>
+          <p className="text-[#2d3240] font-bold text-lg md:text-xl">is eSIM compatible.</p>
         </div>
 
         {/* 4. Action Button */}
         <div className="w-full lg:w-auto flex flex-col items-center lg:items-end shrink-0">
-          <button className="px-6 py-2.5 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[15px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
+          <button className="px-6 py-2.5 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[16px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
             Check Compatibility
           </button>
           {/* Added the subtext from the image (fixing the 'yif' typo to 'if') */}
-          <p className="text-[11px] text-gray-400 mt-2 italic">
+          <p className="text-sm text-gray-500 mt-2 italic">
             Quickly see if the device is supported
           </p>
         </div>

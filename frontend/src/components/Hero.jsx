@@ -46,7 +46,7 @@ const Hero = () => {
       <div className="text-secondary  mx-auto font-bold text-2xl md:text-4xl "><span>Building Your Bridge To The world With Sim Claire</span></div>
       <div className="w-full max-w-[1400px] mx-auto aspect-video md:h-[700px] relative rounded-2xl overflow-hidden shadow-md">
         <Image
-          src="https://res.cloudinary.com/dyalxye1e/image/upload/v1771174713/blue_gradient_travel_Presentation_169_ucd8ah.png"
+          src="https://res.cloudinary.com/dyalxye1e/image/upload/v1771183237/blue_gradient_travel_Presentation_169_2_ahomt2.png"
           alt="Hero Image"
           fill
           priority

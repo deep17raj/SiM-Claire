@@ -66,7 +66,7 @@ const HeroSearch = () => {
       {/* 2. POPULAR DESTINATIONS GRID */}
       <div className="mb-10 text-center sm:text-left">
         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-2">Popular Destinations</h2>
-        <p className="text-gray-500">Choose a country to see available eSIM plans for your next trip.</p>
+        <p className=" subheading text-gray-500">Choose a country to see available eSIM plans for your next trip.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -88,8 +88,8 @@ const HeroSearch = () => {
 
             {/* Text Content */}
             <div className="ml-4 flex-grow">
-              <p className="font-bold text-gray-900">{country.name}</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-medium subheading text-gray-900">{country.name}</p>
+              <p className="desc">
                 From <span className="font-medium text-gray-900">{country.price}</span>
               </p>
             </div>
@@ -106,7 +106,7 @@ const HeroSearch = () => {
 
       {/* 3. VIEW ALL BUTTON */}
       <div className="mt-16 text-center">
-        <button className="px-10 py-3.5 rounded-full border-2 border-brand text-brand font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95">
+        <button className="px-10 py-3.5 rounded-lg  text-xs md:text-[16px] border-2 border-brand text-brand font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 cursor-pointer">
             View All 150+ Countries
         </button>
       </div>

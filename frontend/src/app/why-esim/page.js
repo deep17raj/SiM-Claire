@@ -27,7 +27,7 @@ const WhyChooseUs = () => {
     <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
   </svg>
   <h3 className="font-semibold text-lg md:text-xl">Local Rates</h3>
-  <p className="text-xs mt-1 opacity-90 hidden md:block">Say goodbye to expensive markup prices</p>
+  <p className="desc wht  mt-1 opacity-90 hidden md:block" >Say goodbye to expensive markup prices</p>
 </div>
 
           {/* Bubble 2: Global Coverage (Bottom Left) */}
@@ -37,8 +37,8 @@ const WhyChooseUs = () => {
                 <line x1="2" y1="12" x2="22" y2="12"></line>
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
              </svg>
-             <h3 className="font-semibold text-base md:text-lg">Global Coverage</h3>
-             <p className="text-xs mt-1 text-slate-500 hidden md:block">Connect in 190+ countries</p>
+             <h3 className="font-semibold subheading text-base md:text-lg">Global Coverage</h3>
+             <p className="desc  mt-1 text-slate-500 hidden md:block">Connect in 190+ countries</p>
           </div>
 
           {/* Bubble 3: No Roaming (Top Right) */}
@@ -48,7 +48,7 @@ const WhyChooseUs = () => {
      <path d="M2 22h20V2z" /> 
   </svg>
   <h3 className="font-semibold text-lg md:text-xl">No Roaming</h3>
-  <p className="text-xs mt-1 opacity-90 hidden md:block">Zero surprises on your next bill</p>
+  <p className="desc wht mt-1 opacity-90 hidden md:block">Zero surprises on your next bill</p>
 </div>
 
           {/* Bubble 4: 24/7 Support (Bottom Right) */}
@@ -56,8 +56,8 @@ const WhyChooseUs = () => {
              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f2671c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mb-2">
                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
              </svg>
-             <h3 className="font-semibold text-base md:text-lg">24/7 Support</h3>
-             <p className="text-xs mt-1 text-slate-500 hidden md:block">Help whenever you need it</p>
+             <h3 className="font-semibold subheading text-base md:text-lg">24/7 Support</h3>
+             <p className="desc  mt-1 text-slate-500 hidden md:block">Help whenever you need it</p>
           </div>
 
         </div>
@@ -73,12 +73,12 @@ const WhyChooseUs = () => {
           
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
             {/* Primary Action */}
-            <Link href="/destination" className="w-full sm:w-auto bg-brand hover:bg-[#e05610] text-white px-10 py-4 rounded-full font-semibold text-lg transition-all shadow-lg shadow-brand/20 hover:shadow-brand/40 active:scale-95 text-center cursor-pointer">
+            <Link href="/destination" className="px-10 py-3.5 rounded-lg  text-xs md:text-[16px] border-2 border-brand text-brand font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 cursor-pointer">
                Start Your Journey
             </Link>
             
             {/* Secondary Action */}
-            <Link href="/how-it-works" className="w-full sm:w-auto bg-white border border-slate-200 text-slate-700 px-10 py-4 rounded-full font-semibold text-lg transition-all hover:bg-slate-50 text-center cursor-pointer">
+            <Link href="/how-it-works" className="px-10 py-3 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[16px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
                How it Works
             </Link>
           </div>
