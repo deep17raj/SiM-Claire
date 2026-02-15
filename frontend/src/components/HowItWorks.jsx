@@ -52,7 +52,7 @@ const HowItWorks = () => {
       <div className="w-full max-w-[1400px] mx-auto bg-bget rounded-2xl px-0 md:px-4">
         
         {/* Header Section */}
-        <div className="flex flex-col justify-center items-center mb-12 text-center md:text-left px-4">
+        <div className="flex flex-col justify-center items-center mb-12 text-center md:text-left py-6 px-4">
             <h2 className="text-4xl font-bold text-secondary mb-3">
                 How it Works
             </h2>
@@ -108,7 +108,7 @@ const HowItWorks = () => {
         </div>
 
         {/* Support Link */}
-        <div className="mt-8 md:mt-16 text-center px-4 py-2">
+        <div className="mt-8 md:mt-16 text-center px-4 py-6">
             <p className="text-gray-600 text-lg mb-4">
                Stuck somewhere? Go to our support page for FAQs and troubleshooting.
             </p>

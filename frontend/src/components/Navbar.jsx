@@ -10,7 +10,7 @@ const Navbar = () => {
 
   return (
     // Added 'z-50' to ensure navbar stays on top of other content
-    <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full px-6 md:px-8 py-4 flex items-center justify-between sticky top-4 z-50 relative">
+    <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full px-4 md:px-8 py-4 flex items-center justify-between sticky top-4 z-50 relative">
       
       {/* 1. Logo Section */}
       <Link href="/" className="flex items-center gap-2 z-50">

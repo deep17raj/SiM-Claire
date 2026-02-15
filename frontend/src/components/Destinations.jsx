@@ -75,7 +75,7 @@ const Destinations = () => {
         <div className="flex flex-wrap items-center justify-center gap-3">
           {/* Active Tab */}
           {/* Changed bg-purple-600 to bg-brand */}
-          <button className="flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-full text-sm font-medium transition-transform active:scale-95">
+          <button className="flex items-center gap-2 bg-brand text-white px-5 py-2.5 rounded-full text-sm font-medium transition-transform active:scale-95 cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
               <line x1="4" y1="22" x2="4" y2="15"></line>
@@ -84,7 +84,7 @@ const Destinations = () => {
           </button>
 
           {/* Inactive Tab */}
-          <button className="flex items-center gap-2 bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-full text-sm font-medium transition-colors">
+          <button className="flex items-center gap-2 bg-gray-100 text-secondary hover:bg-gray-200 px-5 py-2.5 rounded-full text-sm font-medium transition-colors cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
@@ -93,7 +93,7 @@ const Destinations = () => {
           </button>
 
           {/* Inactive Tab */}
-          <button className="flex items-center gap-2 bg-gray-100 text-gray-700 hover:bg-gray-200 px-5 py-2.5 rounded-full text-sm font-medium transition-colors">
+          <button className="flex items-center gap-2 bg-gray-100 text-secondary hover:bg-gray-200 px-5 py-2.5 rounded-full text-sm font-medium transition-colors cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="2" y1="12" x2="22" y2="12"></line>
