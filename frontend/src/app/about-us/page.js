@@ -14,7 +14,7 @@ export default function AboutPage() {
         </h1>
 
         {/* 2. Hero Image */}
-        <div className="relative w-full aspect-video md:aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl shadow-secondary/20 mb-12 border-4 border-white">
+        <div className="relative w-full aspect-video  rounded-3xl overflow-hidden shadow-2xl shadow-secondary/20 mb-12 border-4 border-white">
           {/* Ensure you save the beaver image as 'about.jpg' in your public folder */}
           <Image
             src="/about.png" 
