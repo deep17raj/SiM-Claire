@@ -53,7 +53,7 @@ const HowItWorks = () => {
         
         {/* Header Section */}
         <div className="flex flex-col justify-center items-center mb-12 text-center md:text-left py-6 px-4">
-            <h2 className="text-4xl font-bold text-secondary mb-3">
+            <h2 className="text-2xl md:text-4xl font-bold text-secondary mb-3">
                 How it Works
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 font-medium">
