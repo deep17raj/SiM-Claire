@@ -68,7 +68,7 @@ const Destinations = () => {
       <div className="text-center mb-10">
         <h2 className="text-3xl md:text-4xl font-medium text-gray-800 mb-6">
           {/* Changed text-purple-600 to text-brand */}
-          Travel eSIM for <span className="text-secondary font-bold">200+</span> countries
+          Travel eSIM for <span className="text-brand font-bold">200+</span> countries
         </h2>
 
         {/* 2. Tabs / Toggles */}
@@ -160,7 +160,7 @@ const Destinations = () => {
         ))}
       </div>
       <div className=" flex justify-center  items-center mt-8  ">
-        <button className="text-centertext-[#000000] border-[#000000] border-2 rounded-lg px-14 py-4 font-bold hover:text-brand hover:border-brand transition-all duration-300 cursor-pointer">View All Countries</button>
+        <button className="text-brand border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">View All Countries</button>
       </div>
 
     </section>
