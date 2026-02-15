@@ -41,8 +41,8 @@ const Navbar = () => {
         <Link href="/support" className="hover:text-brand transition-colors">
           Get Support
         </Link>
-        <Link href="/contact" className="hover:text-brand transition-colors">
-          Contact
+        <Link href="/about-us" className="hover:text-brand transition-colors">
+          About Us
         </Link>
         <Link href="/my-esims" className="hover:text-brand transition-colors">
           My eSIMs & Top Up
@@ -102,11 +102,11 @@ const Navbar = () => {
             Get Support
           </Link>
           <Link 
-            href="/contact" 
+            href="/about-us" 
             className="text-gray-800 font-medium text-lg hover:text-brand"
             onClick={() => setIsOpen(false)}
           >
-            Contact
+            About Us
           </Link>
           <Link 
             href="/my-esims" 

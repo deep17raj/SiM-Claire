@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { 
   Search, 
   Smartphone, 
@@ -9,15 +10,35 @@ import {
   CreditCard, 
   XCircle, 
   Wrench, 
-  ArrowRight, 
   ChevronRight, 
   MessageCircle, 
   Mail, 
   LifeBuoy, 
-  FileText 
+  FileText,
+  ArrowRight
 } from 'lucide-react';
+import FAQAccordion from '@/components/FAQAccordion';
 
 export default function SupportPage() {
+
+  const popularFaqs = [
+    {
+      question: "How to install an eSIM on iOS (iPhone/iPad)",
+      answer: "Go to Settings > Cellular > Add eSIM. Select 'Use QR Code' and scan the code sent to your email. Follow the on-screen prompts to label your new plan (e.g., 'Travel') and set it as the primary line for Cellular Data."
+    },
+    {
+      question: "What is the fair usage policy (FUP)?",
+      answer: "FUP is a network policy to ensure equal speeds for all users. If you use an excessive amount of data (e.g., over 5GB/day on an Unlimited plan), your speed might be temporarily reduced by the local carrier to prevent network congestion."
+    },
+    {
+      question: "Can I use my eSIM in multiple countries?",
+      answer: "It depends on your plan. 'Single Country' plans work only in that specific location. 'Regional' (e.g., Europe) and 'Global' plans allow roaming across multiple supported countries without changing settings."
+    },
+    {
+      question: "My data is not working, what should I do?",
+      answer: "First, ensure 'Data Roaming' is turned ON for your SiMClaire line. Second, check that your APN settings are correct (usually automatic). Finally, try toggling Airplane Mode on and off to reset the network connection."
+    }
+  ];
   return (
     <div className="bg-[#fafafa] min-h-screen font-sans text-slate-900">
       
@@ -33,12 +54,12 @@ export default function SupportPage() {
           <h1 className="text-4xl md:text-5xl font-extrabold text-secondary mb-6 tracking-tight">
             How can we help you today?
           </h1>
-          <p className="text-lg text-slate-600 mb-10">
+          {/* <p className="text-lg text-slate-600 mb-10">
             Search our knowledge base for instant answers to your eSIM questions.
-          </p>
+          </p> */}
 
           {/* Search Bar */}
-          <div className="relative group rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md">
+          {/* <div className="relative group rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md max-w-2xl mx-auto">
             <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
               <Search className="text-slate-400 group-focus-within:text-brand transition-colors" size={24} />
             </div>
@@ -47,37 +68,66 @@ export default function SupportPage() {
               placeholder="Search for articles, setup guides, or troubleshooting..." 
               type="text"
             />
-          </div>
+          </div> */}
 
           {/* Popular Tags */}
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
+          {/* <div className="mt-6 flex flex-wrap justify-center gap-2">
             <span className="text-sm text-slate-500 py-1">Popular:</span>
-            <a className="text-sm font-medium text-secondary hover:text-brand hover:underline px-2 py-1 transition-colors" href="#">iPhone Setup</a>
-            <a className="text-sm font-medium text-secondary hover:text-brand hover:underline px-2 py-1 transition-colors" href="#">Refund Policy</a>
-            <a className="text-sm font-medium text-secondary hover:text-brand hover:underline px-2 py-1 transition-colors" href="#">Data Balance</a>
-          </div>
+            <Link href="/support/installation-activation" className="text-sm font-medium text-secondary hover:text-brand hover:underline px-2 py-1 transition-colors">
+                iPhone Setup
+            </Link>
+            <Link href="/support/refunds-cancellations" className="text-sm font-medium text-secondary hover:text-brand hover:underline px-2 py-1 transition-colors">
+                Refund Policy
+            </Link>
+            <Link href="/support/post-purchase" className="text-sm font-medium text-secondary hover:text-brand hover:underline px-2 py-1 transition-colors">
+                Data Balance
+            </Link>
+          </div> */}
         </div>
       </section>
 
       {/* 2. FAQ Category Grid */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        <div className="flex items-center justify-between mb-10">
+        {/* <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl font-bold text-secondary">Browse by Category</h2>
-          <a className="text-secondary font-semibold text-sm flex items-center gap-1 hover:text-brand hover:gap-2 transition-all" href="#">
+          <a className="text-secondary font-semibold text-sm flex items-center gap-1 hover:text-brand hover:gap-2 transition-all cursor-pointer">
              View all categories <ArrowRight size={16} />
           </a>
-        </div>
+        </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Categories */}
-          <CategoryCard icon={<Smartphone size={32} />} title="Device Compatibility" count="12 Articles" desc="Check if your smartphone supports eSIM." />
-          <CategoryCard icon={<Download size={32} />} title="Installation & Activation" count="24 Articles" desc="Guides for QR code and manual setup." />
-          <CategoryCard icon={<BadgeCheck size={32} />} title="KYC Process" count="8 Articles" desc="Identity verification requirements." />
-          <CategoryCard icon={<Receipt size={32} />} title="Post Purchase" count="15 Articles" desc="Manage active plans and top-ups." />
-          <CategoryCard icon={<Map size={32} />} title="Pre-Purchase" count="10 Articles" desc="Coverage maps and network speeds." />
-          <CategoryCard icon={<CreditCard size={32} />} title="Purchase Journey" count="6 Articles" desc="Payment methods and checkout help." />
-          <CategoryCard icon={<XCircle size={32} />} title="Refunds & Cancellations" count="9 Articles" desc="Our policy on returns and refunds." />
-          <CategoryCard icon={<Wrench size={32} />} title="Troubleshooting" count="31 Articles" desc="Fixes for connection and data errors." />
+          {/* Categories linked to dynamic routes */}
+          <Link href="/support/device-compatibility">
+            <CategoryCard icon={<Smartphone size={32} />} title="Device Compatibility" count="12 Articles" desc="Check if your smartphone supports eSIM." />
+          </Link>
+          
+          <Link href="/support/installation-activation">
+            <CategoryCard icon={<Download size={32} />} title="Installation & Activation" count="24 Articles" desc="Guides for QR code and manual setup." />
+          </Link>
+
+          <Link href="/support/kyc-process">
+            <CategoryCard icon={<BadgeCheck size={32} />} title="KYC Process" count="8 Articles" desc="Identity verification requirements." />
+          </Link>
+
+          <Link href="/support/post-purchase">
+            <CategoryCard icon={<Receipt size={32} />} title="Post Purchase" count="15 Articles" desc="Manage active plans and top-ups." />
+          </Link>
+
+          <Link href="/support/pre-purchase">
+            <CategoryCard icon={<Map size={32} />} title="Pre-Purchase" count="10 Articles" desc="Coverage maps and network speeds." />
+          </Link>
+
+          <Link href="/support/purchase-journey">
+            <CategoryCard icon={<CreditCard size={32} />} title="Purchase Journey" count="6 Articles" desc="Payment methods and checkout help." />
+          </Link>
+
+          <Link href="/support/refunds-cancellations">
+            <CategoryCard icon={<XCircle size={32} />} title="Refunds & Cancellations" count="9 Articles" desc="Our policy on returns and refunds." />
+          </Link>
+
+          <Link href="/support/troubleshooting">
+            <CategoryCard icon={<Wrench size={32} />} title="Troubleshooting" count="31 Articles" desc="Fixes for connection and data errors." />
+          </Link>
         </div>
       </section>
 
@@ -88,7 +138,7 @@ export default function SupportPage() {
             
             {/* Left Side Info */}
             <div className="md:w-1/3">
-              <h2 className="text-3xl font-bold text-secondary mb-6">Popular Articles</h2>
+              <h2 className="text-3xl font-bold text-secondary mb-6">Popular Faqs</h2>
               <p className="text-slate-600 mb-8">Quick access to the most frequently requested information.</p>
               
               <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">
@@ -96,16 +146,19 @@ export default function SupportPage() {
                   <BadgeCheck className="text-brand" size={24} />
                   <span className="font-bold text-secondary">New to eSIM?</span>
                 </div>
-                <p className="text-sm text-slate-600">Read our complete beginner's guide to digital mobile connectivity.</p>
+                <p className="text-sm text-slate-600">Read our complete beginner&apos;s guide to digital mobile connectivity.</p>
               </div>
             </div>
 
             {/* Right Side Links */}
-            <div className="md:w-2/3 grid gap-4">
-              <ArticleLink title="How to install an eSIM on iOS (iPhone/iPad)" />
-              <ArticleLink title="What is the fair usage policy (FUP)?" />
-              <ArticleLink title="Can I use my eSIM in multiple countries?" />
-              <ArticleLink title="My data is not working, what should I do?" />
+            <div className="md:w-2/3">
+              <div className="flex flex-col gap-4">
+                {popularFaqs.map((faq, index) => (
+                  <div key={index} className="border border-slate-100 rounded-xl overflow-hidden hover:border-brand/30 transition-colors shadow-sm">
+                    <FAQAccordion question={faq.question} answer={faq.answer} />
+                  </div>
+                ))}
+              </div>
             </div>
 
           </div>
@@ -113,10 +166,10 @@ export default function SupportPage() {
       </section>
 
       {/* 4. Support CTA Section */}
-      <section className="py-24 px-4">
+      {/* <section className="py-24 px-4">
         <div className="max-w-5xl mx-auto bg-secondary rounded-[2rem] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl shadow-secondary/20">
           
-          {/* Background Decor */}
+          
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-20 -mb-20 blur-3xl"></div>
 
@@ -127,23 +180,23 @@ export default function SupportPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-            <button className="bg-white text-secondary px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 transition-colors flex items-center justify-center gap-2">
+            <button className="bg-white text-secondary px-8 py-4 rounded-xl font-bold text-lg hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg active:scale-95">
               <MessageCircle size={20} /> Start Live Chat
             </button>
-            <button className="bg-secondary/30 border-2 border-white/30 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-2">
+            <button className="bg-secondary/30 border-2 border-white/30 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-colors flex items-center justify-center gap-2 cursor-pointer active:scale-95">
               <Mail size={20} /> Email Support
             </button>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* 5. Footer */}
       <footer className="border-t border-slate-100 py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="flex justify-center gap-8 mb-8">
-            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors" href="#">Terms of Service</a>
-            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors" href="#">Privacy Policy</a>
-            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors" href="#">Refund Policy</a>
+            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors cursor-pointer">Terms of Service</a>
+            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors cursor-pointer">Privacy Policy</a>
+            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors cursor-pointer">Refund Policy</a>
           </div>
           <p className="text-slate-400 text-xs">© 2026 SiMClaire Support Center. All rights reserved.</p>
         </div>
@@ -151,7 +204,7 @@ export default function SupportPage() {
 
       {/* Floating Widget */}
       <div className="fixed bottom-8 right-8 z-50">
-        <button className="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center shadow-2xl shadow-brand/40 hover:scale-110 hover:bg-[#e0a81a] transition-all">
+        <button className="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center shadow-2xl shadow-brand/40 hover:scale-110 hover:bg-[#e0a81a] transition-all cursor-pointer">
           <LifeBuoy size={32} />
         </button>
       </div>
@@ -163,14 +216,14 @@ export default function SupportPage() {
 // --- Sub-Components for cleaner code ---
 
 const CategoryCard = ({ icon, title, count, desc }) => (
-  <div className="bg-white/80 backdrop-blur-sm border border-secondary/10 p-6 rounded-2xl hover:-translate-y-1 transition-all cursor-pointer group shadow-sm hover:shadow-xl hover:shadow-brand/10">
+  <div className="h-full bg-white/80 backdrop-blur-sm border border-secondary/10 p-6 rounded-2xl hover:-translate-y-1 transition-all cursor-pointer group shadow-sm hover:shadow-xl hover:shadow-brand/10 flex flex-col">
     <div className="w-14 h-14 bg-secondary rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-secondary/20 group-hover:scale-110 group-hover:bg-brand transition-all duration-300">
       <div className="text-white">
         {icon}
       </div>
     </div>
     <h3 className="text-lg font-bold text-secondary mb-2">{title}</h3>
-    <p className="text-sm text-slate-600 leading-relaxed">{desc}</p>
+    <p className="text-sm text-slate-600 leading-relaxed flex-grow">{desc}</p>
     <div className="mt-4 text-xs font-bold text-brand uppercase tracking-wider">{count}</div>
   </div>
 );
