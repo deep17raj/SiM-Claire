@@ -40,7 +40,8 @@ export default function SupportPage() {
     }
   ];
   return (
-    <div className="bg-[#fafafa] min-h-screen font-sans text-slate-900">
+    <div className='px-4 py-10'>
+    <div className="w-full max-w-350 mx-auto rounded-2xl bg-bget min-h-screen font-sans text-slate-900">
       
       {/* 1. Hero Search Section */}
       <section className="relative py-20 px-4 overflow-hidden">
@@ -132,7 +133,7 @@ export default function SupportPage() {
       </section>
 
       {/* 3. Popular Articles Section */}
-      <section className="bg-white py-24 border-y border-slate-100">
+      <section className="bg-bget rounded-2xl py-24 border-y border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-16">
             
@@ -203,12 +204,13 @@ export default function SupportPage() {
       </footer>
 
       {/* Floating Widget */}
-      <div className="fixed bottom-8 right-8 z-50">
+      {/* <div className="fixed bottom-8 right-8 z-50">
         <button className="w-16 h-16 bg-brand text-white rounded-full flex items-center justify-center shadow-2xl shadow-brand/40 hover:scale-110 hover:bg-[#e0a81a] transition-all cursor-pointer">
           <LifeBuoy size={32} />
         </button>
-      </div>
+      </div> */}
 
+    </div>
     </div>
   );
 }
