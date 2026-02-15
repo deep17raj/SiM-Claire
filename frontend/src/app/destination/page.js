@@ -28,7 +28,7 @@ const HeroSearch = () => {
       <div className="flex flex-col items-center mb-16 space-y-8 text-center">
         
         {/* The New Header Title */}
-        <h1 className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight">
+        <h1 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight">
           Planning a trip? Check our rates <br className="hidden md:block" />
           <span className="text-brand">for your destination.</span>
         </h1>
@@ -65,7 +65,7 @@ const HeroSearch = () => {
 
       {/* 2. POPULAR DESTINATIONS GRID */}
       <div className="mb-10 text-center sm:text-left">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Popular Destinations</h2>
+        <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-2">Popular Destinations</h2>
         <p className="text-gray-500">Choose a country to see available eSIM plans for your next trip.</p>
       </div>
 

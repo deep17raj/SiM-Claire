@@ -41,7 +41,7 @@ export default function SupportPage() {
   ];
   return (
     <div className='px-4 py-10'>
-    <div className="w-full max-w-350 mx-auto rounded-2xl bg-bget min-h-screen font-sans text-slate-900">
+    <div className="w-full max-w-350 mx-auto rounded-2xl bg-bget min-h-screen  text-slate-900">
       
       {/* 1. Hero Search Section */}
       <section className="relative py-20 px-4 overflow-hidden">
@@ -52,7 +52,7 @@ export default function SupportPage() {
         </div>
 
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-secondary mb-6 tracking-tight">
+          <h1 className="text-2xl md:text-4xl font-bold text-secondary mb-6 tracking-tight">
             How can we help you today?
           </h1>
           {/* <p className="text-lg text-slate-600 mb-10">
@@ -139,7 +139,7 @@ export default function SupportPage() {
             
             {/* Left Side Info */}
             <div className="md:w-1/3">
-              <h2 className="text-3xl font-bold text-secondary mb-6">Popular Faqs</h2>
+              <h2 className="text-2xl md:text-4xl font-bold text-secondary mb-6">Popular Faqs</h2>
               <p className="text-slate-600 mb-8">Quick access to the most frequently requested information.</p>
               
               <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">

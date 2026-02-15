@@ -84,7 +84,7 @@ const deviceCategories = [
 
 const CompatibilityChecker = () => {
   return (
-    <section className="bg-[#fafafa] text-slate-900 min-h-screen font-sans">
+    <section className="bg-[#fafafa] text-slate-900 min-h-screen ">
       <div className="max-w-7xl mx-auto px-6 py-16">
         
         {/* Header Section */}
@@ -106,10 +106,10 @@ const CompatibilityChecker = () => {
               </div>
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
+          <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 mb-6">
             Compatibility Checker: <span className="text-brand">Is Your Device eSIM Ready?</span>
           </h1>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto font-light leading-relaxed">
             Verify if your hardware is ready for the digital SIM revolution. Select your brand to see the full list of compatible models.
           </p>
         </header>

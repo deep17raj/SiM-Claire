@@ -7,7 +7,7 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto">
         
         {/* 1. Static Top Heading (Teal) */}
-        <h1 className="text-2xl md:text-5xl font-extrabold text-secondary text-center mb-10 tracking-tight leading-tight">
+        <h1 className="text-2xl md:text-4xl font-bold text-secondary text-center mb-10 tracking-tight leading-tight">
           About SiM Claire: <br />
           <span className="text-[#2c6e63]">Your Global Connection, Simplified.</span>
         </h1>
@@ -30,7 +30,7 @@ export default function AboutPage() {
             At SiM Claire, we believe every journey deserves a seamless connection. Our mission is simple: to keep you connected effortlessly, wherever your adventures take you.
           </p>
 
-          <h2 className="text-xl md:text-3xl font-bold text-brand block mb-6">
+          <h2 className="text-2xl md:text-4xl font-bold text-brand block mb-6">
             Meet Claire: Your Trusted Travel Companion
           </h2>
 

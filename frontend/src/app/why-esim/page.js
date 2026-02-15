@@ -16,7 +16,7 @@ const WhyChooseUs = () => {
 
           {/* Central Title */}
           <div className="relative z-10 text-center px-4 max-w-xl">
-            <h2 className="text-5xl md:text-6xl font-bold leading-tight">
+            <h2 className="text-2xl md:text-4xl font-bold leading-tight">
               Why Travelers Trust <span className="text-brand">SiM Claire</span>
             </h2>
           </div>
