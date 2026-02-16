@@ -11,7 +11,7 @@ export default function FAQAccordion({ question, answer }) {
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full px-6 py-5 flex items-center justify-between hover:bg-slate-50 transition-colors text-left group"
             >
-                <span className={`font-semibold subheading ${isOpen ? 'text-brand' : 'text-slate-800'} group-hover:text-secondary transition-colors`}>
+                <span className={`font-semibold subheading ${isOpen ? 'text-brand' : 'hcol'} group-hover:text-secondary transition-colors`}>
                     {question}
                 </span>
                 <div className={`p-1 rounded-full transition-all  duration-300 ${isOpen ? 'bg-brand/10 rotate-180' : 'bg-slate-100'}`}>

@@ -76,3 +76,7 @@ body {
 .hv {
   transition: color 0.15s ease-in-out;
 }
+
+.hcol{
+  color: #1e2939;
+}

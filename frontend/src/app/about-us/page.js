@@ -3,13 +3,14 @@ import Image from 'next/image';
 
 export default function AboutPage() {
   return (
-    <div className="bg-[#fafafa] min-h-screen font-sans text-slate-900 py-16 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className=" min-h-screen font-sans text-slate-900 py-16 px-4">
+      <div className='bg-bget rounded-2xl'>
+      <div className=" max-w-4xl mx-auto">
         
         {/* 1. Static Top Heading (Teal) */}
         <h1 className="text-2xl md:text-4xl font-bold text-secondary text-center mb-10 tracking-tight leading-tight">
           About SiM Claire: <br />
-          <span className="text-[#2c6e63]">Your Global Connection, Simplified.</span>
+          <span className="text-secondary">Your Global Connection, Simplified.</span>
         </h1>
 
         {/* 2. Hero Image */}
@@ -42,6 +43,7 @@ export default function AboutPage() {
 
         </div>
 
+      </div>
       </div>
     </div>
   );

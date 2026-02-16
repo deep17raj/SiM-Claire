@@ -106,7 +106,7 @@ const CompatibilityChecker = () => {
               </div>
             </div>
           </div>
-          <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 mb-6">
+          <h1 className="text-2xl md:text-4xl font-bold tracking-tight hcol mb-6">
             Compatibility Checker: <span className="text-brand">Is Your Device eSIM Ready?</span>
           </h1>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto font-normal ">

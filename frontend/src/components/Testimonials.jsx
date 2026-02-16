@@ -51,7 +51,7 @@ const TestimonialCard = ({ data }) => {
         </svg>
         
         {/* Quote Text */}
-        <p className="text-[#2d3240] text-sm font-medium leading-relaxed mb-8">
+        <p className="hcol text-sm font-medium leading-relaxed mb-8">
           "{data.quote}"
         </p>
       </div>
@@ -62,7 +62,7 @@ const TestimonialCard = ({ data }) => {
           <Image src={data.avatar} alt={data.name} fill className="object-cover" />
         </div>
         <div>
-          <h4 className="text-[#2d3240] text-lg md:text-xl font-medium">{data.name}</h4>
+          <h4 className="hcol text-lg md:text-xl font-medium">{data.name}</h4>
           <p className="text-gray-500 text-sm">{data.title}</p>
         </div>
       </div>

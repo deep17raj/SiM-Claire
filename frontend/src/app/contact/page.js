@@ -43,7 +43,7 @@ const ContactForm = () => {
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
               </svg>
             </div>
-            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-4">Get in touch with us</h1>
+            <h1 className="text-2xl md:text-4xl font-bold hcol mb-4">Get in touch with us</h1>
             <p className="text-slate-500 max-w-md mx-auto leading-relaxed">
               For assistance, please contact{' '}
               {/* Note: Use standard <a> for mailto links, Link is only for internal pages */}

@@ -31,14 +31,14 @@ const CompatibilityBanner = () => {
 
           <div>
             <p className="text-gray-600 text-sm">Is your device</p>
-            <p className="text-[#2d3240] font-bold text-lg md:text-xl">Ready?</p>
+            <p className="hcol font-bold text-lg md:text-xl">Ready?</p>
           </div>
         </div>
 
         {/* 2. Second Text Block */}
         <div className="text-center lg:text-left w-full lg:w-auto">
           <p className="text-gray-600 text-sm">SIM Claire works with most</p>
-          <p className="text-[#2d3240] font-bold text-lg md:text-xl">unlocked iPhone & Android models.</p>
+          <p className="hcol font-bold text-lg md:text-xl">unlocked iPhone & Android models.</p>
         </div>
 
         {/* Vertical Divider (Hidden on mobile/tablet, visible on desktop) */}
@@ -50,7 +50,7 @@ const CompatibilityBanner = () => {
         {/* 3. Third Text Block */}
         <div className="text-center lg:text-left w-full lg:w-auto">
           <p className="text-gray-600 text-sm">Find out if your phone</p>
-          <p className="text-[#2d3240] font-bold text-lg md:text-xl">is eSIM compatible.</p>
+          <p className="hcol font-bold text-lg md:text-xl">is eSIM compatible.</p>
         </div>
 
         {/* 4. Action Button */}
