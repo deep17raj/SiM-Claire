@@ -29,7 +29,7 @@ export default function LoginPage() {
             
             {/* Header */}
             <div className="mb-8 md:mb-10 text-left">
-              <h1 className="text-3xl md:text-4xl font-bold text-[#1e3a50] tracking-tight  mb-2">
+              <h1 className="text-2xl md:text-4xl font-bold hcol tracking-tight  mb-2">
                 Good to see you!
               </h1>
               <p className="text-lg text-gray-500 font-normal">
@@ -70,7 +70,7 @@ export default function LoginPage() {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3.5 px-4 bg-secondary hover:bg-[#2c6e63] text-white text-xl font-bold rounded-xl cursor-pointer shadow-lg shadow-teal-900/10 transition-transform active:scale-[0.98] duration-200"
+                  className="w-full py-3.5 px-4 text-brand text-lg md:text-xl border-brand border-2 rounded-lg font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer"
                 >
                   Log In
                 </button>

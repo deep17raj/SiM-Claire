@@ -30,10 +30,10 @@ export default function SignupPage() {
             
             {/* Header */}
             <div className="mb-8 text-left">
-              <h1 className="text-3xl md:text-4xl font-bold text-[#1e3a50] tracking-tight mb-3">
+              <h1 className="text-2xl md:text-4xl font-bold hcol tracking-tight mb-3">
                 Hello!, I am Claire.
               </h1>
-              <p className="text-lg text-gray-500 font-normal">
+              <p className="text-xl md:text-lg text-gray-500 font-normal">
                 Welcome! I'll help you on this journey!
               </p>
             </div>
@@ -104,7 +104,7 @@ export default function SignupPage() {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full py-3.5 px-4 bg-[#3a7d71] hover:bg-[#2c6e63] text-white text-xl font-bold rounded-xl cursor-pointer shadow-lg shadow-teal-900/10 transition-transform active:scale-[0.98] duration-200"
+                  className="w-full py-3.5 px-4font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg"
                 >
                   Create Account
                 </button>
@@ -115,7 +115,7 @@ export default function SignupPage() {
                 Already have an account?{' '}
                 <Link
                   href="/login"
-                  className="text-[#1e3a50] hover:text-[#3a7d71] font-semibold transition-colors"
+                  className="text-secondary hover:text-[#3a7d71] font-semibold transition-colors"
                 >
                   Log In
                 </Link>
