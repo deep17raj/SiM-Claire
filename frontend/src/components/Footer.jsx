@@ -15,9 +15,9 @@ const Footer = () => {
                         <div className="lg:col-span-2">
                             <Link href="/" className="flex  items-center gap-2 mb-4">
                                 {/* 1. Wrapper: Size h-12 w-12 (48px) is usually perfect for a navbar logo */}
-                                <div className="relative h-16 w-16 translate-y-2 flex-shrink-0">
+                                <div className="relative h-16 w-16 -translate-y-0 flex-shrink-0">
                                     <Image
-                                        src="/logo.svg"
+                                        src="/logo.png"
                                         alt="SiMClaire Logo"
                                         fill
                                         /* - object-contain: Ensures the whole logo fits without cropping
