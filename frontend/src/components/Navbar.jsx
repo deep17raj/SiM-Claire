@@ -63,7 +63,7 @@ const Navbar = () => {
       {/* 4. Mobile Hamburger Button (Visible on LG and below) */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden text-gray-800 hover:text-brand focus:outline-none z-50 p-2"
+        className="lg:hidden text-tertary hover:text-brand focus:outline-none z-50 p-2"
       >
         {/* Toggle Icon: Shows 'X' if open, 'Hamburger' if closed */}
         {isOpen ? (
@@ -121,14 +121,14 @@ const Navbar = () => {
           <div className="flex flex-col gap-4">
              <Link 
                 href="/signup" 
-                className="text-center w-full py-3 rounded-xl bg-brand text-white font-bold hover:bg-brand transition-colors"
+                className="text-center w-full py-3 text-lg md:text-xl rounded-xl bg-brand text-white font-bold hover:bg-brand transition-colors"
                 onClick={() => setIsOpen(false)}
              >
                Sign Up
              </Link>
              <Link 
                 href="/login" 
-                className="text-center w-full py-3 rounded-xl border-2 border-gray-200 text-gray-800 font-bold hover:border-brand hover:text-brand transition-colors"
+                className="text-center w-full py-3 text-lg md:text-xl  rounded-xl border-2 border-gray-200 text-gray-800 font-bold hover:border-brand hover:text-brand transition-colors"
                 onClick={() => setIsOpen(false)}
              >
                Log In
