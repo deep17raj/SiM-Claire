@@ -40,11 +40,11 @@ export default function SupportPage() {
     }
   ];
   return (
-    <div className='px-4 py-10'>
+    <div className='px-4 py-6'>
     <div className="w-full max-w-350 mx-auto rounded-2xl bg-bget min-h-screen  text-slate-900">
       
       {/* 1. Hero Search Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
+      <section className="relative py-8 md:py-10 px-4 overflow-hidden">
         {/* Background Blobs (Teal) */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 opacity-10">
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary rounded-full blur-[120px]"></div>
@@ -52,7 +52,7 @@ export default function SupportPage() {
         </div>
 
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-2xl md:text-4xl font-bold text-secondary mb-6 tracking-tight">
+          <h1 className="text-2xl  md:text-4xl font-bold text-secondary  tracking-tight">
             How can we help you today?
           </h1>
           {/* <p className="text-lg text-slate-600 mb-10">
@@ -88,7 +88,7 @@ export default function SupportPage() {
       </section>
 
       {/* 2. FAQ Category Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 rounded-2xl">
         {/* <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl font-bold text-secondary">Browse by Category</h2>
           <a className="text-secondary font-semibold text-sm flex items-center gap-1 hover:text-brand hover:gap-2 transition-all cursor-pointer">
@@ -133,8 +133,8 @@ export default function SupportPage() {
       </section>
 
       {/* 3. Popular Articles Section */}
-      <section className="bg-bget rounded-2xl py-24 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="rounded-2xl pb-6 border-y border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-2xl">
           <div className="flex flex-col md:flex-row gap-16">
             
             {/* Left Side Info */}
@@ -192,16 +192,7 @@ export default function SupportPage() {
       </section> */}
 
       {/* 5. Footer */}
-      <footer className="border-t border-slate-100 py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="flex justify-center gap-8 mb-8">
-            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors cursor-pointer">Terms of Service</a>
-            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors cursor-pointer">Privacy Policy</a>
-            <a className="text-slate-500 hover:text-brand text-sm font-medium transition-colors cursor-pointer">Refund Policy</a>
-          </div>
-          <p className="text-slate-400 text-xs">© 2026 SiMClaire Support Center. All rights reserved.</p>
-        </div>
-      </footer>
+      
 
       {/* Floating Widget */}
       {/* <div className="fixed bottom-8 right-8 z-50">

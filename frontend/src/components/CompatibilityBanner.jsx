@@ -55,7 +55,7 @@ const CompatibilityBanner = () => {
 
         {/* 4. Action Button */}
         <div className="w-full lg:w-auto flex flex-col items-center lg:items-end shrink-0">
-          <button className="px-6 py-2.5 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[16px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
+          <button className="px-6 py-2.5 border-2 border-[#2d3240] text-[#2d3240] font-semibold text-[18px] cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
             Check Compatibility
           </button>
           {/* Added the subtext from the image (fixing the 'yif' typo to 'if') */}

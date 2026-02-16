@@ -26,7 +26,7 @@ export default function AboutPage() {
         {/* 3. Static Text Section */}
         <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 min-h-[300px]">
           
-          <p className="text-md md:text-lg text-slate-600 leading-relaxed block mb-8">
+          <p className="text-lg md:text-xl text-slate-600 leading-relaxed block mb-8">
             At SiM Claire, we believe every journey deserves a seamless connection. Our mission is simple: to keep you connected effortlessly, wherever your adventures take you.
           </p>
 
@@ -34,7 +34,7 @@ export default function AboutPage() {
             Meet Claire: Your Trusted Travel Companion
           </h2>
 
-          <p className="text-md md:text-lg text-slate-600 leading-relaxed block mb-2">
+          <p className="text-lg md:text-xl text-slate-600 leading-relaxed block mb-2">
             Claire isn't just our name; she's the heart of our brand - a resourceful beaver embodying our commitment to building reliable bridges across the globe. Claire represents our promise to deliver robust, easy-to-use eSIM solutions so you can focus on what truly matters: experiencing the world.
           </p>
 

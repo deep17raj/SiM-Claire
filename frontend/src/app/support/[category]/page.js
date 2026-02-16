@@ -73,9 +73,9 @@ export default async function CategoryPage({ params }) {
 
       {/* Bottom CTA */}
       <div className="text-center mt-12">
-        <p className="text-slate-500 mb-4">Didn&apos;t find what you were looking for?</p>
+        <p className="text-slate-500 mb-4 subheading">Didn&apos;t find what you were looking for?</p>
         <Link href="/contact">
-            <button className="text-secondary font-bold hover:text-brand transition-colors underline decoration-2 underline-offset-4">
+            <button className="text-secondary subheading font-bold hover:text-brand transition-colors underline decoration-2 underline-offset-4">
                 Contact our Support Team
             </button>
         </Link>

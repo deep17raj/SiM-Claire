@@ -43,12 +43,12 @@ const ContactForm = () => {
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
               </svg>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Get in touch with us</h1>
+            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 mb-4">Get in touch with us</h1>
             <p className="text-slate-500 max-w-md mx-auto leading-relaxed">
               For assistance, please contact{' '}
               {/* Note: Use standard <a> for mailto links, Link is only for internal pages */}
-              <a href="mailto:support@simclaire.com" className="text-brand font-medium hover:underline">
-                support@simclaire.com
+              <a href="mailto:Care@simclaire.com" className="text-brand font-medium hover:underline">
+                Care@simclaire.com
               </a>{' '}
               or submit your inquiry using the form below.
             </p>
@@ -127,25 +127,12 @@ const ContactForm = () => {
             {/* eSIM ICCID */}
             <div className="relative z-0 w-full group">
                 <div className="absolute right-0 top-3 text-slate-400 hover:text-brand cursor-help group/tooltip z-10">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="16" x2="12" y2="12"></line>
-                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
-                    </svg>
+                    
                     <div className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-slate-800 text-white text-xs rounded opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none">
                         Find this 19-20 digit number in your eSIM settings.
                     </div>
                 </div>
-                <input 
-                    type="text" 
-                    name="iccid" 
-                    id="iccid" 
-                    className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-slate-200 appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" 
-                    placeholder=" " 
-                />
-                <label htmlFor="iccid" className="peer-focus:font-medium absolute text-sm text-slate-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                    eSIM ICCID
-                </label>
+                
             </div>
 
             {/* Message Area */}
@@ -168,7 +155,7 @@ const ContactForm = () => {
                 <button 
                     type="submit" 
                     disabled={isSubmitting}
-                    className="group relative px-10 py-3 font-semibold text-brand border-2 border-brand rounded-lg overflow-hidden transition-all duration-300 hover:text-white cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="group text-lg md:text-xl relative px-10 py-3 font-semibold text-brand border-2 border-brand rounded-lg overflow-hidden transition-all duration-300 hover:text-white cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                     <span className={`absolute inset-0 w-0 bg-brand transition-all duration-300 ease-out ${isSubmitting ? 'w-full' : 'group-hover:w-full'}`}></span>
                     <span className="relative flex items-center gap-2">
@@ -190,9 +177,7 @@ const ContactForm = () => {
         </div>
       </main>
 
-      <footer className="mt-8 text-slate-400 text-sm">
-        © 2026 SiMClaire. All rights reserved.
-      </footer>
+      
     </div>
   );
 };

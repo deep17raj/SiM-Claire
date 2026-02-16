@@ -109,7 +109,7 @@ const CompatibilityChecker = () => {
           <h1 className="text-2xl md:text-4xl font-bold tracking-tight text-slate-900 mb-6">
             Compatibility Checker: <span className="text-brand">Is Your Device eSIM Ready?</span>
           </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto font-normal ">
             Verify if your hardware is ready for the digital SIM revolution. Select your brand to see the full list of compatible models.
           </p>
         </header>
@@ -217,7 +217,7 @@ const CompatibilityChecker = () => {
             <p className="text-slate-500 text-lg md:text-xl font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <button className="px-16 py-4.5 border-2 text-xs md:text-[16px] border-[#2d3240] text-[#2d3240] font-bold cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
+            <button className="px-16 py-4 border-2 text-lg md:text-xl border-[#2d3240] text-[#2d3240] font-bold cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
               Help Center
             </button>
             <button className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
