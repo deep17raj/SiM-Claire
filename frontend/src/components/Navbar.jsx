@@ -16,20 +16,23 @@ const Navbar = () => {
     <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full pr-4 md:pr-6 py-4 flex items-center justify-between top-4 z-50 relative">
       
       {/* 1. Logo Section */}
-      <Link href="/" className="flex items-center gap-4 text-center z-50">
-        <div className="relative h-10 w-auto ">
+      <Link href="/" className="flex h-16 items-center justify-center gap-4 text-center z-50">
+        <div className=" h-full w-auto">
           <Image
             src="/logo2.png"
             alt="Company Logo"
             width={200}
             height={40}
             priority
-            className="h-16 w-auto object-contain -translate-y-2.5"
+            className="h-16 w-auto object-contain "
           />
         </div>
-        <span className="-ml-6 text-tertary font-bold text-3xl lg:text-3xl tracking-tight whitespace-nowrap">
+        <div className=" h-full flex  items-center">
+          <span className="-ml-6  text-tertary font-bold text-3xl lg:text-3xl tracking-tight whitespace-nowrap">
           SiM <span className="text-brand">Claire</span>
         </span>
+        </div>
+        
       </Link>
 
       {/* 2. Desktop Navigation Links */}
