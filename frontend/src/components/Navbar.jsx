@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // 1. Import usePathname
-import logo from "../../public/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,15 +16,15 @@ const Navbar = () => {
     <nav className="w-full max-w-[1400px] mx-auto bg-[#077770] shadow-md rounded-full pr-4 md:pr-6 py-4 flex items-center justify-between top-4 z-50 relative">
       
       {/* 1. Logo Section */}
-      <Link href="/" className="flex items-center text-center z-50">
-        <div className="relative h-10 w-auto">
+      <Link href="/" className="flex items-center gap-4 text-center z-50">
+        <div className="relative h-10 w-auto ">
           <Image
-            src={logo}
+            src="/logo2.png"
             alt="Company Logo"
             width={200}
             height={40}
             priority
-            className="h-18 w-auto object-contain -translate-y-3.5"
+            className="h-16 w-auto object-contain -translate-y-2.5"
           />
         </div>
         <span className="-ml-6 text-tertary font-bold text-3xl lg:text-3xl tracking-tight whitespace-nowrap">

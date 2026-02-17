@@ -84,7 +84,7 @@ const deviceCategories = [
 
 const CompatibilityChecker = () => {
   return (
-    <section className="bg-[#fafafa] text-slate-900 min-h-screen ">
+    <section className="bg-[#fafafa] text-slate-900 min-h-screen mt-20 ">
       <div className="max-w-7xl mx-auto px-6 py-16">
         
         {/* Header Section */}
