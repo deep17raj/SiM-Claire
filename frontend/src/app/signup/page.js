@@ -34,7 +34,7 @@ export default function SignupPage() {
                 Hello!, I am Claire.
               </h1>
               <p className="text-xl md:text-lg text-gray-500 font-normal">
-                Welcome! I'll help you on this journey!
+                Welcome! I&apso;ll help you on this journey!
               </p>
             </div>
 
