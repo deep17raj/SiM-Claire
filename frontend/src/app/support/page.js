@@ -139,7 +139,7 @@ export default function SupportPage() {
             
             {/* Left Side Info */}
             <div className="md:w-1/3">
-              <h2 className="text-2xl md:text-4xl font-bold text-secondary mb-6">Popular Faqs</h2>
+              <h2 className="text-2xl md:text-4xl font-bold text-secondary mb-6">Popular FAQS</h2>
               <p className="text-slate-600 subheading mb-5">Quick access to the most frequently requested information.</p>
               
               <div className="bg-secondary/5 border border-secondary/10 p-6 rounded-2xl">

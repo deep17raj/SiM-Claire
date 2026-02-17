@@ -38,16 +38,16 @@ const Footer = () => {
                             </p>
 
                             {/* Social Icons */}
-                            <div className="flex items-center gap-5 text-brand">
+                            <div className="flex items-center gap-5 text-tertary">
     {/* Facebook */}
-    <a href="#" className="hover:text-white/80 transition-colors">
+    <a href="https://www.facebook.com/share/1KHdEhdevt/?mibextid=wwXIfr" target="_blank" className="hover:text-brand transition-colors">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
         </svg>
     </a>
 
     {/* Instagram */}
-    <a href="#" className="hover:text-white/80 transition-colors">
+    <a href="https://www.instagram.com/simclaireesim?igsh=NWtyNHpiNGhyMDE4&utm_source=qr" target="_blank" className="hover:text-brand transition-colors">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -56,7 +56,7 @@ const Footer = () => {
     </a>
 
     {/* TikTok */}
-    <a href="#" className="hover:text-white/80 transition-colors">
+    <a href="https://www.tiktok.com/@esimclaire?_r=1&_t=ZS-93xcBf9TQE1" target="_blank" className="hover:text-brand transition-colors">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"></path>
         </svg>
@@ -70,11 +70,11 @@ const Footer = () => {
                         <div>
                             <h3 className="font-bold text-lg mb-4">Site Links</h3>
                             <ul className="space-y-2 text-sm text-white/90">
-                                <li><Link href="/" className="hover:underline">Home</Link></li>
-                                <li><Link href="/destination" className="hover:underline">Choose a Destination</Link></li>
-                                <li><Link href="/why-esim" className="hover:underline">Why an eSIM?</Link></li>
-                                <li><Link href="/support" className="hover:underline">Get Support</Link></li>
-                                <li><Link href="/contact" className="hover:underline">Contact</Link></li>
+                                <li><Link href="/" className="hover:underline hover:text-brand">Home</Link></li>
+                                <li><Link href="/destination" className="hover:underline hover:text-brand">Choose a Destination</Link></li>
+                                <li><Link href="/why-esim" className="hover:underline hover:text-brand">Why an eSIM?</Link></li>
+                                <li><Link href="/support" className="hover:underline hover:text-brand">Get Support</Link></li>
+                                <li><Link href="/contact" className="hover:underline hover:text-brand">Contact</Link></li>
                             </ul>
                         </div>
 
@@ -82,9 +82,9 @@ const Footer = () => {
                         <div>
                             <h3 className="font-bold text-lg mb-4">Important Information</h3>
                             <ul className="space-y-2 text-sm text-white/90">
-                                <li><Link href="/terms" className="hover:underline">Terms & Conditions</Link></li>
-                                <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
-                                <li><Link href="/kyc" className="hover:underline">KYC Policy</Link></li>
+                                <li><Link href="/terms" className="hover:underline hover:text-brand">Terms & Conditions</Link></li>
+                                <li><Link href="/privacy" className="hover:underline hover:text-brand">Privacy Policy</Link></li>
+                                <li><Link href="/kyc" className="hover:underline hover:text-brand">KYC Policy</Link></li>
                             </ul>
                         </div>
 
@@ -92,8 +92,8 @@ const Footer = () => {
                         <div>
                             <h3 className="font-bold text-lg mb-4">User Profile</h3>
                             <ul className="space-y-2 text-sm text-white/90">
-                                <li><Link href="/signup" className="hover:underline">Sign Up</Link></li>
-                                <li><Link href="/login" className="hover:underline">Log In</Link></li>
+                                <li><Link href="/signup" className="hover:underline hover:text-brand">Sign Up</Link></li>
+                                <li><Link href="/login" className="hover:underline hover:text-brand">Log In</Link></li>
                             </ul>
                         </div>
 
@@ -101,13 +101,13 @@ const Footer = () => {
                         <div>
                             <h3 className="font-bold text-lg mb-4">Supported Regions</h3>
                             <ul className="space-y-2 text-sm text-white/90">
-                                <li><Link href="/region/gulf" className="hover:underline">Gulf States</Link></li>
-                                <li><Link href="/region/europe" className="hover:underline">Europe</Link></li>
-                                <li><Link href="/region/eastern-europe" className="hover:underline">Eastern Europe</Link></li>
-                                <li><Link href="/region/north-america" className="hover:underline">North America</Link></li>
-                                <li><Link href="/region/south-asia" className="hover:underline">South Asia</Link></li>
-                                <li><Link href="/region/south-america" className="hover:underline">South America</Link></li>
-                                <li><Link href="/region/global" className="hover:underline">Global</Link></li>
+                                <li><Link href="/region/gulf" className="hover:underline hover:text-brand">Gulf States</Link></li>
+                                <li><Link href="/region/europe" className="hover:underline hover:text-brand">Europe</Link></li>
+                                <li><Link href="/region/eastern-europe" className="hover:underline hover:text-brand">Eastern Europe</Link></li>
+                                <li><Link href="/region/north-america" className="hover:underline hover:text-brand">North America</Link></li>
+                                <li><Link href="/region/south-asia" className="hover:underline hover:text-brand">South Asia</Link></li>
+                                <li><Link href="/region/south-america" className="hover:underline hover:text-brand">South America</Link></li>
+                                <li><Link href="/region/global" className="hover:underline hover:text-brand">Global</Link></li>
                             </ul>
                         </div>
                     </div>

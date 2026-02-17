@@ -35,42 +35,21 @@ const partners = [
 const TrustedBy = () => {
   return (
     <div className="px-4 py-8">
-      {/* Add Custom CSS for the marquee animation locally */}
-      <style>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-infinite-scroll {
-          animation: scroll 15s linear infinite;
-        }
-      `}</style>
-
-      <section className="w-full max-w-350 mx-auto bg-bget rounded-2xl py-6 md:py-10 overflow-hidden">
+      
+      <section className="w-full max-w-350 mx-auto bg-bget rounded-2xl py-6 md:py-10">
         
         {/* Section Title */}
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-secondary text-center mb-10 md:mb-14">
           Trusted by
         </h2>
 
-        {/* --- MOBILE VIEW: Infinite Scrolling Marquee --- */}
-        <div className="md:hidden w-full overflow-hidden">
-          {/* We render the list TWICE inside a container that is double width.
-             The animation moves from 0% to -50%, creating a seamless loop.
-          */}
-          <div className="flex w-max animate-infinite-scroll">
-            {/* Set 1 */}
-            <div className="flex gap-8 px-4">
-              {partners.map((partner) => (
-                <PartnerCard key={`m1-${partner.id}`} partner={partner} />
-              ))}
-            </div>
-            {/* Set 2 (Duplicate for smooth loop) */}
-            <div className="flex gap-8 px-4">
-              {partners.map((partner) => (
-                <PartnerCard key={`m2-${partner.id}`} partner={partner} />
-              ))}
-            </div>
+        {/* --- MOBILE VIEW: Static Grid (Animation Removed) --- */}
+        <div className="md:hidden w-full">
+          {/* Changed to flex-wrap so logos sit nicely on screen without moving */}
+          <div className="flex flex-wrap justify-center gap-8 px-4">
+            {partners.map((partner) => (
+              <PartnerCard key={`m1-${partner.id}`} partner={partner} />
+            ))}
           </div>
         </div>
 

@@ -7,7 +7,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] px-4 py-8 font-sans">
       
       {/* 2. The Card Container: Matches your site's max-width and rounded style */}
-      <div className="w-full max-w-[1400px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] md:min-h-[750px]">
+      <div className="w-full max-w-[1400px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] md:min-h-[700px]">
         
         {/* 3. Image Section 
             - Mobile: h-64 (fixed height)
@@ -24,12 +24,12 @@ export default function LoginPage() {
         </div>
 
         {/* 4. Form Section */}
-        <div className="w-full md:w-1/2 lg:w-[45%] flex items-center justify-center p-8 md:p-12 lg:p-20 bg-white">
+        <div className="w-full md:w-1/2 lg:w-[45%] flex mt-4 justify-center p-8 md:p-12 lg:p-20 bg-white">
           <div className="w-full max-w-md">
             
             {/* Header */}
-            <div className="mb-8 md:mb-10 text-left">
-              <h1 className="text-2xl md:text-4xl font-bold hcol tracking-tight  mb-2">
+            <div className="mb-8  text-left">
+              <h1 className="text-2xl md:text-4xl font-bold text-secondary tracking-tight  mb-2">
                 Good to see you!
               </h1>
               <p className="text-lg text-gray-500 font-normal">
@@ -80,7 +80,7 @@ export default function LoginPage() {
               <div className="text-center mt-6">
                 <Link
                   href="/forgot-password"
-                  className="text-secondary hover:text-[#1a6256] font-medium text-base transition-colors"
+                  className="text-brand hover:underline font-medium text-base transition-colors"
                 >
                   Forgot Password?
                 </Link>

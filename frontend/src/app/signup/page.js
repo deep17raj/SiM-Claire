@@ -30,7 +30,7 @@ export default function SignupPage() {
             
             {/* Header */}
             <div className="mb-8 text-left">
-              <h1 className="text-2xl md:text-4xl font-bold hcol tracking-tight mb-3">
+              <h1 className="text-2xl md:text-4xl font-bold text-secondary tracking-tight mb-3">
                 Hello!, I am Claire.
               </h1>
               <p className="text-xl md:text-lg text-gray-500 font-normal">
@@ -115,9 +115,9 @@ export default function SignupPage() {
                 Already have an account?{' '}
                 <Link
                   href="/login"
-                  className="text-secondary hover:text-[#3a7d71] font-semibold transition-colors"
+                  className="text-brand h font-semibold transition-colors hover:underline"
                 >
-                  Log In
+                  log In
                 </Link>
               </div>
 
