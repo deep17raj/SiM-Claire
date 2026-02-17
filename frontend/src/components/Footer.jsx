@@ -127,7 +127,7 @@ const Footer = () => {
                                 <span className="font-bold text-white italic tracking-wider text-sm">VISA</span>
                             </div>
                             {/* Mastercard Badge */}
-                            <div className="bg-white/10 px-3 py-1 rounded-md border border-white/20 flex items-center">
+                            <div className="bg-white/10 px-3 py-2 rounded-md border border-white/20 flex items-center">
                                 <div className="flex -space-x-1">
                                     <div className="w-4 h-4 rounded-full bg-red-500/90"></div>
                                     <div className="w-4 h-4 rounded-full bg-yellow-500/90"></div>
