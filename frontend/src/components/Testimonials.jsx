@@ -1,5 +1,7 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // --- MOCK DATA ---
 const testimonialsData = [
@@ -43,7 +45,7 @@ const testimonialsData = [
 // --- SUB-COMPONENT: Single Testimonial Card ---
 const TestimonialCard = ({ data }) => {
   return (
-    <div className="w-[350px] md:w-[400px] p-8 bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-between h-full shrink-0 mx-4 transition-transform hover:scale-[1.02] duration-300">
+    <div className="w-[320px] md:w-[400px] p-8 bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-between h-full shrink-0 mx-3 transition-transform hover:scale-[1.02] duration-300 snap-center">
       <div>
         {/* Quote Icon */}
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" className="text-secondary mb-6 opacity-50">
@@ -70,79 +72,80 @@ const TestimonialCard = ({ data }) => {
   );
 };
 
-// --- SUB-COMPONENT: Scrolling Row (Marquee) ---
-const MarqueeRow = ({ data, direction = "left", speed = "40s" }) => {
-  const animationClass = direction === "left" ? "animate-scroll-left" : "animate-scroll-right";
-  
-  // Duplicate data for seamless loop
-  const duplicatedData = [...data, ...data];
-
-  return (
-    // 'group' class is crucial here. It detects hover on the container.
-    <div className="flex overflow-hidden select-none w-full mask-edges-gradient py-4 group">
-      
-      <div 
-        className={`flex shrink-0 gap-8 ${animationClass}`}
-        style={{ animationDuration: speed }}
-      >
-        {duplicatedData.map((item, idx) => (
-          <TestimonialCard key={`${item.id}-${idx}-${direction}`} data={item} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-
 // --- MAIN COMPONENT ---
 const Testimonials = () => {
-  const firstRowData = testimonialsData.slice(0, 3);
-  const secondRowData = testimonialsData.slice(2, 5);
+  const scrollContainerRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const { current } = scrollContainerRef;
+      const scrollAmount = 420; // Card width + margin
+      if (direction === "left") {
+        current.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      } else {
+        current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      }
+    }
+  };
 
   return (
-    <section className="py-16 bg-[#fafafa] overflow-hidden">
-      <style>{`
-        /* Animation Definitions */
-        @keyframes scroll-left {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes scroll-right {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
-        }
-        
-        .animate-scroll-left {
-          animation: scroll-left linear infinite;
-        }
-        .animate-scroll-right {
-          animation: scroll-right linear infinite;
-        }
-
-        /* --- THE FIX: Stop animation on hover --- */
-        /* When the element with class 'group' is hovered, pause the animation children */
-        .group:hover .animate-scroll-left,
-        .group:hover .animate-scroll-right {
-          animation-play-state: paused;
-        }
-
-        /* Gradient Mask for Edges */
-        .mask-edges-gradient {
-            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        }
-      `}</style>
-
-      <div className="w-full max-w-[1400px] mx-auto px-4 mb-16">
+    <section className="py-16 bg-[#fafafa]">
+      
+      {/* Header */}
+      <div className="w-full max-w-[1400px] mx-auto px-4 mb-12">
         <h2 className="text-2xl md:text-4xl font-bold text-center text-secondary max-w-2xl mx-auto">
           Words of praise from others about our presence.
         </h2>
       </div>
 
-      <div className="flex flex-col gap-8">
-        {/* Row 1 */}
-        <MarqueeRow data={firstRowData} direction="right" speed="15s" />
+      {/* Main Container: Flex row to hold Buttons and Track side-by-side */}
+      <div className="w-full max-w-[1500px] mx-auto flex items-center justify-center gap-4 px-2 md:px-8">
         
+        {/* Left Arrow (Outside) */}
+        <button 
+          onClick={() => scroll("left")}
+          className="shrink-0 w-12 h-12 bg-white rounded-full shadow-md border border-gray-100 flex items-center justify-center text-secondary hover:bg-brand hover:text-white transition-all duration-300 active:scale-95 cursor-pointer z-10 hidden md:flex"
+          aria-label="Previous testimonial"
+        >
+          <ChevronLeft size={24} />
+        </button>
+
+        {/* Scrollable Track */}
+        <div 
+          ref={scrollContainerRef}
+          className="flex-1 flex overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar py-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {testimonialsData.map((item) => (
+            <TestimonialCard key={item.id} data={item} />
+          ))}
+        </div>
+
+        {/* Right Arrow (Outside) */}
+        <button 
+          onClick={() => scroll("right")}
+          className="shrink-0 w-12 h-12 bg-white rounded-full shadow-md border border-gray-100 flex items-center justify-center text-secondary hover:bg-brand hover:text-white transition-all duration-300 active:scale-95 cursor-pointer z-10 hidden md:flex"
+          aria-label="Next testimonial"
+        >
+          <ChevronRight size={24} />
+        </button>
+
+      </div>
+      
+      {/* Mobile Navigation Hint (Optional, since arrows are hidden on small screens) */}
+      <div className="md:hidden flex justify-center gap-4 mt-4">
+         <button 
+          onClick={() => scroll("left")}
+          className="w-10 h-10 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center text-secondary"
+        >
+          <ChevronLeft size={20} />
+        </button>
+        <button 
+          onClick={() => scroll("right")}
+          className="w-10 h-10 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center text-secondary"
+        >
+          <ChevronRight size={20} />
+        </button>
       </div>
 
     </section>

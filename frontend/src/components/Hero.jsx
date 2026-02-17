@@ -5,18 +5,18 @@ const Hero = () => {
     <div className="px-4 py-8 flex flex-col items-center gap-8">
       
       {/* 1. Search Bar (Now placed ABOVE the image) */}
-      <div className="relative w-full max-w-xl z-20">
+      <div className="relative w-full max-w-xl z-20 ">
         <input
           id="dest"
           name="dest"
           type="text"
           placeholder="Search destination"
           className="w-full bg-white pl-12 pr-6 py-4 border-1 border-brand shadow-brand/40 shadow-[0_0_25px_rgba(236,91,19,0.25)]
-           rounded-full text-black text-lg outline-none  placeholder-gray-500 transition-all focus:scale-[1.01]"
+           rounded-full text-black text-lg outline-none  placeholder-gray-500 transition-all"
         />
 
         {/* Search Icon */}
-        <div className="absolute left-5 top-1/2 -translate-y-1/2  pointer-events-none">
+        <div className="absolute left-5 top-1/2 -translate-y-1/2  pointer-events-none ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"

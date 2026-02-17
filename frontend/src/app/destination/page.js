@@ -44,7 +44,7 @@ const HeroSearch = () => {
           </div>
           <input 
             type="text"
-            className="w-full pl-14 pr-6 py-4 bg-white border border-brand rounded-full  shadow-brand/30 shadow-[0_0_25px_rgba(236,91,19,0.25)] outline-none text-lg transition-all focus:ring-2 focus:ring-brand focus:border-transparent placeholder:text-gray-400" 
+            className="w-full pl-14 pr-6 py-4 bg-white border-1 border-brand rounded-full  shadow-brand/30 shadow-[0_0_25px_rgba(236,91,19,0.25)] outline-none text-lg transition-all   placeholder:text-gray-400" 
             placeholder="Search for a country or region..." 
           />
         </div>
