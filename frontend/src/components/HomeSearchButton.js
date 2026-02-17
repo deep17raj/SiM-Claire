@@ -37,7 +37,7 @@ export default function HomeSearchButton() {
     >
       <Search size={24} />
       {/* Tooltip */}
-      <span className="absolute right-full ml-3 top-1/2 -translate-y-1/2 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+      <span className="absolute right-full ml-3 top-1/2 -translate-y-1/2 bg-secondary text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
         Search
       </span>
     </button>

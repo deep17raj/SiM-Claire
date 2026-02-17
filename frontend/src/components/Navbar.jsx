@@ -14,11 +14,11 @@ const Navbar = () => {
 
   return (
     <div className="px-4">
-    <nav className="w-full max-w-[1400px]  border border-red mx-auto bg-secondary shadow-md rounded-full pr-4 pl-6 md:pr-6 py-0 flex items-center justify-between top-4 z-50 relative">
+    <nav className="w-full max-w-[1400px]   mx-auto bg-secondary shadow-md rounded-full pr-4 pl-6 md:pr-6 py-0 flex items-center justify-between top-4 z-50 relative">
       
       {/* 1. Logo Section */}
-      <Link href="/" className="flex h-17 items-center justify-center gap-6 text-center z-50 border border-red">
-        <div className=" h-full w-auto  border border-red">
+      <Link href="/" className="flex h-17 items-center justify-center gap-6 text-center z-50 ">
+        <div className=" h-full w-auto ">
           <Image
             src="/logo2.png"
             alt="Company Logo"
@@ -28,7 +28,7 @@ const Navbar = () => {
             className="h-full w-auto object-contain"
           />
         </div>
-        <div className=" h-full flex  items-center  border border-red">
+        <div className=" h-full flex  items-center ">
           <span className="-ml-6  text-tertary font-bold text-3xl lg:text-3xl tracking-tight whitespace-nowrap">
           SiM <span className="text-brand">Claire</span>
         </span>
@@ -70,7 +70,7 @@ const Navbar = () => {
       {/* 4. Mobile Hamburger Button (Visible on LG and below) */}
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden text-tertary hover:text-brand focus:outline-none z-50 p-2"
+        className="lg:hidden text-tertary hover:text-brand focus:outline-none z-50 p-2 "
       >
         {isOpen ? (
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

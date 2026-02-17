@@ -19,7 +19,7 @@ const WhatsAppButton = () => {
       <div className="relative w-14 h-14 bg-brand rounded-full flex items-center justify-center shadow-lg shadow-brand/30 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
         
         {/* Tooltip (Optional) */}
-        <span className="absolute right-full ml-4 bg-slate-800 text-white text-sm font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+        <span className="absolute right-full ml-4 bg-secondary text-white text-sm font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
           Chat with Support
         </span>
 
