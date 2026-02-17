@@ -16,7 +16,7 @@ export default function SignupPage() {
         <div className="w-full md:w-1/2 lg:w-[55%] relative h-64 md:h-auto bg-[#e8f4f1]">
           {/* Note: Save your beaver image as 'signup.jpeg' in the public folder */}
           <Image
-            src="/signup.jpeg" 
+            src="/signup.png" 
             alt="Clare the Beaver greeting you"
             fill
             priority
