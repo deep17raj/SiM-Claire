@@ -32,7 +32,7 @@ export default function HomeSearchButton() {
   return (
     <button
       onClick={scrollToSearch}
-      className="fixed bottom-24 right-10 z-40 bg-brand text-tertary p-4 font-bold cursor-pointer rounded-full shadow-lg shadow-orange-500/20 border border-orange-100 hover:scale-110 transition-all duration-300 group"
+      className="fixed bottom-24 right-10 z-40 bg-brand text-tertary p-4 font-bold cursor-pointer rounded-full shadow-lg shadow-orange-500/20   hover:scale-110 transition-all duration-300 group"
       aria-label="Scroll to Search"
     >
       <Search size={24} />

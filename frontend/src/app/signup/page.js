@@ -7,25 +7,25 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] px-4 py-8 font-sans">
       
       {/* 2. The Card Container: Matches your site's max-width, rounding, and shadow */}
-      <div className="w-full max-w-[1400px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[700px]">
+      <div className="w-full max-w-[1400px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[700px]">
         
         {/* 3. Left Side - Image Section 
             - Mobile: h-64 (fixed height)
             - Desktop: Flex grow to fill height naturally
         */}
-        <div className="w-full md:w-1/2 lg:w-[55%] relative h-64 md:h-auto bg-[#e8f4f1]">
+        <div className="w-full  lg:w-[55%] relative h-64 md:h-110 lg:h-auto bg-[#e8f4f1]">
           {/* Note: Save your beaver image as 'signup.jpeg' in the public folder */}
           <Image
-            src="/signup.png" 
+            src="/abc.png" 
             alt="Clare the Beaver greeting you"
             fill
             priority
-            className="object-cover object-[center_42%]"
+            className="object-cover object-[center_42%] "
           />
         </div>
 
         {/* 4. Right Side - Form Section */}
-        <div className="w-full md:w-1/2 lg:w-[45%] flex items-center justify-center p-8 md:p-12 lg:p-20 bg-white">
+        <div className="w-full lg:w-[45%] flex items-center justify-center p-8 md:p-12 lg:p-20 bg-white">
           <div className="w-full max-w-md">
             
             {/* Header */}
@@ -34,7 +34,7 @@ export default function SignupPage() {
                 Hello!, I am Claire.
               </h1>
               <p className="text-xl md:text-lg text-gray-500 font-normal">
-                Welcome! I&apso;ll help you on this journey!
+                Welcome! I&apos;ll help you on this journey!
               </p>
             </div>
 

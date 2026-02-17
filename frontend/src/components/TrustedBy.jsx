@@ -43,17 +43,19 @@ const TrustedBy = () => {
           Trusted by
         </h2>
 
-        {/* --- MOBILE VIEW: Static Grid (Animation Removed) --- */}
-        <div className="md:hidden w-full">
-          {/* Changed to flex-wrap so logos sit nicely on screen without moving */}
-          <div className="flex flex-wrap justify-center gap-8 px-4">
+        {/* --- MOBILE VIEW: 2x2 Grid --- */}
+        <div className="md:hidden w-full px-4">
+          {/* Changed flex to grid with 2 columns */}
+          <div className="grid grid-cols-2 gap-4">
             {partners.map((partner) => (
-              <PartnerCard key={`m1-${partner.id}`} partner={partner} />
+              <div key={`m1-${partner.id}`} className="flex justify-center w-full">
+                <PartnerCard partner={partner} />
+              </div>
             ))}
           </div>
         </div>
 
-        {/* --- DESKTOP VIEW: Static Grid (Your Original Layout) --- */}
+        {/* --- DESKTOP VIEW: Static Flex (Original Layout) --- */}
         <div className="hidden md:flex flex-wrap justify-center items-center gap-8 md:gap-12 lg:gap-20">
           {partners.map((partner) => (
             <div 
@@ -70,19 +72,20 @@ const TrustedBy = () => {
   );
 };
 
-// Extracted Card Component to avoid code repetition
+// Extracted Card Component
 const PartnerCard = ({ partner }) => {
   return (
     <div
-      className={`flex items-center justify-center shrink-0 ${
+      className={`flex items-center justify-center shrink-0 w-full ${
         partner.hasWhiteBox
-          ? "bg-white rounded-2xl shadow-sm px-6 py-4"
+          ? "bg-white rounded-2xl shadow-sm px-4 py-4" // Adjusted padding slightly for grid fit
           : ""
       }`}
     >
       <div
         className="relative flex items-center justify-center"
-        style={{ width: partner.width, height: "48px" }}
+        // Added max-width: 100% to ensure it scales down inside the grid column if needed
+        style={{ width: partner.width, maxWidth: '100%', height: "48px" }}
       >
         <Image
           src={partner.src}

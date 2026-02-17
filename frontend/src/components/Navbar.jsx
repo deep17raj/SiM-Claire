@@ -13,10 +13,11 @@ const Navbar = () => {
   const isActive = (path) => pathname === path ? "text-brand" : "text-tertary hover:text-brand";
 
   return (
-    <nav className="w-full max-w-[1400px]  border border-red mx-auto bg-[#077770] shadow-md rounded-full pr-4 md:pr-6 py-4 flex items-center justify-between top-4 z-50 relative">
+    <div className="px-4">
+    <nav className="w-full max-w-[1400px]  border border-red mx-auto bg-secondary shadow-md rounded-full pr-4 pl-6 md:pr-6 py-0 flex items-center justify-between top-4 z-50 relative">
       
       {/* 1. Logo Section */}
-      <Link href="/" className="flex h-12 items-center justify-center gap-4 text-center z-50 border border-red">
+      <Link href="/" className="flex h-17 items-center justify-center gap-6 text-center z-50 border border-red">
         <div className=" h-full w-auto  border border-red">
           <Image
             src="/logo2.png"
@@ -145,6 +146,7 @@ const Navbar = () => {
       )}
 
     </nav>
+    </div>
   );
 };
 
