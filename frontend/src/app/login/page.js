@@ -24,7 +24,7 @@ export default function LoginPage() {
         </div>
 
         {/* 4. Form Section */}
-        <div className="w-full  lg:w-[45%] flex mt-4 justify-center p-8 md:p-12 lg:p-20 bg-white">
+        <div className="w-full  lg:w-[45%] flex mt-1   justify-center p-8 md:p-12 lg:p-20 bg-white">
           <div className="w-full max-w-md">
             
             {/* Header */}
