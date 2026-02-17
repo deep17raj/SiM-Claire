@@ -22,6 +22,7 @@ const popularDestinations = [
 
 const HeroSearch = () => {
   return (
+    <div className="px-4">
     <section className="w-full max-w-[1400px] mx-auto px-4 py-12 md:py-16">
       
       {/* 1. NEW HEADER & SEARCH SECTION */}
@@ -112,6 +113,7 @@ const HeroSearch = () => {
       </div>
 
     </section>
+    </div>
   );
 };
 
