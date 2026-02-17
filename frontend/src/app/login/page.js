@@ -7,15 +7,15 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] px-4 py-8 font-sans">
       
       {/* 2. The Card Container: Matches your site's max-width and rounded style */}
-      <div className="w-full max-w-[1400px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px] md:min-h-[700px]">
+      <div className="w-full max-w-[1400px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[600px] md:min-h-[700px]">
         
         {/* 3. Image Section 
             - Mobile: h-64 (fixed height)
             - Desktop: Flex grow to fill height (removed h-screen)
         */}
-        <div className="w-full md:w-1/2 lg:w-[55%] relative h-64 md:h-auto bg-[#e8f4f1]">
+        <div className="w-full  lg:w-[55%] relative h-64 md:h-110 lg:h-auto bg-[#e8f4f1]">
           <Image
-            src="/login.png" 
+            src="/abc3.png" 
             alt="Clare the Beaver relaxing on a beach"
             fill
             priority
@@ -24,7 +24,7 @@ export default function LoginPage() {
         </div>
 
         {/* 4. Form Section */}
-        <div className="w-full md:w-1/2 lg:w-[45%] flex mt-4 justify-center p-8 md:p-12 lg:p-20 bg-white">
+        <div className="w-full  lg:w-[45%] flex mt-4 justify-center p-8 md:p-12 lg:p-20 bg-white">
           <div className="w-full max-w-md">
             
             {/* Header */}
