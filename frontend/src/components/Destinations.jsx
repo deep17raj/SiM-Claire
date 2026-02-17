@@ -148,7 +148,7 @@ const Destinations = () => {
                 </div>
 
                 {/* Arrow Button */}
-                <div className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white backdrop-blur-sm group-hover:bg-white group-hover:text-black transition-all">
+                <div className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white backdrop-blur-sm group-hover:bg-brand group-hover:text-tertary transition-all">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>

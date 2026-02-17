@@ -37,14 +37,14 @@ const HeroSearch = () => {
         <div className="w-full max-w-2xl relative group">
           <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
             {/* Search Icon SVG */}
-            <svg className="text-gray-400 w-6 h-6 group-focus-within:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className="text-brand w-6 h-6 group-focus-within:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
           </div>
           <input 
             type="text"
-            className="w-full pl-14 pr-6 py-4 bg-white border border-gray-200 rounded-full shadow-lg shadow-gray-200/50 outline-none text-lg transition-all focus:ring-2 focus:ring-brand focus:border-transparent placeholder:text-gray-400" 
+            className="w-full pl-14 pr-6 py-4 bg-white border border-brand rounded-full  shadow-brand/30 shadow-[0_0_25px_rgba(236,91,19,0.25)] outline-none text-lg transition-all focus:ring-2 focus:ring-brand focus:border-transparent placeholder:text-gray-400" 
             placeholder="Search for a country or region..." 
           />
         </div>

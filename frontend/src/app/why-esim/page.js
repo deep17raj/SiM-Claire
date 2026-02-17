@@ -78,7 +78,7 @@ const WhyChooseUs = () => {
             </Link>
             
             {/* Secondary Action */}
-            <Link href="/how-it-works" className="px-20 py-4 border-2 border-[#2d3240] text-[#2d3240] font-bold text-lg  md:text-xl cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
+            <Link href="/how-it-works" className="px-20 py-4 text-brand text-lg md:text-xl border-brand border-2 rounded-lg font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
                How it Works
             </Link>
           </div>

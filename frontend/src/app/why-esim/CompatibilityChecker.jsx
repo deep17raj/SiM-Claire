@@ -116,7 +116,7 @@ const CompatibilityChecker = () => {
 
         {/* Brand Selection Grid */}
         <div className="mb-20">
-          <h3 className="text-center subheading tracking-[0.3em] text-slate-400 mb-10">Premium Brand Selection</h3>
+          <h3 className="text-center subheading  text-slate-600 mb-10">Premium Brand Selection</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {brands.map((brand) => (
               <button 
@@ -217,7 +217,7 @@ const CompatibilityChecker = () => {
             <p className="text-slate-500 text-lg md:text-xl font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <button className="px-16 py-4 border-2 text-lg md:text-xl border-[#2d3240] text-[#2d3240] font-bold cursor-pointer rounded-lg  hover:text-brand hover:border-brand  transition-all duration-300 whitespace-nowrap active:scale-95">
+            <button className="px-16 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg">
               Help Center
             </button>
             <button className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
