@@ -50,14 +50,14 @@ const HeroSearch = () => {
         </div>
 
         {/* Tabs (Country / Region / Global) */}
-        <div className="flex bg-gray-100 p-1.5 rounded-full border border-gray-200">
+        <div className="flex bg-gray-100 gap-2 p-1.5 rounded-full border border-gray-200">
           <button className="px-8 py-2 rounded-full bg-white shadow-sm text-brand font-bold text-sm transition-all">
             Country
           </button>
-          <button className="px-8 py-2 rounded-full text-secondary font-medium text-sm hover:text-gray-800 transition-all">
+          <button className="px-8 py-2 rounded-full text-secondary hover:bg-tertary hover:text-brand font-medium hover:font-bold hover:shadow-sm text-sm transition-all">
             Region
           </button>
-          <button className="px-8 py-2 rounded-full text-secondary font-medium text-sm hover:text-gray-800 transition-all">
+          <button className="px-8 py-2 rounded-full text-secondary font-medium hover:bg-tertary hover:text-brand hover:font-bold hover:shadow-sm text-sm  transition-all">
             Global
           </button>
         </div>
