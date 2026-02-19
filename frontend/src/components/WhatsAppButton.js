@@ -5,7 +5,7 @@ import { MessageCircle } from 'lucide-react'; // You can also use a specific Wha
 
 const WhatsAppButton = () => {
   // Replace with your actual support number (including country code, e.g., 15551234567)
-  const phoneNumber = "1234567890"; 
+  const phoneNumber = "+1-437-605-6560"; 
   const message = "Hi SiM Claire, I need help with my eSIM.";
 
   return (
