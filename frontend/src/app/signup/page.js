@@ -1,22 +1,41 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function SignupPage() {
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [step, setStep] = useState(1)
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirm_password: ""
+  })
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
   return (
     // 1. Outer Page Wrapper: Centers the card vertically and horizontally
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] px-4 py-8 font-sans">
-      
+
       {/* 2. The Card Container: Matches your site's max-width, rounding, and shadow */}
       <div className="w-full max-w-[1400px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[700px]">
-        
+
         {/* 3. Left Side - Image Section 
-            - Mobile: h-64 (fixed height)
-            - Desktop: Flex grow to fill height naturally
-        */}
-        <div className="w-full  lg:w-[55%] relative h-64 md:h-110 lg:h-auto bg-[#e8f4f1]">
+            - Mobile: h-64 (fixed height)
+            - Desktop: Flex grow to fill height naturally
+        */}
+        <div className="w-full lg:w-[55%] relative h-64 md:h-110 lg:h-auto bg-[#e8f4f1]">
           {/* Note: Save your beaver image as 'signup.jpeg' in the public folder */}
           <Image
-            src="/abc.png" 
+            src="/abc.png"
             alt="Clare the Beaver greeting you"
             fill
             priority
@@ -27,7 +46,7 @@ export default function SignupPage() {
         {/* 4. Right Side - Form Section */}
         <div className="w-full lg:w-[45%] flex items-center justify-center p-8 md:p-12 lg:p-20 bg-white">
           <div className="w-full max-w-md">
-            
+
             {/* Header */}
             <div className="mb-8 text-left">
               <h1 className="text-2xl md:text-4xl font-bold text-secondary tracking-tight mb-3">
@@ -40,16 +59,18 @@ export default function SignupPage() {
 
             {/* Form */}
             <form className="space-y-5">
-              
+
               {/* Full Name */}
               <div>
                 <input
-                  id="fullname"
-                  name="fullname"
+                  id="name"
+                  name="name"
                   type="text"
+                  value={form.name}
+                  onChange={handleChange}
                   required
                   placeholder="Full name"
-                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-[#3a7d71] focus:border-transparent outline-none transition-all placeholder-gray-400"
+                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all placeholder-gray-400"
                 />
               </div>
 
@@ -60,43 +81,67 @@ export default function SignupPage() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  value={form.email}
+                  onChange={handleChange}
                   required
                   placeholder="Email address"
-                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-[#3a7d71] focus:border-transparent outline-none transition-all placeholder-gray-400"
+                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all placeholder-gray-400"
                 />
               </div>
 
-              {/* Split Row: Phone Number & Password */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              <div className="">
                 {/* Phone Number */}
                 <input
                   id="phone"
                   name="phone"
                   type="tel"
+                  required
+                  value={form.phone}
+                  onChange={handleChange}
                   placeholder="Phone Number"
-                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-[#3a7d71] focus:border-transparent outline-none transition-all placeholder-gray-400"
+                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all placeholder-gray-400"
                 />
-                
-                {/* Password */}
+              </div>
+              {/* Password */}
+
+              <div className="relative w-full">
+
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  // Toggle the type between text and password
+                  type={showPassword ? "text" : "password"}
                   required
+                  onChange={handleChange}
                   placeholder="Password"
-                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-[#3a7d71] focus:border-transparent outline-none transition-all placeholder-gray-400"
+                  value={form.password}
+                  className="w-full px-5 py-3.5 pr-12 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all placeholder-gray-400"
                 />
+
+                {/* The Toggle Button */}
+                <button
+                  type="button" // Important: type="button" prevents the form from submitting
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-secondary transition-colors focus:outline-none"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+
               </div>
 
               {/* Confirm Password */}
               <div>
                 <input
-                  id="confirm-password"
-                  name="confirm-password"
+                  id="confirm_password"
+                  name="confirm_password"
+                  value={form.confirm_password}
+                  onChange={handleChange}
                   type="password"
                   required
                   placeholder="Confirm Password"
-                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-[#3a7d71] focus:border-transparent outline-none transition-all placeholder-gray-400"
+                  className="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 text-lg rounded-xl focus:ring-2 focus:ring-secondary focus:border-transparent outline-none transition-all placeholder-gray-400"
                 />
               </div>
 
@@ -129,3 +174,4 @@ export default function SignupPage() {
     </div>
   );
 }
+
