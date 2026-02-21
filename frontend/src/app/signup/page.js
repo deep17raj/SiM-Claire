@@ -75,7 +75,7 @@ export default function SignupPage() {
       // On success: Save the email, switch to OTP view, and start the timer
       setRegisteredEmail(data.email);
       setStep("OTP");
-      setTimeLeft(60);
+      setTimeLeft(6);
 
     } catch (err) {
       // Axios puts server error messages inside err.response.data
@@ -90,11 +90,11 @@ export default function SignupPage() {
     setOtpLoading(true);
 
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/verify/otp`, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/verify/otp`, {
         email: registeredEmail,
         otp: otp,
       });
-
+      console.log(res)
       // OTP is correct! Redirect to login or dashboard
       router.push("/login?verified=true");
 
@@ -109,11 +109,12 @@ export default function SignupPage() {
   const handleResendOtp = async () => {
     setServerError("");
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
         email: registeredEmail,
       });
+      console.log(response)
       // Restart the countdown timer
-      setTimeLeft(60);
+      setTimeLeft(6);
     } catch (err) {
       setServerError(err.response?.data?.message || "Failed to resend OTP.");
     }
