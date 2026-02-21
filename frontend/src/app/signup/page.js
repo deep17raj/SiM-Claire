@@ -63,12 +63,14 @@ export default function SignupPage() {
     setServerError("");
     try {
       // Using Axios for cleaner requests
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/signup`, {
+      console.log('+'+data.phone)
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/signup`, {
         name: data.name,
         email: data.email,
-        phone: data.phone,
+        phone: '+'+data.phone,
         password: data.password,
       });
+      console.log(res);
 
       // On success: Save the email, switch to OTP view, and start the timer
       setRegisteredEmail(data.email);
