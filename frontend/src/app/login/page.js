@@ -88,7 +88,7 @@ function LoginFormContent() {
         password: data.password,
       });
       localStorage.setItem("token", response.data.jwt);
-      router.push("/dashboard");
+      router.push("/profile");
     } catch (err) {
       setServerError(err.response?.data?.message || "Invalid email or password.");
     }

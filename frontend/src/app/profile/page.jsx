@@ -23,12 +23,12 @@ export default function ProfilePage() {
     const fetchProfileData = async () => {
       try {
         // In a real app, you would get the token from localStorage or cookies
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("jwt");
         
         if (!token) {
-          // If no token, redirect to login
-          // router.push("/login");
-          // return;
+         
+          router.push("/login");
+          return;
         }
 
         /* // --- REAL API CALL (Uncomment when backend is ready) ---
