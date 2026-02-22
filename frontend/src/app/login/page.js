@@ -119,7 +119,7 @@ function LoginFormContent() {
   const handleResendOtp = async () => {
     setServerError("");
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgot-password/request-otp`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
         email: resetEmail,
       });
       setTimeLeft(60); // Restart countdown
