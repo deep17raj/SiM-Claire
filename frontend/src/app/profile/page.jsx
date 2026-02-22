@@ -23,8 +23,7 @@ export default function ProfilePage() {
     const fetchProfileData = async () => {
       try {
         // In a real app, you would get the token from localStorage or cookies
-        const token = localStorage.getItem("jwt");
-        
+        const token = localStorage.getItem("token");
         if (!token) {
          
           router.push("/login");
