@@ -84,7 +84,7 @@ function LoginFormContent() {
   const onSubmitLogin = async (data) => {
     setServerError(""); setServerSuccess("");
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
         email: data.email,
         password: data.password,
       }, { withCredentials: true });
@@ -114,7 +114,7 @@ function LoginFormContent() {
     setOtpLoading(true);
     try {
       // NOTE: Update this URL to match your backend's actual verification endpoint
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/verify/otp`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/otp/verify`, {
         email: targetEmail,
         otp: otp,
       });
@@ -134,7 +134,7 @@ function LoginFormContent() {
     setServerError("");
     try {
       // NOTE: Update this URL to match your backend's resend verification endpoint
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/otp/resend`, {
         email: targetEmail,
       });
       setTimeLeft(60); // Restart countdown
@@ -150,7 +150,7 @@ function LoginFormContent() {
   const onSubmitForgotPassword = async (data) => {
     setServerError("");
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgot/password-initiate`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/password/forgot/otp`, {
         email: data.email,
       });
       setTargetEmail(data.email);
@@ -167,22 +167,12 @@ function LoginFormContent() {
     setView("RESET_PASSWORD");
   };
 
-  const handleResendPasswordOtp = async () => {
-    setServerError("");
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
-        email: targetEmail,
-      });
-      setTimeLeft(60);
-    } catch (err) {
-      setServerError(err.response?.data?.message || "Failed to resend OTP.");
-    }
-  };
+ 
 
   const onSubmitResetPassword = async (data) => {
     setServerError("");
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgot-password/verify`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/password/reset`, {
         email: targetEmail,
         otp: otp,
         newPass: data.password,
@@ -375,7 +365,7 @@ function LoginFormContent() {
                   {timeLeft > 0 ? (
                     <span className="text-gray-400 font-semibold inline-block min-w-[120px]">Resend in {timeLeft}s</span>
                   ) : (
-                    <button type="button" onClick={handleResendPasswordOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px]">
+                    <button type="button" onClick={handleResendAccountOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px]">
                       Resend OTP
                     </button>
                   )}

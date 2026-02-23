@@ -64,7 +64,7 @@ export default function SignupPage() {
     try {
       // Using Axios for cleaner requests
       console.log('+'+data.phone)
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/signup`, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
         name: data.name,
         email: data.email,
         phone: '+'+data.phone,
@@ -90,7 +90,7 @@ export default function SignupPage() {
     setOtpLoading(true);
 
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/verify/otp`, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/otp/verify`, {
         email: registeredEmail,
         otp: otp,
       });
@@ -109,7 +109,7 @@ export default function SignupPage() {
   const handleResendOtp = async () => {
     setServerError("");
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/otp/resend`, {
         email: registeredEmail,
       });
       console.log(response)
