@@ -23,12 +23,14 @@ export default function ProfilePage() {
     const fetchProfileData = async () => {
       try {
         // In a real app, you would get the token from localStorage or cookies
-        const token = localStorage.getItem("token");
-        if (!token) {
+        // const token = localStorage.getItem("token");
+        // console.log(token)
+        // console.log(!token)
+        // if (!token) {
          
-          router.push("/login");
-          return;
-        }
+        //   router.push("/login");
+        //   return;
+        // }
 
         /* // --- REAL API CALL (Uncomment when backend is ready) ---
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/profile`, {

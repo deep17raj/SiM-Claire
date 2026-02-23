@@ -22,8 +22,6 @@ const forgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email address").trim().toLowerCase(),
 });
 
-// We don't need a Zod schema for a simple 6-digit OTP input, standard state works fine.
-
 const resetPasswordSchema = z.object({
   password: z.string()
     .min(8, "Password must be at least 8 characters")
@@ -45,21 +43,21 @@ function LoginFormContent() {
   const isVerified = searchParams.get("verified");
 
   // UI States
-  // Views: "LOGIN", "FORGOT_PASSWORD", "VERIFY_OTP", "RESET_PASSWORD"
+  // Views: "LOGIN", "FORGOT_PASSWORD", "VERIFY_OTP", "RESET_PASSWORD", "VERIFY_ACCOUNT_OTP"
   const [view, setView] = useState("LOGIN");
   const [showPassword, setShowPassword] = useState(false);
   const [serverError, setServerError] = useState("");
-  const [serverSuccess, setServerSuccess] = useState(""); // For "Password updated successfully"
+  const [serverSuccess, setServerSuccess] = useState("");
 
-  // OTP Flow States
-  const [resetEmail, setResetEmail] = useState("");
+  // OTP Flow States (Used for both Password Reset AND Account Verification)
+  const [targetEmail, setTargetEmail] = useState(""); // Renamed for clarity since it handles both flows now
   const [otp, setOtp] = useState("");
   const [otpLoading, setOtpLoading] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
 
-  // --- Resend OTP Timer Logic ---
+  // --- Resend OTP Timer Logic (Now handles both OTP views) ---
   useEffect(() => {
-    if (view === "VERIFY_OTP" && timeLeft > 0) {
+    if ((view === "VERIFY_OTP" || view === "VERIFY_ACCOUNT_OTP") && timeLeft > 0) {
       const timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timerId);
     }
@@ -79,20 +77,75 @@ function LoginFormContent() {
   });
 
 
-  // --- API Handlers ---
+  // ==========================================
+  // API HANDLERS: LOGIN & ACCOUNT VERIFICATION
+  // ==========================================
+
   const onSubmitLogin = async (data) => {
     setServerError(""); setServerSuccess("");
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/login`, {
         email: data.email,
         password: data.password,
-      });
-      localStorage.setItem("token", response.data.jwt);
+      }, { withCredentials: true });
+
       router.push("/profile");
     } catch (err) {
-      setServerError(err.response?.data?.message || "Invalid email or password.");
+      const errorMessage = err.response?.data?.message || "Invalid email or password.";
+
+
+      // Check if the backend is telling us the email isn't verified
+      // Adjust this string to match exactly what your backend sends!
+      if (errorMessage.toLowerCase().includes("not verified")) {
+        setTargetEmail(data.email);
+        setTimeLeft(60);
+        setView("VERIFY_ACCOUNT_OTP");
+        // Optional: Show a friendly message explaining the shift
+        setServerSuccess("Account not verified. We just sent a new OTP to your email.");
+      } else {
+        setServerError(errorMessage);
+      }
     }
   };
+
+  const handleVerifyAccountOtp = async (e) => {
+    e.preventDefault();
+    setServerError(""); setServerSuccess("");
+    setOtpLoading(true);
+    try {
+      // NOTE: Update this URL to match your backend's actual verification endpoint
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/verify/otp`, {
+        email: targetEmail,
+        otp: otp,
+      });
+
+      // On success, clear OTP and send them back to login to try again
+      setOtp("");
+      setView("LOGIN");
+      setServerSuccess("Account verified successfully! You can now log in.");
+    } catch (err) {
+      setServerError(err.response?.data?.message || "Invalid or expired OTP code.");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const handleResendAccountOtp = async () => {
+    setServerError("");
+    try {
+      // NOTE: Update this URL to match your backend's resend verification endpoint
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
+        email: targetEmail,
+      });
+      setTimeLeft(60); // Restart countdown
+    } catch (err) {
+      setServerError(err.response?.data?.message || "Failed to resend OTP.");
+    }
+  };
+
+  // ==========================================
+  // API HANDLERS: PASSWORD RESET FLOW
+  // ==========================================
 
   const onSubmitForgotPassword = async (data) => {
     setServerError("");
@@ -100,7 +153,7 @@ function LoginFormContent() {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgot/password-initiate`, {
         email: data.email,
       });
-      setResetEmail(data.email);
+      setTargetEmail(data.email);
       setTimeLeft(60);
       setView("VERIFY_OTP");
     } catch (err) {
@@ -108,21 +161,19 @@ function LoginFormContent() {
     }
   };
 
-  const handleVerifyOtp = (e) => {
+  const handleVerifyPasswordOtp = (e) => {
     e.preventDefault();
     setServerError("");
-    // We do not set loading to true here because there is no API call
-    // Just seamlessly transition to the next screen to collect the new password
     setView("RESET_PASSWORD");
   };
 
-  const handleResendOtp = async () => {
+  const handleResendPasswordOtp = async () => {
     setServerError("");
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/resend/otp`, {
-        email: resetEmail,
+        email: targetEmail,
       });
-      setTimeLeft(60); // Restart countdown
+      setTimeLeft(60);
     } catch (err) {
       setServerError(err.response?.data?.message || "Failed to resend OTP.");
     }
@@ -131,31 +182,24 @@ function LoginFormContent() {
   const onSubmitResetPassword = async (data) => {
     setServerError("");
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forget-password/verify`, {
-        email: resetEmail,
-        otp: otp, // Passes the OTP saved in state from the previous view
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/forgot-password/verify`, {
+        email: targetEmail,
+        otp: otp,
         newPass: data.password,
       });
-      
-      console.log(res);
 
-      // Cleanup and send back to login on success
       setServerSuccess("Password updated successfully! You can now log in.");
-      resetForm(); // Clears the React Hook Form new password fields
+      resetForm();
       setOtp("");
       setView("LOGIN");
-      
+
     } catch (err) {
-      // Safely extract the error message using optional chaining (?.)
       const errorMessage = err.response?.data?.message || "Failed to reset password. Please try again.";
       setServerError(errorMessage);
-      console.log(errorMessage);
 
-      // If the specific error is an invalid OTP, push them back to the OTP view
       if (errorMessage === 'Invalid OTP') {
         setView("VERIFY_OTP");
-        // Setting timeLeft to 0 allows them to immediately click "Resend" if needed
-        setTimeLeft(0); 
+        setTimeLeft(0);
       }
     }
   };
@@ -171,8 +215,8 @@ function LoginFormContent() {
         </div>
       )}
 
-      {/* Password Reset Success Banner */}
-      {serverSuccess && view === "LOGIN" && (
+      {/* General Success Banner (Used for resetting passwords or switching to verification) */}
+      {serverSuccess && (view === "LOGIN" || view === "VERIFY_ACCOUNT_OTP") && (
         <div className="bg-green-100 border border-green-200 text-green-700 px-6 py-4 rounded-xl mb-6 shadow-sm w-full max-w-[1400px] text-center font-semibold">
           {serverSuccess}
         </div>
@@ -301,32 +345,28 @@ function LoginFormContent() {
             )}
 
             {/* ========================================= */}
-            {/* VIEW 3: VERIFY OTP                        */}
+            {/* VIEW 3A: VERIFY OTP (FOR PASSWORD RESET)  */}
             {/* ========================================= */}
             {view === "VERIFY_OTP" && (
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                 <div className="mb-8 text-left">
                   <h1 className="text-2xl md:text-4xl font-bold text-secondary tracking-tight mb-3">Verify Code</h1>
                   <p className="text-xl md:text-lg text-gray-500 font-normal">
-                    We&apos;ve sent a verification code to <span className="font-semibold text-gray-800">{resetEmail}</span>.
+                    We&apos;ve sent a password reset code to <span className="font-semibold text-gray-800">{targetEmail}</span>.
                   </p>
                 </div>
 
-                <form onSubmit={handleVerifyOtp} className="space-y-6">
+                <form onSubmit={handleVerifyPasswordOtp} className="space-y-6">
                   <div>
                     <input
-                      type="text"
-                      required
-                      placeholder="Enter 6-digit OTP"
-                      value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
-                      maxLength={6}
+                      type="text" required placeholder="Enter 6-digit OTP" maxLength={6}
+                      value={otp} onChange={(e) => setOtp(e.target.value)}
                       className="w-full px-5 py-4 bg-gray-50 border border-gray-200 text-gray-900 text-center tracking-[0.5em] text-2xl font-bold rounded-xl focus:ring-2 focus:ring-secondary outline-none transition-all"
                     />
                   </div>
 
-                  <button type="submit" disabled={otpLoading || otp.length < 6} className="w-full py-3.5 px-4 font-bold bg-brand text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer text-lg md:text-xl rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
-                    {otpLoading ? "Verifying..." : "Verify Code"}
+                  <button type="submit" disabled={otp.length < 6} className="w-full py-3.5 px-4 font-bold bg-brand text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer text-lg md:text-xl rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                    Continue to Reset Password
                   </button>
                 </form>
 
@@ -335,7 +375,7 @@ function LoginFormContent() {
                   {timeLeft > 0 ? (
                     <span className="text-gray-400 font-semibold inline-block min-w-[120px]">Resend in {timeLeft}s</span>
                   ) : (
-                    <button type="button" onClick={handleResendOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px]">
+                    <button type="button" onClick={handleResendPasswordOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px]">
                       Resend OTP
                     </button>
                   )}
@@ -344,6 +384,51 @@ function LoginFormContent() {
                 <div className="text-center mt-4">
                   <button type="button" onClick={() => { setServerError(""); setView("FORGOT_PASSWORD"); }} className="text-gray-400 hover:text-gray-600 text-sm transition-colors focus:outline-none">
                     Wrong email address?
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* ========================================= */}
+            {/* VIEW 3B: VERIFY OTP (FOR ACCOUNT ACTIVATION) */}
+            {/* ========================================= */}
+            {view === "VERIFY_ACCOUNT_OTP" && (
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="mb-8 text-left">
+                  <h1 className="text-2xl md:text-4xl font-bold text-secondary tracking-tight mb-3">Verify Account</h1>
+                  <p className="text-xl md:text-lg text-gray-500 font-normal">
+                    Please verify your email to log in. We&apos;ve sent a code to <span className="font-semibold text-gray-800">{targetEmail}</span>.
+                  </p>
+                </div>
+
+                <form onSubmit={handleVerifyAccountOtp} className="space-y-6">
+                  <div>
+                    <input
+                      type="text" required placeholder="Enter 6-digit OTP" maxLength={6}
+                      value={otp} onChange={(e) => setOtp(e.target.value)}
+                      className="w-full px-5 py-4 bg-gray-50 border border-gray-200 text-gray-900 text-center tracking-[0.5em] text-2xl font-bold rounded-xl focus:ring-2 focus:ring-secondary outline-none transition-all"
+                    />
+                  </div>
+
+                  <button type="submit" disabled={otpLoading || otp.length < 6} className="w-full py-3.5 px-4 font-bold bg-brand text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer text-lg md:text-xl rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                    {otpLoading ? "Verifying..." : "Verify Account"}
+                  </button>
+                </form>
+
+                <div className="text-center mt-8 text-gray-600">
+                  Didn&apos;t receive the code?{' '}
+                  {timeLeft > 0 ? (
+                    <span className="text-gray-400 font-semibold inline-block min-w-[120px]">Resend in {timeLeft}s</span>
+                  ) : (
+                    <button type="button" onClick={handleResendAccountOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px]">
+                      Resend OTP
+                    </button>
+                  )}
+                </div>
+
+                <div className="text-center mt-4">
+                  <button type="button" onClick={() => { setServerError(""); setServerSuccess(""); setView("LOGIN"); }} className="text-gray-400 hover:text-gray-600 text-sm transition-colors focus:outline-none">
+                    &larr; Back to Log In
                   </button>
                 </div>
               </div>
