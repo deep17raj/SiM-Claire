@@ -6,6 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import { Wifi, Phone, MessageSquare, ArrowLeft, Globe2, MapPin } from "lucide-react";
 import { useCurrency } from "@/context/CurrencyContext";
+import { allDestinations } from "@/data/destinationData"; 
 
 // --- Helper to get Flag URL ---
 const getFlagUrl = (isoCode) => {
@@ -24,29 +25,23 @@ const formatCurrency = (price, currencyCode) => {
             maximumFractionDigits: 2
         }).format(price);
     } catch (e) {
-        // Fallback just in case a weird currency code is sent
         return `${currencyCode} ${price.toFixed(2)}`; 
     }
 };
 
-// --- Helper to find Country Details (Fallback if backend doesn't send name) ---
+// --- Helper to find Country Details Dynamically ---
 const getCountryDetails = (id) => {
-    const map = {
-        "FR-1": { name: "France", iso: "FR" },
-        "JYN-1": { name: "Japan", iso: "JP" },
-        "USA-1": { name: "United States", iso: "US" },
-        "EU-1": { name: "Europe", iso: "EU" }
-    };
-    return map[id] || { name: "Destination", iso: "UN" };
+    const foundCountry = allDestinations.find((dest) => dest.destinationID === id);
+    if (foundCountry) {
+        return { name: foundCountry.destinationName, iso: foundCountry.isoCode };
+    }
+    return { name: "Destination", iso: "UN" };
 };
 
 export default function DestinationPage() {
     const params = useParams();
     const router = useRouter();
     const destinationID = params.id;
-    
-    // We only need the currency code from context to send to the backend
-    
 
     // States
     const [plans, setPlans] = useState([]);
@@ -55,34 +50,34 @@ export default function DestinationPage() {
     const [filter, setFilter] = useState("all");
 
     const countryInfo = getCountryDetails(destinationID);
+    const { currency, loading: isCurrencyLoading } = useCurrency();
 
-   // 1. Grab `loading` from the context and rename it to `isCurrencyLoading`
-const { currency, loading: isCurrencyLoading } = useCurrency();
+    useEffect(() => {
+        const fetchPlans = async () => {
+            try {
+                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/get/sims/${destinationID}?countryCode=${currency}`);
+                setPlans(res.data.data.plans);
+                setLoading(false);
+            } catch (err) {
+                setError("Failed to load eSIM plans. Please try again later.");
+                setLoading(false);
+            }
+        };
 
-useEffect(() => {
-    const fetchPlans = async () => {
-        try {
-            console.log("Fetching for currency:", currency); // Should now say INR
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/get/sims/${destinationID}?countryCode=${currency}`);
-            setPlans(res.data.data.plans || res.data.data.sims);
-            setLoading(false);
-        } catch (err) {
-            setError("Failed to load eSIM plans. Please try again later.");
-            setLoading(false);
+        if (destinationID && !isCurrencyLoading) {
+            fetchPlans();
         }
-    };
+    }, [destinationID, currency, isCurrencyLoading]);
 
-    // 2. WAIT for the IP checker to finish before making the API call!
-    if (destinationID && !isCurrencyLoading) {
-        fetchPlans();
-    }
-
-// 3. Add `isCurrencyLoading` to the dependency array
-}, [destinationID, currency, isCurrencyLoading]);
-
-    // Filter Logic
+    // 🌟 UPDATED FILTER LOGIC 🌟
     const filteredPlans = plans.filter(plan => {
         if (filter === "all") return true;
+        
+        // Custom logic for Unlimited: Check if data is > 49GB or tierLabel says Unlimited
+        if (filter === "unlimited") {
+            return plan.tierLabel === "Unlimited" || (plan.dataUnit === "GB" && plan.data > 49);
+        }
+        
         return plan.category === filter;
     });
 
@@ -100,7 +95,7 @@ useEffect(() => {
             <div className="min-h-screen flex items-center justify-center bg-[#fafafa]">
                 <div className="text-center bg-white p-10 rounded-2xl shadow-sm">
                     <p className="text-red-500 font-bold text-xl mb-4">{error}</p>
-                    <button onClick={() => router.push('/')} className="text-brand hover:underline font-medium">Return to Home</button>
+                    <button onClick={() => router.push('/destination')} className="cursor-pointer text-brand hover:underline font-medium">Return to Destination</button>
                 </div>
             </div>
         );
@@ -112,7 +107,7 @@ useEffect(() => {
             {/* 1. HERO BANNER */}
             <div className="bg-white border-b border-gray-200 pt-8 pb-12 px-4 shadow-sm">
                 <div className="max-w-[1400px] mx-auto">
-                    <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500 hover:text-brand transition-colors mb-6 font-medium">
+                    <button onClick={() => router.back()} className="cursor-pointer flex items-center gap-2 text-gray-500 hover:text-brand transition-colors mb-6 font-medium">
                         <ArrowLeft size={18} /> Back to Destinations
                     </button>
 
@@ -137,15 +132,19 @@ useEffect(() => {
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
                     <h2 className="text-2xl font-bold text-gray-800">Available Plans ({filteredPlans.length})</h2>
 
-                    <div className="flex bg-white gap-2 p-1.5 rounded-full border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto">
-                        <button onClick={() => setFilter("all")} className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "all" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                    {/* 🌟 NEW FILTER BUTTON ADDED HERE 🌟 */}
+                    <div className="flex bg-whitegap-2 p-1.5 rounded-full border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto">
+                        <button onClick={() => setFilter("all")} className={`px-5  cursor-pointer  py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "all" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
                             All Plans
                         </button>
-                        <button onClick={() => setFilter("data")} className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "data" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                        <button onClick={() => setFilter("data")} className={`px-5 py-2.5  cursor-pointer  rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "data" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
                             Data Only
                         </button>
-                        <button onClick={() => setFilter("combo")} className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "combo" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
-                            Voice + SMS + Data
+                        <button onClick={() => setFilter("combo")} className={`px-5 py-2.5 cursor-pointer  rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "combo" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                            Voice + SMS
+                        </button>
+                        <button onClick={() => setFilter("unlimited")} className={`px-5 py-2.5 cursor-pointer  rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "unlimited" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                            Unlimited (49GB+)
                         </button>
                     </div>
                 </div>
@@ -161,46 +160,43 @@ useEffect(() => {
                                     <h3 className="text-[17px] font-bold text-gray-900 leading-tight mb-1">
                                         {countryInfo.name} {plan.tierLabel === "Unlimited" ? "Unlimited" : `${plan.data} ${plan.dataUnit}`} {plan.category === "combo" ? "Combo" : "Data"}
                                     </h3>
-                                    <p className="text-xs text-gray-500 font-semibold flex items-center gap-1 uppercase tracking-wide">
-                                        <MapPin size={12} className="text-gray-400" />
-                                        {plan.local !== false ? "Local" : "Global/Regional"}
-                                    </p>
+                                    
                                 </div>
                                 
-                                {/* 🌟 UPDATED PRICE DISPLAY 🌟 */}
                                 <div className="text-right">
                                     <p className="text-2xl font-extrabold text-gray-900 leading-none">
                                         {formatCurrency(plan.finalPrice, plan.displayCurrency)}
                                     </p>
                                 </div>
-
                             </div>
 
-                            {/* 3 Feature Pills (Data, Voice, SMS) */}
+                            {/* 🌟 UPDATED 3 Feature Pills (Active states added for Voice & SMS) 🌟 */}
                             <div className="grid grid-cols-3 gap-2 mb-4 mt-auto">
-                                {/* Data Box */}
+                                
+                                {/* Data Box (Always Active) */}
                                 <div className="bg-blue-50/50 border border-blue-100 rounded-lg py-2.5 px-1 flex flex-col items-center justify-center gap-1.5 text-center">
                                     <Wifi size={18} className="text-blue-600" />
                                     <span className="text-[11px] font-bold text-gray-900 leading-none">
-                                        {plan.tierLabel === "Unlimited" ? "Unlimited" : `${plan.data}${plan.dataUnit}`}
+                                        {plan.tierLabel === "Unlimited" || plan.data > 49 ? "Unlimited 49gb+" : `${plan.data}${plan.dataUnit}`}
                                     </span>
                                 </div>
 
-                                {/* Voice Box */}
-                                <div className={`border rounded-lg py-2.5 px-1 flex flex-col items-center justify-center gap-1.5 text-center transition-colors ${plan.hasVoice ? 'bg-gray-50 border-gray-200' : 'bg-white border-gray-100 opacity-60'}`}>
-                                    <Phone size={18} className={plan.hasVoice ? "text-gray-700" : "text-gray-300"} />
+                                {/* Voice Box (Lights up Green if active) */}
+                                <div className={`border rounded-lg py-2.5 px-1 flex flex-col items-center justify-center gap-1.5 text-center transition-colors ${plan.hasVoice ? 'bg-emerald-50/50 border-emerald-100' : 'bg-gray-50/50 border-gray-100 opacity-60'}`}>
+                                    <Phone size={18} className={plan.hasVoice ? "text-emerald-600" : "text-gray-400"} />
                                     <span className={`text-[11px] leading-none ${plan.hasVoice ? "font-bold text-gray-900" : "font-semibold text-gray-400"}`}>
                                         {plan.hasVoice ? `${plan.voiceMinutes} Min` : "No Voice"}
                                     </span>
                                 </div>
 
-                                {/* SMS Box */}
-                                <div className={`border rounded-lg py-2.5 px-1 flex flex-col items-center justify-center gap-1.5 text-center transition-colors ${plan.hasSms ? 'bg-gray-50 border-gray-200' : 'bg-white border-gray-100 opacity-60'}`}>
-                                    <MessageSquare size={18} className={plan.hasSms ? "text-gray-700" : "text-gray-300"} />
+                                {/* SMS Box (Lights up Purple if active) */}
+                                <div className={`border rounded-lg py-2.5 px-1 flex flex-col items-center justify-center gap-1.5 text-center transition-colors ${plan.hasSms ? 'bg-purple-50/50 border-purple-100' : 'bg-gray-50/50 border-gray-100 opacity-60'}`}>
+                                    <MessageSquare size={18} className={plan.hasSms ? "text-purple-600" : "text-gray-400"} />
                                     <span className={`text-[11px] leading-none ${plan.hasSms ? "font-bold text-gray-900" : "font-semibold text-gray-400"}`}>
                                         {plan.hasSms ? `${plan.smsCount} SMS` : "No SMS"}
                                     </span>
                                 </div>
+
                             </div>
 
                             {/* Duration Text */}
@@ -208,12 +204,12 @@ useEffect(() => {
                                 {plan.days} Days
                             </p>
 
-                            {/* Action Buttons Side-by-Side */}
+                            {/* Action Buttons */}
                             <div className="flex gap-3 mb-4">
-                                <button className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-[10px] text-sm font-bold hover:bg-gray-50 hover:border-gray-400 transition-all">
+                                <button className="flex-1 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-[10px] text-sm font-bold hover:bg-gray-50 hover:border-gray-400 transition-all cursor-pointer">
                                     View Details
                                 </button>
-                                <button className="flex-1 py-2.5 bg-brand text-white rounded-[10px] text-sm font-bold hover:bg-[#d94a0e] transition-all shadow-md shadow-brand/20 active:scale-95">
+                                <button className="flex-1 py-2.5 bg-brand text-white rounded-[10px] text-sm font-bold hover:bg-[#d94a0e] transition-all shadow-md shadow-brand/20 active:scale-95 cursor-pointer">
                                     Select Plan
                                 </button>
                             </div>
@@ -229,8 +225,8 @@ useEffect(() => {
                             <Wifi size={32} />
                         </div>
                         <h3 className="text-xl font-bold text-gray-800 mb-2">No plans found</h3>
-                        <p className="text-gray-500">We don't have any {filter === 'combo' ? 'Voice + SMS' : 'Data'} plans for this destination right now.</p>
-                        <button onClick={() => setFilter("all")} className="mt-6 text-brand font-bold hover:underline">View All Plans</button>
+                        <p className="text-gray-500">We don't have any {filter === 'unlimited' ? 'Unlimited (50GB+)' : filter === 'combo' ? 'Voice + SMS' : 'Data'} plans for this destination right now.</p>
+                        <button onClick={() => setFilter("all")} className="mt-6 text-brand font-bold hover:underline cursor-pointer">View All Plans</button>
                     </div>
                 )}
 

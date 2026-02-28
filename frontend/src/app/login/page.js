@@ -89,7 +89,7 @@ function LoginFormContent() {
         password: data.password,
       }, { withCredentials: true });
 
-      router.push("/profile");
+      router.push("/destination");
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Invalid email or password.";
 
