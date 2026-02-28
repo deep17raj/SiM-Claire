@@ -48,6 +48,7 @@ export default function DestinationPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [filter, setFilter] = useState("all");
+    const [showAll, setShowAll] = useState(false); // 🌟 Added state to track "View More"
 
     const countryInfo = getCountryDetails(destinationID);
     const { currency, loading: isCurrencyLoading } = useCurrency();
@@ -69,7 +70,7 @@ export default function DestinationPage() {
         }
     }, [destinationID, currency, isCurrencyLoading]);
 
-    // 🌟 UPDATED FILTER LOGIC 🌟
+    // FILTER LOGIC
     const filteredPlans = plans.filter(plan => {
         if (filter === "all") return true;
         
@@ -77,9 +78,17 @@ export default function DestinationPage() {
         if (filter === "unlimited") {
             return plan.tierLabel === "Unlimited" || (plan.dataUnit === "GB" && plan.data > 49);
         }
+
+        // Custom logic for Voice + SMS: Must have BOTH voice and sms
+        if (filter === "combo") {
+            return plan.hasVoice && plan.hasSms;
+        }
         
         return plan.category === filter;
     });
+
+    // 🌟 Calculate which plans to display based on the "View More" state 🌟
+    const displayedPlans = showAll ? filteredPlans : filteredPlans.slice(0, 8);
 
     if (loading) {
         return (
@@ -132,26 +141,26 @@ export default function DestinationPage() {
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
                     <h2 className="text-2xl font-bold text-gray-800">Available Plans ({filteredPlans.length})</h2>
 
-                    {/* 🌟 NEW FILTER BUTTON ADDED HERE 🌟 */}
-                    <div className="flex bg-whitegap-2 p-1.5 rounded-full border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto">
-                        <button onClick={() => setFilter("all")} className={`px-5  cursor-pointer  py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "all" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                    {/* Filter Buttons (Note: setShowAll(false) added to reset view limit when changing tabs) */}
+                    <div className="flex bg-white gap-2 p-1.5 rounded-full border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto">
+                        <button onClick={() => { setFilter("all"); setShowAll(false); }} className={`px-5 cursor-pointer py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "all" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
                             All Plans
                         </button>
-                        <button onClick={() => setFilter("data")} className={`px-5 py-2.5  cursor-pointer  rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "data" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                        <button onClick={() => { setFilter("data"); setShowAll(false); }} className={`px-5 py-2.5 cursor-pointer rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "data" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
                             Data Only
                         </button>
-                        <button onClick={() => setFilter("combo")} className={`px-5 py-2.5 cursor-pointer  rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "combo" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                        <button onClick={() => { setFilter("combo"); setShowAll(false); }} className={`px-5 py-2.5 cursor-pointer rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "combo" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
                             Voice + SMS
                         </button>
-                        <button onClick={() => setFilter("unlimited")} className={`px-5 py-2.5 cursor-pointer  rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "unlimited" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
+                        <button onClick={() => { setFilter("unlimited"); setShowAll(false); }} className={`px-5 py-2.5 cursor-pointer rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "unlimited" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>
                             Unlimited (49GB+)
                         </button>
                     </div>
                 </div>
 
-                {/* 3. COMPACT PLAN CARDS GRID */}
+                {/* 3. COMPACT PLAN CARDS GRID (Now mapping over displayedPlans) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {filteredPlans.map((plan) => (
+                    {displayedPlans.map((plan) => (
                         <div key={plan.id} className="bg-white rounded-[20px] p-5 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
 
                             {/* Title & Price Row */}
@@ -160,7 +169,6 @@ export default function DestinationPage() {
                                     <h3 className="text-[17px] font-bold text-gray-900 leading-tight mb-1">
                                         {countryInfo.name} {plan.tierLabel === "Unlimited" ? "Unlimited" : `${plan.data} ${plan.dataUnit}`} {plan.category === "combo" ? "Combo" : "Data"}
                                     </h3>
-                                    
                                 </div>
                                 
                                 <div className="text-right">
@@ -170,7 +178,7 @@ export default function DestinationPage() {
                                 </div>
                             </div>
 
-                            {/* 🌟 UPDATED 3 Feature Pills (Active states added for Voice & SMS) 🌟 */}
+                            {/* 3 Feature Pills (Data, Voice, SMS) */}
                             <div className="grid grid-cols-3 gap-2 mb-4 mt-auto">
                                 
                                 {/* Data Box (Always Active) */}
@@ -181,7 +189,7 @@ export default function DestinationPage() {
                                     </span>
                                 </div>
 
-                                {/* Voice Box (Lights up Green if active) */}
+                                {/* Voice Box */}
                                 <div className={`border rounded-lg py-2.5 px-1 flex flex-col items-center justify-center gap-1.5 text-center transition-colors ${plan.hasVoice ? 'bg-emerald-50/50 border-emerald-100' : 'bg-gray-50/50 border-gray-100 opacity-60'}`}>
                                     <Phone size={18} className={plan.hasVoice ? "text-emerald-600" : "text-gray-400"} />
                                     <span className={`text-[11px] leading-none ${plan.hasVoice ? "font-bold text-gray-900" : "font-semibold text-gray-400"}`}>
@@ -189,7 +197,7 @@ export default function DestinationPage() {
                                     </span>
                                 </div>
 
-                                {/* SMS Box (Lights up Purple if active) */}
+                                {/* SMS Box */}
                                 <div className={`border rounded-lg py-2.5 px-1 flex flex-col items-center justify-center gap-1.5 text-center transition-colors ${plan.hasSms ? 'bg-purple-50/50 border-purple-100' : 'bg-gray-50/50 border-gray-100 opacity-60'}`}>
                                     <MessageSquare size={18} className={plan.hasSms ? "text-purple-600" : "text-gray-400"} />
                                     <span className={`text-[11px] leading-none ${plan.hasSms ? "font-bold text-gray-900" : "font-semibold text-gray-400"}`}>
@@ -201,7 +209,7 @@ export default function DestinationPage() {
 
                             {/* Duration Text */}
                             <p className="text-sm text-gray-600 font-semibold mb-4">
-                                {plan.days} Days
+                                Validity: {plan.days} Days
                             </p>
 
                             {/* Action Buttons */}
@@ -218,6 +226,18 @@ export default function DestinationPage() {
                     ))}
                 </div>
 
+                {/* 🌟 VIEW MORE BUTTON 🌟 */}
+                {filteredPlans.length > 8 && (
+                    <div className="mt-12 text-center flex justify-center">
+                        <button 
+                            onClick={() => setShowAll(!showAll)}
+                            className="text-brand text-lg border-brand border-2 rounded-lg px-10 py-3 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer"
+                        >
+                            {showAll ? "Show Less" : `View More Plans (${filteredPlans.length - 8})`}
+                        </button>
+                    </div>
+                )}
+
                 {/* Empty State if filtering yields no results */}
                 {filteredPlans.length === 0 && (
                     <div className="text-center py-20 bg-white rounded-3xl border border-gray-100">
@@ -225,8 +245,8 @@ export default function DestinationPage() {
                             <Wifi size={32} />
                         </div>
                         <h3 className="text-xl font-bold text-gray-800 mb-2">No plans found</h3>
-                        <p className="text-gray-500">We don't have any {filter === 'unlimited' ? 'Unlimited (50GB+)' : filter === 'combo' ? 'Voice + SMS' : 'Data'} plans for this destination right now.</p>
-                        <button onClick={() => setFilter("all")} className="mt-6 text-brand font-bold hover:underline cursor-pointer">View All Plans</button>
+                        <p className="text-gray-500">We don't have any {filter === 'unlimited' ? 'Unlimited (49GB+)' : filter === 'combo' ? 'Voice + SMS' : 'Data'} plans for this destination right now.</p>
+                        <button onClick={() => { setFilter("all"); setShowAll(false); }} className="mt-6 text-brand font-bold hover:underline cursor-pointer">View All Plans</button>
                     </div>
                 )}
 
