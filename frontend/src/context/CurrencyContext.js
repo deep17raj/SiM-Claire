@@ -44,13 +44,12 @@ export const CurrencyProvider = ({ children }) => {
         const countryCode = res.data.country_code; // e.g., "US", "IN"
 
         // Find the matching currency, or default to USD
-        const detectedCurrency = countryToCurrency[countryCode] || "USD";
         
-        setCurrency(detectedCurrency);
-        localStorage.setItem("userCurrency", detectedCurrency); // Save for next time
+        setCurrency(countryCode);
+        localStorage.setItem("userCurrency", countryCode); // Save for next time
       } catch (err) {
         console.error("Failed to detect location, defaulting to USD", err);
-        setCurrency("USD"); // Fallback
+        setCurrency("US"); // Fallback
       } finally {
         setLoading(false);
       }

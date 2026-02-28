@@ -13,6 +13,22 @@ const getFlagUrl = (isoCode) => {
     return `https://flagcdn.com/w80/${isoCode.toLowerCase()}.png`;
 };
 
+// --- Helper to format Price with correct Currency Symbol ---
+const formatCurrency = (price, currencyCode) => {
+    if (price === undefined || price === null) return "N/A";
+    try {
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: currencyCode || 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(price);
+    } catch (e) {
+        // Fallback just in case a weird currency code is sent
+        return `${currencyCode} ${price.toFixed(2)}`; 
+    }
+};
+
 // --- Helper to find Country Details (Fallback if backend doesn't send name) ---
 const getCountryDetails = (id) => {
     const map = {
@@ -28,7 +44,9 @@ export default function DestinationPage() {
     const params = useParams();
     const router = useRouter();
     const destinationID = params.id;
-    const { formatPrice, sloading } = useCurrency();
+    
+    // We only need the currency code from context to send to the backend
+    
 
     // States
     const [plans, setPlans] = useState([]);
@@ -38,38 +56,29 @@ export default function DestinationPage() {
 
     const countryInfo = getCountryDetails(destinationID);
 
-    useEffect(() => {
-        const fetchPlans = async () => {
-            try {
-                // REAL API CALL (Uncomment this when connecting to your backend)
-                /*
-                const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/sims/${destinationID}`);
-                setPlans(res.data.data.sims);
-                */
+   // 1. Grab `loading` from the context and rename it to `isCurrencyLoading`
+const { currency, loading: isCurrencyLoading } = useCurrency();
 
-                // MOCK DATA
-                setTimeout(() => {
-                    const mockData = {
-                        "sims": [
-                            { "id": "eSIM-H500M-01", "basePrice": 0.87, "currency": "CAD", "days": 1, "data": 500, "dataUnit": "MB", "hasVoice": false, "voiceMinutes": 0, "hasSms": false, "smsCount": 0, "tierLabel": "500MB", "category": "data", "local": true },
-                            { "id": "eSIM-H3GB-01", "basePrice": 2.27, "currency": "CAD", "days": 1, "data": 3, "dataUnit": "GB", "hasVoice": false, "voiceMinutes": 0, "hasSms": false, "smsCount": 0, "tierLabel": "1GB", "category": "data", "local": true },
-                            { "id": "eSIM-HT50GB-07", "basePrice": 35.39, "currency": "CAD", "days": 7, "data": 50, "dataUnit": "GB", "hasVoice": false, "voiceMinutes": 0, "hasSms": false, "smsCount": 0, "tierLabel": "Unlimited", "category": "data", "local": true },
-                            { "id": "TravelersEurope20GB", "basePrice": 11.7, "currency": "CAD", "days": 30, "data": 20, "dataUnit": "GB", "hasVoice": false, "voiceMinutes": 0, "hasSms": false, "smsCount": 0, "tierLabel": "Unlimited", "category": "data", "local": false },
-                            { "id": "ORANGEEUROPE200GB", "basePrice": 31.4, "currency": "CAD", "days": 30, "data": 200, "dataUnit": "GB", "hasVoice": true, "voiceMinutes": 120, "hasSms": true, "smsCount": 1000, "tierLabel": "Voice+SMS+Data", "category": "combo", "local": true },
-                            { "id": "ORANGEHOLIDAY500GB", "basePrice": 67, "currency": "CAD", "days": 90, "data": 500, "dataUnit": "GB", "hasVoice": true, "voiceMinutes": 360, "hasSms": true, "smsCount": 3000, "tierLabel": "Voice+SMS+Data", "category": "combo", "local": true }
-                        ]
-                    };
-                    setPlans(mockData.sims);
-                    setLoading(false);
-                }, 800);
-            } catch (err) {
-                setError("Failed to load eSIM plans. Please try again later.");
-                setLoading(false);
-            }
-        };
+useEffect(() => {
+    const fetchPlans = async () => {
+        try {
+            console.log("Fetching for currency:", currency); // Should now say INR
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/get/sims/${destinationID}?countryCode=${currency}`);
+            setPlans(res.data.data.plans || res.data.data.sims);
+            setLoading(false);
+        } catch (err) {
+            setError("Failed to load eSIM plans. Please try again later.");
+            setLoading(false);
+        }
+    };
 
-        if (destinationID) fetchPlans();
-    }, [destinationID]);
+    // 2. WAIT for the IP checker to finish before making the API call!
+    if (destinationID && !isCurrencyLoading) {
+        fetchPlans();
+    }
+
+// 3. Add `isCurrencyLoading` to the dependency array
+}, [destinationID, currency, isCurrencyLoading]);
 
     // Filter Logic
     const filteredPlans = plans.filter(plan => {
@@ -146,20 +155,6 @@ export default function DestinationPage() {
                     {filteredPlans.map((plan) => (
                         <div key={plan.id} className="bg-white rounded-[20px] p-5 border border-gray-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
 
-                            {/* Top Badges (If Unlimited or Combo)
-              <div className="flex gap-2 mb-3 min-h-[24px]">
-                {plan.tierLabel === "Unlimited" && (
-                  <span className="bg-blue-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider flex items-center gap-1">
-                    ☆ Most Popular
-                  </span>
-                )}
-                {plan.category === "combo" && (
-                  <span className="bg-[#ec5b13] text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider flex items-center gap-1">
-                    👍 Recommended
-                  </span>
-                )}
-              </div> */}
-
                             {/* Title & Price Row */}
                             <div className="flex justify-between items-start mb-4 gap-2">
                                 <div>
@@ -171,11 +166,14 @@ export default function DestinationPage() {
                                         {plan.local !== false ? "Local" : "Global/Regional"}
                                     </p>
                                 </div>
+                                
+                                {/* 🌟 UPDATED PRICE DISPLAY 🌟 */}
                                 <div className="text-right">
                                     <p className="text-2xl font-extrabold text-gray-900 leading-none">
-              {sloading ? "..." : formatPrice(plan.basePrice)}
-            </p>
+                                        {formatCurrency(plan.finalPrice, plan.displayCurrency)}
+                                    </p>
                                 </div>
+
                             </div>
 
                             {/* 3 Feature Pills (Data, Voice, SMS) */}
@@ -219,18 +217,6 @@ export default function DestinationPage() {
                                     Select Plan
                                 </button>
                             </div>
-
-                            {/* Compare Checkbox */}
-                            {/* <div className="flex items-center gap-2">
-                                <input
-                                    type="checkbox"
-                                    id={`compare-${plan.id}`}
-                                    className="w-4 h-4 rounded border-gray-300 text-brand focus:ring-brand cursor-pointer"
-                                />
-                                <label htmlFor={`compare-${plan.id}`} className="text-sm text-gray-500 font-medium cursor-pointer select-none">
-                                    Compare
-                                </label>
-                            </div> */}
 
                         </div>
                     ))}
