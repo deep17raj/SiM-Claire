@@ -271,7 +271,7 @@ function LoginFormContent() {
 
                   {/* Submit Button */}
                   <div className="pt-2">
-                    <button type="submit" disabled={isLoginSubmitting} className="w-full py-3.5 px-4 text-brand text-lg md:text-xl border-brand border-2 rounded-lg font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isLoginSubmitting} className="w-full py-3.5 px-4 text-brand text-lg md:text-xl border-brand border-2 rounded-lg font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
                       {isLoginSubmitting ? "Logging in..." : "Log In"}
                     </button>
                   </div>
@@ -281,7 +281,7 @@ function LoginFormContent() {
                     <button
                       type="button"
                       onClick={() => { setServerError(""); setServerSuccess(""); setView("FORGOT_PASSWORD"); }}
-                      className="text-brand hover:underline font-medium text-base transition-colors focus:outline-none"
+                      className="text-brand hover:underline font-medium text-base transition-colors cursor-pointer focus:outline-none"
                     >
                       Forgot Password?
                     </button>
@@ -290,7 +290,7 @@ function LoginFormContent() {
                   {/* Sign Up Link */}
                   <div className="text-center mt-2 text-gray-600">
                     Don&apos;t have an account?{' '}
-                    <Link href="/signup" className="text-brand font-semibold transition-colors hover:underline">
+                    <Link href="/signup" className="text-brand font-semibold transition-colors cursor-pointer hover:underline">
                       Sign Up
                     </Link>
                   </div>
@@ -320,13 +320,13 @@ function LoginFormContent() {
                   </div>
 
                   <div className="pt-2">
-                    <button type="submit" disabled={isForgotSubmitting} className="w-full py-3.5 px-4 bg-brand text-white text-lg md:text-xl rounded-lg font-bold hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isForgotSubmitting} className="w-full py-3.5 px-4 bg-brand text-white text-lg md:text-xl rounded-lg font-bold hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
                       {isForgotSubmitting ? "Sending Code..." : "Send Verification Code"}
                     </button>
                   </div>
 
                   <div className="text-center mt-6">
-                    <button type="button" onClick={() => { setServerError(""); setView("LOGIN"); }} className="text-gray-500 hover:text-brand font-medium text-base transition-colors focus:outline-none">
+                    <button type="button" onClick={() => { setServerError(""); setView("LOGIN"); }} className="text-gray-500 hover:text-brand font-medium text-base transition-colors cursor-pointer focus:outline-none">
                       &larr; Back to Log In
                     </button>
                   </div>
@@ -365,7 +365,7 @@ function LoginFormContent() {
                   {timeLeft > 0 ? (
                     <span className="text-gray-400 font-semibold inline-block min-w-[120px]">Resend in {timeLeft}s</span>
                   ) : (
-                    <button type="button" onClick={handleResendAccountOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px]">
+                    <button type="button" onClick={handleResendAccountOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px] cursor-pointer">
                       Resend OTP
                     </button>
                   )}
@@ -410,7 +410,7 @@ function LoginFormContent() {
                   {timeLeft > 0 ? (
                     <span className="text-gray-400 font-semibold inline-block min-w-[120px]">Resend in {timeLeft}s</span>
                   ) : (
-                    <button type="button" onClick={handleResendAccountOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px]">
+                    <button type="button" onClick={handleResendAccountOtp} className="text-brand font-semibold transition-colors hover:underline inline-block min-w-[120px] cursor-pointer">
                       Resend OTP
                     </button>
                   )}
@@ -463,7 +463,7 @@ function LoginFormContent() {
                   </div>
 
                   <div className="pt-2">
-                    <button type="submit" disabled={isResetSubmitting} className="w-full py-3.5 px-4 bg-brand text-white text-lg md:text-xl rounded-lg font-bold hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isResetSubmitting} className="w-full py-3.5 px-4 bg-brand text-white text-lg md:text-xl rounded-lg font-bold hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed">
                       {isResetSubmitting ? "Updating..." : "Reset Password"}
                     </button>
                   </div>

@@ -49,7 +49,7 @@ const HeroSearch = () => {
           </div>
 
           {/* Tabs */}
-          <div className="flex bg-gray-100 gap-2 p-1.5 rounded-full border border-gray-200">
+          {/* <div className="flex bg-gray-100 gap-2 p-1.5 rounded-full border border-gray-200">
             <button className="px-8 py-2 rounded-full bg-white shadow-sm text-brand font-bold text-sm transition-all">
               Country
             </button>
@@ -59,7 +59,7 @@ const HeroSearch = () => {
             <button className="px-8 py-2 rounded-full text-secondary font-medium hover:bg-tertary hover:text-brand hover:font-bold hover:shadow-sm text-sm transition-all">
               Global
             </button>
-          </div>
+          </div> */}
         </div>
 
         {/* 2. POPULAR DESTINATIONS GRID */}
