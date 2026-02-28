@@ -42,7 +42,7 @@ const CompatibilityBanner = () => {
     try {
       // NOTE: Replace this with your actual backend endpoint
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/device/check-compatibility`, {
-        deviceString: deviceStringToCheck
+        "userAgent": deviceStringToCheck
       });
 
       if (res.data.needsMoreInfo) {
