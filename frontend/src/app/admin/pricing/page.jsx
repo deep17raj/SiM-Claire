@@ -1,25 +1,31 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit2, Trash2, DollarSign, TrendingUp, AlertCircle } from "lucide-react";
+import { Edit2, TrendingUp, AlertCircle, Globe } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from "axios";
+import { allDestinations } from "@/data/destinationData"; 
 
-// --- Validation Schema for Add/Edit Form ---
+// --- Validation Schema for Edit Form ---
+// Removed typeId from validation since it is now fixed/read-only
 const pricingSchema = z.object({
-  typeId: z.string().min(2, "Type ID is required (e.g., 'type1')").trim(),
   name: z.string().min(2, "Display name is required").trim(),
-  multiplier: z.coerce.number().min(1, "Multiplier must be at least 1.0").max(10, "Multiplier too high"),
+  globalMultiplier: z.coerce.number().min(1, "Multiplier must be at least 1.0").max(10, "Multiplier too high"),
 });
 
 export default function AdminPricingPanel() {
   const [simTypes, setSimTypes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState(null); // null means "Adding New", object means "Editing"
+  const [editingItem, setEditingItem] = useState(null); 
   const [actionError, setActionError] = useState("");
+
+  // --- States for Country Overrides in the Modal ---
+  const [countryOverrides, setCountryOverrides] = useState({});
+  const [selectedOverrideCountry, setSelectedOverrideCountry] = useState("");
+  const [overrideValue, setOverrideValue] = useState("");
 
   const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(pricingSchema),
@@ -38,12 +44,13 @@ export default function AdminPricingPanel() {
       // });
       // setSimTypes(res.data);
 
-      // --- MOCK DATA FOR UI TESTING ---
+      // --- MOCK DATA FOR THE 4 FIXED TYPES ---
       setTimeout(() => {
         setSimTypes([
-          { id: 1, typeId: "local_data", name: "Local Data Only", multiplier: 1.3 },
-          { id: 2, typeId: "regional_data", name: "Regional Data", multiplier: 1.4 },
-          { id: 3, typeId: "global_data_voice", name: "Global (Data + Voice)", multiplier: 1.5 },
+          { id: 1, typeId: "type1", name: "Standard Data", globalMultiplier: 1.2, countryMultipliers: {} },
+          { id: 2, typeId: "type2", name: "Data + Voice", globalMultiplier: 1.3, countryMultipliers: {} },
+          { id: 3, typeId: "type3", name: "Unlimited Data", globalMultiplier: 1.5, countryMultipliers: {} },
+          { id: 4, typeId: "type4", name: "Global Regional", globalMultiplier: 1.4, countryMultipliers: {} },
         ]);
         setLoading(false);
       }, 800);
@@ -53,60 +60,67 @@ export default function AdminPricingPanel() {
     }
   };
 
-  // --- 2. Handle Add / Edit Submission ---
+  // --- 2. Handle Edit Submission (Sending to Backend) ---
   const onSubmit = async (data) => {
     setActionError("");
+    
+    // Construct the final payload to send to your backend
+    const finalData = {
+      typeId: editingItem.typeId, // Send the fixed type ID back to the backend
+      name: data.name,
+      globalMultiplier: data.globalMultiplier,
+      countryMultipliers: countryOverrides
+    };
+
     try {
-      /* // REAL API CALL
-      const endpoint = editingItem 
-        ? `${process.env.NEXT_PUBLIC_API_URL}/api/admin/pricing/${editingItem.id}` 
-        : `${process.env.NEXT_PUBLIC_API_URL}/api/admin/pricing`;
-      const method = editingItem ? "PUT" : "POST";
-      
-      await axios({
-        method,
-        url: endpoint,
-        data,
-        headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }
-      });
-      */
+      // --- REAL API CALL (Uncomment when ready) ---
+      // await axios.put(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/api/admin/pricing/${editingItem.typeId}`, 
+      //   finalData,
+      //   { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } }
+      // );
 
       // MOCK UPDATE UI
-      if (editingItem) {
-        setSimTypes(simTypes.map(sim => sim.id === editingItem.id ? { ...sim, ...data } : sim));
-      } else {
-        setSimTypes([...simTypes, { id: Date.now(), ...data }]);
-      }
-
+      setSimTypes(simTypes.map(sim => sim.id === editingItem.id ? { ...sim, ...finalData } : sim));
       closeModal();
     } catch (err) {
-      setActionError(err.response?.data?.message || "Failed to save pricing rules.");
+      setActionError(err.response?.data?.message || "Failed to update pricing rule.");
     }
   };
 
-  // --- 3. Handle Delete ---
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this pricing rule?")) return;
-    try {
-      // await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/pricing/${id}`);
-      setSimTypes(simTypes.filter(sim => sim.id !== id));
-    } catch (err) {
-      alert("Failed to delete.");
-    }
+  // --- 3. Override Helpers ---
+  const handleAddOverride = () => {
+    if (!selectedOverrideCountry || !overrideValue) return;
+    
+    setCountryOverrides(prev => ({
+      ...prev,
+      [selectedOverrideCountry]: parseFloat(overrideValue)
+    }));
+    
+    setSelectedOverrideCountry("");
+    setOverrideValue("");
+  };
+
+  const handleRemoveOverride = (countryId) => {
+    setCountryOverrides(prev => {
+      const newOverrides = { ...prev };
+      delete newOverrides[countryId];
+      return newOverrides;
+    });
   };
 
   // --- Modal Helpers ---
-  const openModal = (item = null) => {
+  const openModal = (item) => {
     setActionError("");
-    if (item) {
-      setEditingItem(item);
-      setValue("typeId", item.typeId);
-      setValue("name", item.name);
-      setValue("multiplier", item.multiplier);
-    } else {
-      setEditingItem(null);
-      reset({ typeId: "", name: "", multiplier: 1.2 }); // Default starting multiplier
-    }
+    setSelectedOverrideCountry("");
+    setOverrideValue("");
+    setEditingItem(item);
+    
+    // Populate form fields
+    setValue("name", item.name);
+    setValue("globalMultiplier", item.globalMultiplier);
+    setCountryOverrides(item.countryMultipliers || {});
+    
     setIsModalOpen(true);
   };
 
@@ -130,14 +144,8 @@ export default function AdminPricingPanel() {
             <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-2">
               <TrendingUp className="text-[#ec5b13]" /> Pricing & Margins
             </h1>
-            <p className="text-slate-500 mt-1">Manage commission multipliers for upstream eSIM providers.</p>
+            <p className="text-slate-500 mt-1">Manage global multipliers and country-specific overrides for the 4 core SIM types.</p>
           </div>
-          <button 
-            onClick={() => openModal()}
-            className="bg-[#3a7d71] hover:bg-[#2b6157] text-white px-5 py-2.5 rounded-lg font-semibold flex items-center gap-2 transition-all shadow-sm"
-          >
-            <Plus size={18} /> Add SIM Type
-          </button>
         </div>
 
         {/* Data Table */}
@@ -146,121 +154,192 @@ export default function AdminPricingPanel() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 text-gray-500 border-b border-gray-200 text-sm uppercase tracking-wider">
-                  <th className="p-5 font-semibold">Upstream ID</th>
+                  <th className="p-5 font-semibold">Type ID</th>
                   <th className="p-5 font-semibold">Display Name</th>
-                  <th className="p-5 font-semibold">Multiplier</th>
-                  <th className="p-5 font-semibold">Retail Example (Base $10)</th>
+                  <th className="p-5 font-semibold">Global Multiplier</th>
+                  <th className="p-5 font-semibold">Custom Overrides</th>
                   <th className="p-5 font-semibold text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {simTypes.length === 0 ? (
-                  <tr>
-                    <td colSpan="5" className="p-10 text-center text-gray-500">No pricing rules found. Add one above.</td>
-                  </tr>
-                ) : (
-                  simTypes.map((sim) => (
+                {simTypes.map((sim) => {
+                  const overrideCount = Object.keys(sim.countryMultipliers || {}).length;
+                  return (
                     <tr key={sim.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="p-5 font-mono text-sm text-slate-600 bg-gray-50/50">{sim.typeId}</td>
-                      <td className="p-5 font-medium text-slate-900">{sim.name}</td>
                       <td className="p-5">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-sm font-bold bg-[#e8f4f1] text-[#3a7d71]">
-                          {sim.multiplier}x
+                        <span className="font-mono text-sm font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded">
+                          {sim.typeId}
                         </span>
                       </td>
-                      <td className="p-5 text-slate-600 font-medium">
-                        $10.00 <span className="text-gray-400 mx-2">➔</span> <span className="text-[#ec5b13]">${(10 * sim.multiplier).toFixed(2)}</span>
+                      <td className="p-5">
+                        <p className="font-bold text-slate-900">{sim.name}</p>
                       </td>
-                      <td className="p-5 flex justify-end gap-3">
-                        <button onClick={() => openModal(sim)} className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                          <Edit2 size={18} />
-                        </button>
-                        <button onClick={() => handleDelete(sim.id)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                          <Trash2 size={18} />
+                      <td className="p-5">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-[#e8f4f1] text-[#3a7d71]">
+                          {sim.globalMultiplier}x
+                        </span>
+                      </td>
+                      <td className="p-5">
+                        {overrideCount > 0 ? (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-orange-50 text-[#ec5b13]">
+                            <Globe size={14} /> {overrideCount} Countr{overrideCount === 1 ? 'y' : 'ies'}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 text-sm font-medium">None</span>
+                        )}
+                      </td>
+                      <td className="p-5 flex justify-end">
+                        <button onClick={() => openModal(sim)} className="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-lg font-semibold transition-colors cursor-pointer flex items-center gap-2">
+                          <Edit2 size={16} /> Edit Margin
                         </button>
                       </td>
                     </tr>
-                  ))
-                )}
+                  )
+                })}
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      {/* --- ADD/EDIT MODAL --- */}
-      {isModalOpen && (
+      {/* --- EDIT MODAL --- */}
+      {isModalOpen && editingItem && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
             
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h2 className="text-xl font-bold text-slate-800">
-                {editingItem ? "Edit Pricing Rule" : "Add New SIM Type"}
-              </h2>
-              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50 shrink-0">
+              <div>
+                <h2 className="text-xl font-bold text-slate-800">Edit Pricing Rule</h2>
+                <p className="text-sm text-slate-500 font-mono mt-1">Editing: {editingItem.typeId}</p>
+              </div>
+              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer">&times;</button>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
-              
-              {actionError && (
-                <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg flex items-start gap-2">
-                  <AlertCircle size={16} className="mt-0.5" /> {actionError}
-                </div>
-              )}
-
-              {/* Upstream Type ID */}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Upstream API Type ID</label>
-                <input
-                  {...register("typeId")}
-                  placeholder="e.g., local_data_only"
-                  className={`w-full px-4 py-2.5 bg-gray-50 border rounded-lg outline-none focus:ring-2 focus:ring-[#3a7d71] transition-all ${errors.typeId ? "border-red-500" : "border-gray-200"}`}
-                />
-                <p className="text-xs text-gray-500 mt-1.5">The exact ID code provided by the upstream eSIM API.</p>
-                {errors.typeId && <p className="text-red-500 text-xs mt-1">{errors.typeId.message}</p>}
-              </div>
-
-              {/* Display Name */}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Display Name</label>
-                <input
-                  {...register("name")}
-                  placeholder="e.g., Local Data"
-                  className={`w-full px-4 py-2.5 bg-gray-50 border rounded-lg outline-none focus:ring-2 focus:ring-[#3a7d71] transition-all ${errors.name ? "border-red-500" : "border-gray-200"}`}
-                />
-                {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
-              </div>
-
-              {/* Multiplier */}
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Price Multiplier</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <span className="text-gray-400 font-bold">x</span>
+            {/* Scrollable form body */}
+            <div className="p-6 overflow-y-auto">
+              <form id="pricing-form" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                
+                {actionError && (
+                  <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg flex items-start gap-2">
+                    <AlertCircle size={16} className="mt-0.5" /> {actionError}
                   </div>
+                )}
+
+                {/* Display Name */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1.5">Display Name</label>
                   <input
-                    {...register("multiplier")}
-                    type="number"
-                    step="0.01"
-                    placeholder="1.2"
-                    className={`w-full pl-8 pr-4 py-2.5 bg-gray-50 border rounded-lg outline-none focus:ring-2 focus:ring-[#3a7d71] transition-all ${errors.multiplier ? "border-red-500" : "border-gray-200"}`}
+                    {...register("name")}
+                    placeholder="e.g., Standard Data"
+                    className={`w-full px-4 py-2.5 bg-gray-50 border rounded-lg outline-none focus:ring-2 focus:ring-[#3a7d71] transition-all ${errors.name ? "border-red-500" : "border-gray-200"}`}
                   />
+                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                 </div>
-                <p className="text-xs text-gray-500 mt-1.5">Example: 1.5 multiplier on a $10 base cost = $15 user price.</p>
-                {errors.multiplier && <p className="text-red-500 text-xs mt-1">{errors.multiplier.message}</p>}
-              </div>
 
-              {/* Form Actions */}
-              <div className="pt-4 flex gap-3">
-                <button type="button" onClick={closeModal} className="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-slate-700 rounded-lg font-semibold transition-colors">
-                  Cancel
-                </button>
-                <button type="submit" disabled={isSubmitting} className="flex-1 px-4 py-2.5 bg-[#ec5b13] hover:bg-[#d94a0e] text-white rounded-lg font-semibold transition-colors disabled:opacity-50">
-                  {isSubmitting ? "Saving..." : "Save Rule"}
-                </button>
-              </div>
+                {/* Global Multiplier */}
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1.5">Global Multiplier</label>
+                  <div className="relative w-1/2">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400 font-bold">x</span>
+                    </div>
+                    <input
+                      {...register("globalMultiplier")}
+                      type="number"
+                      step="0.01"
+                      className={`w-full pl-8 pr-4 py-2.5 bg-gray-50 border rounded-lg outline-none focus:ring-2 focus:ring-[#3a7d71] transition-all ${errors.globalMultiplier ? "border-red-500" : "border-gray-200"}`}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1.5">This base margin is applied to all countries for <b>{editingItem.typeId}</b> by default.</p>
+                  {errors.globalMultiplier && <p className="text-red-500 text-xs mt-1">{errors.globalMultiplier.message}</p>}
+                </div>
 
-            </form>
+                {/* --- COUNTRY OVERRIDES SECTION --- */}
+                <div className="pt-6 border-t border-gray-100">
+                  <h3 className="text-sm font-bold text-slate-800 mb-1 flex items-center gap-2">
+                    <Globe size={16} className="text-[#ec5b13]"/> Country Overrides
+                  </h3>
+                  <p className="text-xs text-gray-500 mb-4">Set specific multipliers for individual countries.</p>
+                  
+                  {/* Add Override Inputs */}
+                  <div className="flex flex-col sm:flex-row gap-2 mb-4">
+                    <select
+                      className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#3a7d71]"
+                      value={selectedOverrideCountry}
+                      onChange={(e) => setSelectedOverrideCountry(e.target.value)}
+                    >
+                      <option value="">Select Country...</option>
+                      {allDestinations.map(country => (
+                        <option key={country.destinationID} value={country.destinationID}>
+                          {country.destinationName}
+                        </option>
+                      ))}
+                    </select>
+                    
+                    <div className="flex gap-2">
+                      <div className="relative w-24">
+                        <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
+                          <span className="text-gray-400 font-bold text-xs">x</span>
+                        </div>
+                        <input
+                          type="number" 
+                          step="0.01"
+                          min="1"
+                          placeholder="1.5"
+                          value={overrideValue}
+                          onChange={(e) => setOverrideValue(e.target.value)}
+                          className="w-full pl-6 pr-2 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-[#3a7d71]"
+                        />
+                      </div>
+                      <button 
+                        type="button" 
+                        onClick={handleAddOverride} 
+                        disabled={!selectedOverrideCountry || !overrideValue}
+                        className="px-4 bg-slate-800 disabled:bg-slate-300 text-white rounded-lg text-sm font-semibold hover:bg-slate-700 transition-colors cursor-pointer"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* List of active overrides */}
+                  {Object.entries(countryOverrides).length > 0 ? (
+                    <ul className="space-y-2 border border-gray-100 rounded-xl p-2 bg-gray-50/50 max-h-40 overflow-y-auto">
+                      {Object.entries(countryOverrides).map(([countryId, val]) => {
+                        const cName = allDestinations.find(c => c.destinationID === countryId)?.destinationName || countryId;
+                        return (
+                          <li key={countryId} className="flex justify-between items-center bg-white border border-gray-100 px-3 py-2 rounded-lg text-sm shadow-sm">
+                            <span className="font-medium text-slate-700">{cName}</span>
+                            <div className="flex items-center gap-4">
+                              <span className="text-[#ec5b13] font-bold bg-orange-50 px-2 py-0.5 rounded">{val}x</span>
+                              <button type="button" onClick={() => handleRemoveOverride(countryId)} className="text-gray-400 hover:text-red-600 transition-colors cursor-pointer text-[10px] bg-gray-100 px-2 py-1 rounded">
+                                Remove
+                              </button>
+                            </div>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  ) : (
+                    <div className="text-center p-4 border border-dashed border-gray-200 rounded-xl text-sm text-gray-400">
+                      No country overrides set.
+                    </div>
+                  )}
+                </div>
+
+              </form>
+            </div>
+
+            {/* Modal Footer / Actions */}
+            <div className="p-4 border-t border-gray-100 bg-gray-50 flex gap-3 shrink-0">
+              <button type="button" onClick={closeModal} className="flex-1 px-4 py-2.5 bg-white border border-gray-200 hover:bg-gray-100 text-slate-700 rounded-lg font-semibold transition-colors cursor-pointer">
+                Cancel
+              </button>
+              <button form="pricing-form" type="submit" disabled={isSubmitting} className="flex-1 px-4 py-2.5 bg-[#ec5b13] hover:bg-[#d94a0e] text-white rounded-lg font-semibold transition-colors disabled:opacity-50 cursor-pointer shadow-sm">
+                {isSubmitting ? "Saving..." : "Update Pricing"}
+              </button>
+            </div>
+
           </div>
         </div>
       )}
