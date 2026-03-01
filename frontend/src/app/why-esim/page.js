@@ -3,7 +3,7 @@ import CompatibilityChecker from "./CompatibilityChecker";
 
 const WhyChooseUs = () => {
   return (
-    <section className="relative py-14 md:py-22 px-4 md:px-12 lg:px-24 overflow-hidden bg-[#fffaf7] text-slate-900">
+    <section className="relative py-14 md:py-8 px-4 md:px-12 lg:px-24 overflow-hidden bg-[#fffaf7] text-slate-900">
 
       <div className="max-w-6xl mx-auto relative">
 
@@ -78,7 +78,7 @@ const WhyChooseUs = () => {
             </Link>
 
             {/* Secondary Action */}
-            <Link href="/how-it-works" className="px-20 py-4 text-brand text-lg md:text-xl border-brand border-2 rounded-lg font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
+            <Link href="#compat" className="px-20 py-4 text-brand text-lg md:text-xl border-brand border-2 rounded-lg font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
               How it Works
             </Link>
           </div>

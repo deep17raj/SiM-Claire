@@ -1,5 +1,6 @@
 import React from 'react';
-
+import Link from 'next/link';
+import HowItWorks from '@/components/HowItWorks';
 // 1. Define Custom SVG Icons for each brand
 const BrandIcons = {
   apple: (
@@ -207,7 +208,7 @@ const CompatibilityChecker = () => {
         </div> */}
 
         {/* Footer Actions */}
-        <footer className="mt-20 flex flex-col md:flex-row items-center justify-between py-12 border-t border-slate-200">
+        <footer className="mt-10 flex flex-col md:flex-row items-center justify-between py-12 border-t border-slate-200">
           <div className="flex items-center gap-6 mb-8 md:mb-0">
             <div className="flex -space-x-4">
               <div className="w-12 h-12 rounded-full border-4 border-white bg-slate-200 overflow-hidden shadow-sm flex items-center justify-center text-xs font-bold text-slate-400">U1</div>
@@ -217,15 +218,18 @@ const CompatibilityChecker = () => {
             <p className="text-slate-500 text-lg md:text-xl font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <button className="px-16 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg">
+            <Link href={"/support"} className="px-16 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg">
               Help Center
-            </button>
-            <button className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
+            </Link>
+            <Link href={"/destination"} className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
               Get Your eSIM
-            </button>
+            </Link>
           </div>
         </footer>
-
+        <div id='compat'>
+<HowItWorks/>
+        </div>
+          
       </div>
     </section>
   );

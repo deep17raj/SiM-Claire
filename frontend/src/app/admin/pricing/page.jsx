@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Edit2, TrendingUp, AlertCircle, Globe } from "lucide-react";
+import { Edit2, TrendingUp, AlertCircle, Globe, Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -9,7 +9,6 @@ import axios from "axios";
 import { allDestinations } from "@/data/destinationData"; 
 
 // --- Validation Schema for Edit Form ---
-// Removed typeId from validation since it is now fixed/read-only
 const pricingSchema = z.object({
   name: z.string().min(2, "Display name is required").trim(),
   globalMultiplier: z.coerce.number().min(1, "Multiplier must be at least 1.0").max(10, "Multiplier too high"),
@@ -24,6 +23,7 @@ export default function AdminPricingPanel() {
 
   // --- States for Country Overrides in the Modal ---
   const [countryOverrides, setCountryOverrides] = useState({});
+  const [removedOverrides, setRemovedOverrides] = useState([]); // Tracks deleted countries to send is_active: false
   const [selectedOverrideCountry, setSelectedOverrideCountry] = useState("");
   const [overrideValue, setOverrideValue] = useState("");
 
@@ -31,26 +31,22 @@ export default function AdminPricingPanel() {
     resolver: zodResolver(pricingSchema),
   });
 
-  // --- 1. Fetch Existing Multipliers ---
+  // --- 1. Fetch Existing Data ---
   useEffect(() => {
     fetchPricingData();
   }, []);
 
   const fetchPricingData = async () => {
     try {
-      // TODO: Replace with your actual admin API endpoint
-      // const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/pricing`, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }
-      // });
-      // setSimTypes(res.data);
-
+      // NOTE: For a real app, you would fetch this from your backend and map it into this structure.
+      
       // --- MOCK DATA FOR THE 4 FIXED TYPES ---
       setTimeout(() => {
         setSimTypes([
-          { id: 1, typeId: "type1", name: "Standard Data", globalMultiplier: 1.2, countryMultipliers: {} },
-          { id: 2, typeId: "type2", name: "Data + Voice", globalMultiplier: 1.3, countryMultipliers: {} },
-          { id: 3, typeId: "type3", name: "Unlimited Data", globalMultiplier: 1.5, countryMultipliers: {} },
-          { id: 4, typeId: "type4", name: "Global Regional", globalMultiplier: 1.4, countryMultipliers: {} },
+          { id: 1, typeId: "type1", name: "Type1 Esim", globalMultiplier: 1.2, countryMultipliers: {} },
+          { id: 2, typeId: "type2", name: "Type2 Esim", globalMultiplier: 1.3, countryMultipliers: {} },
+          { id: 3, typeId: "type3", name: "Type3 Esim", globalMultiplier: 1.5, countryMultipliers: {} },
+          { id: 4, typeId: "type4", name: "Type4 Esim", globalMultiplier: 1.4, countryMultipliers: {} },
         ]);
         setLoading(false);
       }, 800);
@@ -60,35 +56,72 @@ export default function AdminPricingPanel() {
     }
   };
 
-  // --- 2. Handle Edit Submission (Sending to Backend) ---
+  // --- 2. Handle Edit Submission (Batching Requests for the Backend) ---
   const onSubmit = async (data) => {
     setActionError("");
     
-    // Construct the final payload to send to your backend
-    const finalData = {
-      typeId: editingItem.typeId, // Send the fixed type ID back to the backend
-      name: data.name,
-      globalMultiplier: data.globalMultiplier,
-      countryMultipliers: countryOverrides
-    };
+    // NOTE: Update this URL to match your exact backend route!
+    const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/sim-multiplier/update`; 
+    const headers = { Authorization: `Bearer ${localStorage.getItem("adminToken")}` };
 
     try {
-      // --- REAL API CALL (Uncomment when ready) ---
-      // await axios.put(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/api/admin/pricing/${editingItem.typeId}`, 
-      //   finalData,
-      //   { headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` } }
-      // );
+      const requests = [];
 
-      // MOCK UPDATE UI
+      // A. Queue the Global Multiplier update
+      requests.push(
+        axios.post(API_URL, {
+          sim_type: editingItem.typeId,
+          country_code: "GLOBAL",
+          multiplier: data.globalMultiplier,
+          is_active: true
+        }, { headers })
+      );
+
+      // B. Queue all Active Country Overrides
+      Object.entries(countryOverrides).forEach(([countryCode, multiplierValue]) => {
+        requests.push(
+          axios.post(API_URL, {
+            sim_type: editingItem.typeId,
+            country_code: countryCode, // e.g., JYN-1
+            multiplier: multiplierValue,
+            is_active: true
+          }, { headers })
+        );
+      });
+
+      // C. Queue Deletions (Set is_active: false for removed overrides)
+      removedOverrides.forEach((countryCode) => {
+        requests.push(
+          axios.post(API_URL, {
+            sim_type: editingItem.typeId,
+            country_code: countryCode,
+            multiplier: 1, // Backend requires > 0, so we send a dummy 1, but deactivate it.
+            is_active: false 
+          }, { headers })
+        );
+      });
+
+      // Execute all requests simultaneously
+      // await Promise.all(requests);
+
+      // MOCK UPDATE UI (Reflecting what just saved to the database)
+      const finalData = {
+        typeId: editingItem.typeId,
+        name: data.name,
+        globalMultiplier: data.globalMultiplier,
+        countryMultipliers: countryOverrides
+      };
+
       setSimTypes(simTypes.map(sim => sim.id === editingItem.id ? { ...sim, ...finalData } : sim));
       closeModal();
+      
     } catch (err) {
-      setActionError(err.response?.data?.message || "Failed to update pricing rule.");
+      console.error(err);
+      setActionError(err.response?.data?.message || "Failed to update pricing rules. Please check backend connection.");
     }
   };
 
-  // --- 3. Override Helpers ---
+  // --- 3. Override UI Helpers ---
   const handleAddOverride = () => {
     if (!selectedOverrideCountry || !overrideValue) return;
     
@@ -97,11 +130,18 @@ export default function AdminPricingPanel() {
       [selectedOverrideCountry]: parseFloat(overrideValue)
     }));
     
+    // If it was previously marked for removal, unmark it
+    setRemovedOverrides(prev => prev.filter(code => code !== selectedOverrideCountry));
+    
     setSelectedOverrideCountry("");
     setOverrideValue("");
   };
 
   const handleRemoveOverride = (countryId) => {
+    // Add to removed tracker so we can tell the backend to disable it
+    setRemovedOverrides(prev => [...prev, countryId]);
+    
+    // Remove from active UI state
     setCountryOverrides(prev => {
       const newOverrides = { ...prev };
       delete newOverrides[countryId];
@@ -114,6 +154,7 @@ export default function AdminPricingPanel() {
     setActionError("");
     setSelectedOverrideCountry("");
     setOverrideValue("");
+    setRemovedOverrides([]); // Reset deletions list
     setEditingItem(item);
     
     // Populate form fields

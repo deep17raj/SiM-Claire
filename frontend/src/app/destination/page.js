@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { allDestinations } from "@/data/destinationData";
+import SearchBar from "@/components/SearchBar";
 // I have manually corrected the 'isoCode' for EVERY item so flags will show up!
 
 
@@ -34,7 +35,7 @@ const HeroSearch = () => {
           </h1>
 
           {/* Search Bar Container */}
-          <div className="w-full max-w-2xl relative group">
+          {/* <div className="w-full max-w-2xl relative group">
             <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
               <svg className="text-brand w-6 h-6 group-focus-within:text-brand transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
@@ -46,7 +47,8 @@ const HeroSearch = () => {
               className="w-full pl-14 pr-6 py-4 bg-white border-1 border-brand rounded-full shadow-brand/30 shadow-[0_0_25px_rgba(236,91,19,0.25)] outline-none text-lg transition-all placeholder:text-gray-400" 
               placeholder="Search for a country or region..." 
             />
-          </div>
+          </div> */}
+          <SearchBar/>
 
           {/* Tabs */}
           {/* <div className="flex bg-gray-100 gap-2 p-1.5 rounded-full border border-gray-200">
