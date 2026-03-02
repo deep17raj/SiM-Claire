@@ -55,7 +55,7 @@ export default function DestinationPage() {
     // 🌟 Checkout View States 🌟
     const [checkoutPlan, setCheckoutPlan] = useState(null);
     const [promoCode, setPromoCode] = useState("");
-    const [agreedToTerms, setAgreedToTerms] = useState(false); // New state for terms checkbox
+    const [agreedToTerms, setAgreedToTerms] = useState(false); 
 
     const countryInfo = getCountryDetails(destinationID);
     const { currency, loading: isCurrencyLoading } = useCurrency();
@@ -64,6 +64,7 @@ export default function DestinationPage() {
         const fetchPlans = async () => {
             try {
                 const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/get/sims/${destinationID}?countryCode=${currency}`);
+                console.log(res.data.data.plans)
                 setPlans(res.data.data.plans);
                 setLoading(false);
             } catch (err) {
@@ -121,9 +122,9 @@ export default function DestinationPage() {
                                 setCheckoutPlan(null);
                                 setAgreedToTerms(false); // Reset terms on back
                             }} 
-                            className="absolute left-0 -top-5 md:top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors bg-white border border-gray-200 px-4 py-2 rounded-full cursor-pointer shadow-sm"
+                            className="absolute left-0 -top-5 md:top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-sm font-bold text-gray-500 hover:text-brand transition-colors   px-4 py-2 rounded-full cursor-pointer "
                         >
-                            <ChevronLeft size={16} /> Back
+                            <ArrowLeft size={16} /> Back
                         </button>
                         <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Secure Checkout</h1>
                         <div className="w-12 h-1 bg-brand rounded-full mt-3"></div>
@@ -149,67 +150,60 @@ export default function DestinationPage() {
 
                         {/* Details List */}
                         <div className="space-y-4 mb-6">
+                            
                             <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
                                 <span className="text-gray-500 flex items-center gap-2"><Calendar size={18} /> Validity</span>
                                 <span className="font-bold text-gray-900">{checkoutPlan.days} days</span>
                             </div>
                             
                             <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
-                                <span className="text-gray-500 flex items-center gap-2"><Wifi size={18} /> Service Type</span>
-                                <span className="font-bold text-gray-900">
-                                    {checkoutPlan.category === "combo" ? "Data + Voice + SMS" : "Data Only"}
-                                </span>
-                            </div>
-
-                            {/* 🌟 NEW: Vertically stacked included limits 🌟 */}
-                            <div className="flex justify-between items-start py-2 border-b border-orange-200/50">
-                                <span className="text-gray-500 flex items-center gap-2 mt-1"><Info size={18} /> Included limits</span>
-                                <div className="flex flex-col items-end gap-1">
-                                    <span className="font-bold text-gray-900 bg-white px-3 py-1 rounded-lg border border-orange-100 shadow-sm">
-                                        {checkoutPlan.data} {checkoutPlan.dataUnit} Data
-                                    </span>
-                                    {checkoutPlan.hasVoice && (
-                                        <span className="font-bold text-gray-900 bg-white px-3 py-1 rounded-lg border border-orange-100 shadow-sm mt-1">
-                                            {checkoutPlan.voiceMinutes} Min Calls
-                                        </span>
-                                    )}
-                                    {checkoutPlan.hasSms && (
-                                        <span className="font-bold text-gray-900 bg-white px-3 py-1 rounded-lg border border-orange-100 shadow-sm mt-1">
-                                            {checkoutPlan.smsCount} SMS
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
-
-                            <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
                                 <span className="text-gray-500 flex items-center gap-2"><Globe2 size={18} /> Coverage</span>
                                 <span className="font-bold text-brand">
-                                    {checkoutPlan.local ? "Local Network" : "Global"}
+                                    {checkoutPlan.local ? "Local Coverage" : "Global Coverage"}
                                 </span>
                             </div>
+
+                            {/* 🌟 NEW: Separated Data, Calls, and SMS rows 🌟 */}
+                            <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
+                                <span className="text-gray-500 flex items-center gap-2"><Wifi size={18} /> Data Limit</span>
+                                <span className="font-bold text-gray-900">
+                                    {checkoutPlan.data} {checkoutPlan.dataUnit}
+                                </span>
+                            </div>
+
+                            {checkoutPlan.hasVoice && (
+                                <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
+                                    <span className="text-gray-500 flex items-center gap-2"><Phone size={18} /> Calls</span>
+                                    <span className="font-bold text-gray-900">
+                                        {checkoutPlan.voiceMinutes} Minutes
+                                    </span>
+                                </div>
+                            )}
+
+                            {checkoutPlan.hasSms && (
+                                <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
+                                    <span className="text-gray-500 flex items-center gap-2"><MessageSquare size={18} /> SMS</span>
+                                    <span className="font-bold text-gray-900">
+                                        {checkoutPlan.smsCount} Sms
+                                    </span>
+                                </div>
+                            )}
+
                         </div>
 
-                        {/* 🌟 NEW: Check Compatibility Button 🌟 */}
                         <div className="mb-8">
                             <button className="w-full py-3.5 border-2 border-brand text-brand bg-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-orange-50 transition-colors cursor-pointer shadow-sm">
                                 <Smartphone size={18} /> Check if my device is compatible
                             </button>
                         </div>
 
-                        {/* Important Notice */}
-                        <div className="bg-white border border-orange-100 rounded-xl p-4 mb-8 flex items-start gap-3 shadow-sm">
-                            <Info size={20} className="text-brand shrink-0 mt-0.5" />
-                            <p className="text-sm text-gray-700 font-medium">
-                                The validity period starts only when you begin using data with any supported network at your destination.
-                            </p>
-                        </div>
-
-                        {/* Promo Code Section */}
+                        {/* Promo Code Section - Fixed mobile layout */}
                         <div className="mb-8">
                             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
                                 <Tag size={16} className="text-gray-400" /> Have a Promo Code?
                             </label>
-                            <div className="flex gap-2 w-full md:w-[80%]">
+                            {/* 🌟 Changed to flex-col on mobile, flex-row on desktop (sm) 🌟 */}
+                            <div className="flex flex-col sm:flex-row gap-3 w-full">
                                 <input 
                                     type="text" 
                                     value={promoCode}
@@ -217,13 +211,13 @@ export default function DestinationPage() {
                                     placeholder="Enter code here"
                                     className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-3.5 text-gray-900 font-medium outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all uppercase placeholder:normal-case"
                                 />
-                                <button className="px-4 py-3.5 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled={!promoCode}>
+                                <button className="px-8 py-3.5 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled={!promoCode}>
                                     Apply
                                 </button>
                             </div>
                         </div>
 
-                        {/* 🌟 NEW: Terms and Conditions Checkbox 🌟 */}
+                        {/* Terms and Conditions Checkbox */}
                         <div className="flex items-start gap-3 mb-6 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
                             <input 
                                 type="checkbox" 
