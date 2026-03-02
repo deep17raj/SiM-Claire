@@ -1,93 +1,57 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { X, CheckCircle2, AlertCircle, Smartphone, XCircle } from "lucide-react";
+import { X, CheckCircle2, Smartphone, XCircle, Info } from "lucide-react";
 
 const CompatibilityBanner = () => {
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Compatibility Logic States
-  const [status, setStatus] = useState("idle"); // idle, checking, success, fail, need_info
-  const [deviceInput, setDeviceInput] = useState("");
-  const [detectedOs, setDetectedOs] = useState("");
-  
-  // New state to track if a manual search failed to find the device
-  const [notFoundError, setNotFoundError] = useState(false); 
+  const [status, setStatus] = useState("idle"); // idle, checking, success, verify, fail
 
-  // 1. Auto-Detect OS when Modal Opens
-  useEffect(() => {
-    if (isModalOpen) {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        setDetectedOs("iPhone");
-        setDeviceInput("iPhone "); // Pre-fill for convenience
-      } else if (/android/i.test(userAgent)) {
-        setDetectedOs("Android");
-      }
-    }
-  }, [isModalOpen]);
-
-  // 2. Handle the closing of the modal (resets state)
+  // 1. Handle the closing of the modal (resets state)
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setTimeout(() => {
       setStatus("idle");
-      setDeviceInput("");
-      setNotFoundError(false);
     }, 300); // Wait for modal to close before resetting to avoid flicker
   };
 
-  // 3. Send data to backend
-  const checkDevice = async (deviceStringToCheck, isManual = false) => {
+  // 2. Auto-Check Logic (Sends User-Agent to Backend)
+  const handleAutoCheck = async () => {
     setStatus("checking");
-    setNotFoundError(false); // Reset error state on new check
 
     try {
       const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/device/check-compatibility`, {
-        "userAgent": deviceStringToCheck
+        "userAgent": navigator.userAgent
       });
-      console.log(res)
-      // Handle standard response vs wrapped { data: { ... } } response
+      console.log(res.data)
+      console.log(navigator)
+      console.log(navigator.userAgent)
       const apiData = res.data.data || res.data;
 
-      // Logic based on your backend response structure
-      if (apiData.requires_manual_selection === true) {
-        // Device not found or vague user-agent -> Show manual input form
-        setStatus("need_info");
-        if (isManual) {
-          // If they already tried manually and it failed, show an error message
-          setNotFoundError(true);
-        }
-      } else if (apiData.compatible === true) {
-        // Device is compatible!
+      // 🌟 STRICT LOGIC BASED ON CONFIDENCE 🌟
+      if (apiData.confidence === "high" && apiData.requires_manual_selection === false) {
+        // High Confidence -> Full Success
         setStatus("success");
-      } else if (apiData.compatible === false) {
-        // Device is explicitly NOT compatible
-        setStatus("fail");
+      
+      } else if (apiData.confidence === "medium") {
+        // Medium Confidence -> Show compatible but verify
+        setStatus("verify");
+      
       } else {
-        // Fallback for edge cases
-        setStatus("need_info");
+        // Low Confidence (or any other edge case) -> Not Compatible
+        setStatus("fail");
       }
 
     } catch (err) {
       console.error("Error checking device", err);
-      // If the API crashes, send them to the form so they aren't stuck on a loading screen
-      setStatus("need_info");
-      setNotFoundError(true); 
+      // If API fails or errors out, default to fail state
+      setStatus("fail");
     }
-  };
-
-  // 4. Button Handlers
-  const handleAutoCheck = () => {
-    checkDevice(navigator.userAgent, false);
-  };
-
-  const handleManualSubmit = (e) => {
-    e.preventDefault();
-    checkDevice(deviceInput, true); // Flag as manual submission
   };
 
   return (
@@ -96,7 +60,6 @@ const CompatibilityBanner = () => {
       <section className="px-4 py-8">
         <div className="w-full max-w-350 mx-auto bg-bget rounded-2xl p-6 lg:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 shadow-sm">
           
-          {/* 1. Icon & First Text Block */}
           <div className="flex flex-col sm:flex-row items-center text-center sm:text-left gap-4 w-full md:w-auto">
             <div className="w-20 h-24 bg-tertary rounded-xl flex flex-col items-center justify-center shrink-0 relative shadow-sm overflow-hidden">
               <Image src="/simCompat2.png" alt="Hero Image" fill priority className="object-cover" />
@@ -108,7 +71,6 @@ const CompatibilityBanner = () => {
             </div>
           </div>
 
-          {/* 2. Second Text Block */}
           <div className="text-center lg:text-left w-full lg:w-auto">
             <p className="text-gray-600 text-sm">SIM Claire works with most</p>
             <p className="hcol font-bold text-lg md:text-xl">unlocked iPhone & Android models.</p>
@@ -117,13 +79,11 @@ const CompatibilityBanner = () => {
           <div className="hidden lg:block w-[1px] h-12 bg-gray-300"></div>
           <div className="block lg:hidden w-full h-[1px] bg-gray-200"></div>
 
-          {/* 3. Third Text Block */}
           <div className="text-center lg:text-left w-full lg:w-auto">
             <p className="text-gray-600 text-sm">Find out if your phone</p>
             <p className="hcol font-bold text-lg md:text-xl">is eSIM compatible.</p>
           </div>
 
-          {/* 4. Action Button (TRIGGERS MODAL) */}
           <div className="w-full lg:w-auto flex flex-col items-center lg:items-end shrink-0">
             <button 
               onClick={() => setIsModalOpen(true)}
@@ -143,10 +103,8 @@ const CompatibilityBanner = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
           
-          {/* Modal Container */}
           <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-200">
             
-            {/* Close Button */}
             <button 
               onClick={handleCloseModal}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 p-1.5 rounded-full transition-colors z-10 cursor-pointer"
@@ -159,9 +117,9 @@ const CompatibilityBanner = () => {
                 Device Compatibility
               </h2>
 
-              {/* STATE 1: IDLE (Auto-Detect Button) */}
+              {/* STATE 1: IDLE */}
               {status === "idle" && (
-                <div className="text-center">
+                <div className="text-center animate-in fade-in duration-300">
                   <div className="w-16 h-16 bg-brand/10 text-brand rounded-full flex items-center justify-center mx-auto mb-4">
                     <Smartphone size={32} />
                   </div>
@@ -178,47 +136,15 @@ const CompatibilityBanner = () => {
                 </div>
               )}
 
-              {/* STATE 2: CHECKING (Loading Spinner) */}
+              {/* STATE 2: CHECKING */}
               {status === "checking" && (
-                <div className="text-center py-8">
+                <div className="text-center py-8 animate-in fade-in duration-300">
                   <div className="w-12 h-12 border-4 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                   <p className="font-medium text-gray-600">Analyzing device capabilities...</p>
                 </div>
               )}
 
-              {/* STATE 3: NEED INFO (Manual Input Form) */}
-              {status === "need_info" && (
-                <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
-                  
-                  {/* Dynamic Alert Banner inside form */}
-                  {notFoundError ? (
-                    <div className="bg-red-50 border border-red-100 text-red-700 p-4 rounded-xl mb-5 text-sm text-center flex items-center gap-2 justify-center shadow-sm">
-                      <AlertCircle size={18} className="shrink-0" /> We couldn't find that exact model. Please check spelling or try another format.
-                    </div>
-                  ) : (
-                    <div className="bg-blue-50 border border-blue-100 text-blue-700 p-4 rounded-xl mb-5 text-sm text-center shadow-sm">
-                      Looks like you are on an <b>{detectedOs || "mobile device"}</b>! Because of privacy settings, please type your exact model below to verify.
-                    </div>
-                  )}
-
-                  <form onSubmit={handleManualSubmit}>
-                    <label className="text-sm font-bold text-gray-700 mb-2 block">Enter Device Model</label>
-                    <input 
-                      type="text" 
-                      value={deviceInput}
-                      onChange={(e) => setDeviceInput(e.target.value)}
-                      placeholder="e.g. iPhone 14 Pro, Galaxy S23"
-                      className="w-full px-4 py-3.5 bg-gray-50 border border-gray-200 text-gray-900 rounded-xl mb-4 focus:ring-2 focus:ring-brand outline-none transition-all"
-                      required
-                    />
-                    <button type="submit" className="w-full py-3.5 bg-brand text-white font-bold rounded-xl hover:bg-[#d94a0e] transition-all shadow-md shadow-brand/20 active:scale-95 cursor-pointer">
-                      Verify Model
-                    </button>
-                  </form>
-                </div>
-              )}
-
-              {/* STATE 4: SUCCESS (Device Compatible) */}
+              {/* STATE 3: SUCCESS (HIGH CONFIDENCE) */}
               {status === "success" && (
                 <div className="text-center bg-emerald-50 p-8 rounded-2xl border border-emerald-100 animate-in zoom-in-95 duration-300">
                   <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -229,27 +155,52 @@ const CompatibilityBanner = () => {
                   
                   <button 
                     onClick={handleCloseModal}
-                    className="mt-6 w-full py-3.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all cursor-pointer shadow-md"
+                    className="mt-6 w-full py-3.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all cursor-pointer shadow-md active:scale-95"
                   >
                     Close
-                  </button>
-                  <button onClick={() => setStatus("idle")} className="mt-4 text-emerald-700 font-medium text-sm hover:underline cursor-pointer">
-                    Check another device
                   </button>
                 </div>
               )}
 
-              {/* STATE 5: FAIL (Device Incompatible) */}
+              {/* 🌟 STATE 4: VERIFY (MEDIUM CONFIDENCE) 🌟 */}
+              {status === "verify" && (
+                <div className="text-center bg-orange-50 p-6 md:p-8 rounded-2xl border border-orange-200 animate-in zoom-in-95 duration-300">
+                  <div className="w-16 h-16 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Info size={36} />
+                  </div>
+                  <h3 className="font-bold text-orange-800 text-2xl mb-2">Device is Compatible!</h3>
+                  <p className="text-orange-700 font-medium mb-5 text-sm md:text-base">
+                    Your phone model supports eSIM, but to be 100% certain it is unlocked by your carrier, please verify it manually.
+                  </p>
+                  
+                  <div className="bg-white p-4 rounded-xl border border-orange-200 shadow-sm text-sm text-orange-900 font-medium">
+                    Dial <span className="font-bold text-lg px-1">*#06#</span> on your phone.<br/>
+                    If you see an <span className="font-extrabold text-black">EID</span> number on the screen, your device is ready!
+                  </div>
+
+                  <button 
+                    onClick={handleCloseModal}
+                    className="mt-6 w-full py-3.5 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-all cursor-pointer shadow-md active:scale-95"
+                  >
+                    Okay, I will check
+                  </button>
+                </div>
+              )}
+
+              {/* STATE 5: FAIL (LOW CONFIDENCE) */}
               {status === "fail" && (
                 <div className="text-center bg-red-50 p-8 rounded-2xl border border-red-100 animate-in zoom-in-95 duration-300">
                   <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <XCircle size={36} />
                   </div>
                   <h3 className="font-bold text-red-800 text-2xl mb-2">Not Compatible</h3>
-                  <p className="text-red-700 font-medium">Sorry, it looks like this specific model does not support eSIM technology.</p>
+                  <p className="text-red-700 font-medium">Sorry, it looks like this device does not support eSIM technology.</p>
                   
-                  <button onClick={() => { setStatus("idle"); setDeviceInput(""); }} className="mt-6 w-full py-3.5 bg-white border-2 border-red-200 text-red-700 font-bold rounded-xl hover:bg-red-100 transition-all cursor-pointer shadow-sm">
-                    Check another device
+                  <button 
+                    onClick={handleCloseModal} 
+                    className="mt-6 w-full py-3.5 bg-white border-2 border-red-200 text-red-700 font-bold rounded-xl hover:bg-red-100 transition-all cursor-pointer shadow-sm active:scale-95"
+                  >
+                    Close
                   </button>
                 </div>
               )}
