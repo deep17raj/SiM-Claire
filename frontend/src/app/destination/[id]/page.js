@@ -6,7 +6,7 @@ import Image from "next/image";
 import axios from "axios";
 import { 
     Wifi, Phone, MessageSquare, ArrowLeft, Globe2, 
-    MapPin, Calendar, Info, ChevronLeft, ShieldCheck, Tag, Smartphone 
+    MapPin, Calendar, Info, ChevronLeft, ShieldCheck, Tag, Smartphone, ArrowUpDown 
 } from "lucide-react";
 import { useCurrency } from "@/context/CurrencyContext";
 import { allDestinations } from "@/data/destinationData"; 
@@ -52,6 +52,9 @@ export default function DestinationPage() {
     const [filter, setFilter] = useState("all");
     const [showAll, setShowAll] = useState(false);
     
+    // 🌟 Sort State 🌟
+    const [sortBy, setSortBy] = useState("featured");
+    
     // 🌟 Checkout View States 🌟
     const [checkoutPlan, setCheckoutPlan] = useState(null);
     const [promoCode, setPromoCode] = useState("");
@@ -78,7 +81,7 @@ export default function DestinationPage() {
         }
     }, [destinationID, currency, isCurrencyLoading]);
 
-    // FILTER LOGIC 
+    // 1. FILTER LOGIC 
     const filteredPlans = plans.filter(plan => {
         if (filter === "all") return true;
         if (filter === "combo") {
@@ -87,7 +90,17 @@ export default function DestinationPage() {
         return plan.category === filter;
     });
 
-    const displayedPlans = showAll ? filteredPlans : filteredPlans.slice(0, 8);
+    // 2. 🌟 SORT LOGIC 🌟
+    const sortedPlans = [...filteredPlans].sort((a, b) => {
+        if (sortBy === "price-asc") return a.finalPrice - b.finalPrice;
+        if (sortBy === "price-desc") return b.finalPrice - a.finalPrice;
+        if (sortBy === "days-asc") return a.days - b.days;
+        if (sortBy === "days-desc") return b.days - a.days;
+        return 0; // default / featured
+    });
+
+    // 3. PAGINATION LOGIC (Using the sorted array)
+    const displayedPlans = showAll ? sortedPlans : sortedPlans.slice(0, 8);
 
     if (loading) {
         return (
@@ -122,7 +135,7 @@ export default function DestinationPage() {
                                 setCheckoutPlan(null);
                                 setAgreedToTerms(false); // Reset terms on back
                             }} 
-                            className="absolute left-0 -top-5 md:top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-sm font-bold text-gray-500 hover:text-brand transition-colors   px-4 py-2 rounded-full cursor-pointer "
+                            className="absolute left-0 -top-5 md:top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-sm font-bold text-gray-500 hover:text-brand transition-colors  px-4 py-2 rounded-full cursor-pointer "
                         >
                             <ArrowLeft size={16} /> Back
                         </button>
@@ -163,7 +176,6 @@ export default function DestinationPage() {
                                 </span>
                             </div>
 
-                            {/* 🌟 NEW: Separated Data, Calls, and SMS rows 🌟 */}
                             <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
                                 <span className="text-gray-500 flex items-center gap-2"><Wifi size={18} /> Data Limit</span>
                                 <span className="font-bold text-gray-900">
@@ -197,12 +209,11 @@ export default function DestinationPage() {
                             </button>
                         </div>
 
-                        {/* Promo Code Section - Fixed mobile layout */}
+                        {/* Promo Code Section */}
                         <div className="mb-8">
                             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
                                 <Tag size={16} className="text-gray-400" /> Have a Promo Code?
                             </label>
-                            {/* 🌟 Changed to flex-col on mobile, flex-row on desktop (sm) 🌟 */}
                             <div className="flex flex-col sm:flex-row gap-3 w-full">
                                 <input 
                                     type="text" 
@@ -272,12 +283,36 @@ export default function DestinationPage() {
             </div>
 
             <div className="max-w-[1400px] mx-auto px-4 mt-12">
-                <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-                    <h2 className="text-2xl font-bold text-gray-800">Available Plans ({filteredPlans.length})</h2>
-                    <div className="flex bg-white gap-2 p-1.5 rounded-full border border-gray-200 shadow-sm w-full md:w-auto overflow-x-auto">
-                        <button onClick={() => { setFilter("all"); setShowAll(false); }} className={`px-5 cursor-pointer py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "all" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>All Plans</button>
-                        <button onClick={() => { setFilter("data"); setShowAll(false); }} className={`px-5 py-2.5 cursor-pointer rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "data" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>Data Only</button>
-                        <button onClick={() => { setFilter("combo"); setShowAll(false); }} className={`px-5 py-2.5 cursor-pointer rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "combo" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>Voice + SMS</button>
+                
+                {/* 🌟 TOP BAR WITH SORTING 🌟 */}
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
+                    <h2 className="text-2xl font-bold text-gray-800">Available Plans ({sortedPlans.length})</h2>
+                    
+                    <div className="flex flex-col sm:flex-row w-full lg:w-auto items-start sm:items-center gap-4">
+                        
+                        {/* Category Filters */}
+                        <div className="flex justify-center items-center bg-white gap-2 p-1.5 rounded-full border border-gray-200 shadow-sm w-full sm:w-auto overflow-x-auto">
+                            <button onClick={() => { setFilter("all"); setShowAll(false); }} className={`px-5 cursor-pointer py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "all" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>All Plans</button>
+                            <button onClick={() => { setFilter("data"); setShowAll(false); }} className={`px-5 py-2.5 cursor-pointer rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "data" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>Data Only</button>
+                            <button onClick={() => { setFilter("combo"); setShowAll(false); }} className={`px-5 py-2.5 cursor-pointer rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "combo" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>Voice + SMS</button>
+                        </div>
+
+                        {/* Sort Dropdown */}
+                        <div className="flex items-center gap-2 bg-white px-4 py-3.5 rounded-full border border-gray-200 shadow-sm w-full sm:w-auto shrink-0">
+                            <ArrowUpDown size={16} className="text-gray-400 shrink-0" />
+                            <select 
+                                value={sortBy} 
+                                onChange={(e) => setSortBy(e.target.value)}
+                                className="bg-transparent text-sm font-bold text-gray-700 outline-none cursor-pointer w-full"
+                            >
+                                <option value="featured">Sort by: Featured</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="days-asc">Validity: Short to Long</option>
+                                <option value="days-desc">Validity: Long to Short</option>
+                            </select>
+                        </div>
+                        
                     </div>
                 </div>
 
@@ -336,10 +371,10 @@ export default function DestinationPage() {
                     ))}
                 </div>
 
-                {filteredPlans.length > 8 && (
+                {sortedPlans.length > 8 && (
                     <div className="mt-12 text-center flex justify-center">
                         <button onClick={() => setShowAll(!showAll)} className="text-brand text-lg border-brand border-2 rounded-lg px-10 py-3 font-bold hover:bg-brand hover:text-white transition-all cursor-pointer">
-                            {showAll ? "Show Less" : `View More Plans (${filteredPlans.length - 8})`}
+                            {showAll ? "Show Less" : `View More Plans (${sortedPlans.length - 8})`}
                         </button>
                     </div>
                 )}
