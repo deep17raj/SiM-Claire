@@ -4,12 +4,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import axios from "axios";
-import { 
-    Wifi, Phone, MessageSquare, ArrowLeft, Globe2, 
-    MapPin, Calendar, Info, ChevronLeft, ShieldCheck, Tag, Smartphone, ArrowUpDown 
+import {
+    Wifi, Phone, MessageSquare, ArrowLeft, Globe2,
+    MapPin, Calendar, ArrowUpDown
 } from "lucide-react";
 import { useCurrency } from "@/context/CurrencyContext";
-import { allDestinations } from "@/data/destinationData"; 
+import { allDestinations } from "@/data/destinationData";
 
 // --- Helper to get Flag URL ---
 const getFlagUrl = (isoCode) => {
@@ -28,7 +28,7 @@ const formatCurrency = (price, currencyCode) => {
             maximumFractionDigits: 2
         }).format(price);
     } catch (e) {
-        return `${currencyCode} ${price.toFixed(2)}`; 
+        return `${currencyCode} ${price.toFixed(2)}`;
     }
 };
 
@@ -51,14 +51,9 @@ export default function DestinationPage() {
     const [error, setError] = useState("");
     const [filter, setFilter] = useState("all");
     const [showAll, setShowAll] = useState(false);
-    
+
     // 🌟 Sort State 🌟
     const [sortBy, setSortBy] = useState("featured");
-    
-    // 🌟 Checkout View States 🌟
-    const [checkoutPlan, setCheckoutPlan] = useState(null);
-    const [promoCode, setPromoCode] = useState("");
-    const [agreedToTerms, setAgreedToTerms] = useState(false); 
 
     const countryInfo = getCountryDetails(destinationID);
     const { currency, loading: isCurrencyLoading } = useCurrency();
@@ -122,145 +117,6 @@ export default function DestinationPage() {
         );
     }
 
-    // 🌟 CHECKOUT VIEW RENDER 🌟
-    if (checkoutPlan) {
-        return (
-            <div className="min-h-screen mt-4 bg-[#fafafa] font-sans pb-20 pt-8 animate-in fade-in duration-300">
-                <div className="max-w-3xl mx-auto px-4">
-                    
-                    {/* Checkout Header */}
-                    <div className="flex flex-col items-center mb-8 relative">
-                        <button 
-                            onClick={() => {
-                                setCheckoutPlan(null);
-                                setAgreedToTerms(false); // Reset terms on back
-                            }} 
-                            className="absolute left-0 -top-5 md:top-1/2 -translate-y-1/2 flex items-center gap-1.5 text-sm font-bold text-gray-500 hover:text-brand transition-colors  px-4 py-2 rounded-full cursor-pointer "
-                        >
-                            <ArrowLeft size={16} /> Back
-                        </button>
-                        <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Secure Checkout</h1>
-                        <div className="w-12 h-1 bg-brand rounded-full mt-3"></div>
-                    </div>
-
-                    {/* Main Checkout Card */}
-                    <div className="bg-[#fff9f5] border border-orange-100 rounded-[2rem] p-6 md:p-10 shadow-lg shadow-orange-500/5">
-                        
-                        {/* Title Row: Flag + Name + Data */}
-                        <div className="flex items-center justify-between mb-8">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full overflow-hidden shadow-md border-2 border-white shrink-0">
-                                    <img src={getFlagUrl(countryInfo.iso)} alt={countryInfo.name} className="w-full h-full object-cover" />
-                                </div>
-                                <h2 className="text-xl md:text-2xl font-bold text-gray-900">{countryInfo.name} eSIM</h2>
-                            </div>
-                            <div className="text-right shrink-0">
-                                <span className="text-xl md:text-2xl font-black text-brand">
-                                    {checkoutPlan.data} {checkoutPlan.dataUnit}
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Details List */}
-                        <div className="space-y-4 mb-6">
-                            
-                            <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
-                                <span className="text-gray-500 flex items-center gap-2"><Calendar size={18} /> Validity</span>
-                                <span className="font-bold text-gray-900">{checkoutPlan.days} days</span>
-                            </div>
-                            
-                            <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
-                                <span className="text-gray-500 flex items-center gap-2"><Globe2 size={18} /> Coverage</span>
-                                <span className="font-bold text-brand">
-                                    {checkoutPlan.local ? "Local Coverage" : "Global Coverage"}
-                                </span>
-                            </div>
-
-                            <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
-                                <span className="text-gray-500 flex items-center gap-2"><Wifi size={18} /> Data Limit</span>
-                                <span className="font-bold text-gray-900">
-                                    {checkoutPlan.data} {checkoutPlan.dataUnit}
-                                </span>
-                            </div>
-
-                            {checkoutPlan.hasVoice && (
-                                <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
-                                    <span className="text-gray-500 flex items-center gap-2"><Phone size={18} /> Calls</span>
-                                    <span className="font-bold text-gray-900">
-                                        {checkoutPlan.voiceMinutes} Minutes
-                                    </span>
-                                </div>
-                            )}
-
-                            {checkoutPlan.hasSms && (
-                                <div className="flex justify-between items-center py-2 border-b border-orange-200/50">
-                                    <span className="text-gray-500 flex items-center gap-2"><MessageSquare size={18} /> SMS</span>
-                                    <span className="font-bold text-gray-900">
-                                        {checkoutPlan.smsCount} Sms
-                                    </span>
-                                </div>
-                            )}
-
-                        </div>
-
-                        <div className="mb-8">
-                            <button className="w-full py-3.5 border-2 border-brand text-brand bg-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-orange-50 transition-colors cursor-pointer shadow-sm">
-                                <Smartphone size={18} /> Check if my device is compatible
-                            </button>
-                        </div>
-
-                        {/* Promo Code Section */}
-                        <div className="mb-8">
-                            <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-                                <Tag size={16} className="text-gray-400" /> Have a Promo Code?
-                            </label>
-                            <div className="flex flex-col sm:flex-row gap-3 w-full">
-                                <input 
-                                    type="text" 
-                                    value={promoCode}
-                                    onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-                                    placeholder="Enter code here"
-                                    className="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-3.5 text-gray-900 font-medium outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-all uppercase placeholder:normal-case"
-                                />
-                                <button className="px-8 py-3.5 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed" disabled={!promoCode}>
-                                    Apply
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Terms and Conditions Checkbox */}
-                        <div className="flex items-start gap-3 mb-6 bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-                            <input 
-                                type="checkbox" 
-                                id="terms" 
-                                checked={agreedToTerms}
-                                onChange={(e) => setAgreedToTerms(e.target.checked)}
-                                className="mt-1 w-5 h-5 text-brand accent-brand cursor-pointer shrink-0" 
-                            />
-                            <label htmlFor="terms" className="text-sm text-gray-600 leading-snug cursor-pointer select-none">
-                                I confirm my device is network-unlocked and eSIM compatible. I agree to the <a href="#" className="text-brand font-bold hover:underline">Terms & Conditions</a> and <a href="#" className="text-brand font-bold hover:underline">Privacy Policy</a>.
-                            </label>
-                        </div>
-
-                        {/* Final Buy Button */}
-                        <button 
-                            disabled={!agreedToTerms}
-                            className={`w-full py-4.5 text-xl rounded-2xl font-bold flex justify-center items-center gap-2 transition-all cursor-pointer ${
-                                agreedToTerms 
-                                ? "bg-brand text-white shadow-xl shadow-brand/30 hover:bg-[#d94a0e] hover:-translate-y-0.5 active:translate-y-0" 
-                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            }`}
-                        >
-                            <ShieldCheck size={24} className={agreedToTerms ? "text-white" : "text-gray-400"} />
-                            Pay Securely • {formatCurrency(checkoutPlan.finalPrice, checkoutPlan.displayCurrency)}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // 🌟 STANDARD DESTINATION VIEW (When not in checkout) 🌟
     return (
         <div className="min-h-screen bg-[#fafafa] font-sans pb-20">
             <div className="bg-white border-b border-gray-200 pt-8 pb-12 px-4 shadow-sm">
@@ -283,13 +139,13 @@ export default function DestinationPage() {
             </div>
 
             <div className="max-w-[1400px] mx-auto px-4 mt-12">
-                
+
                 {/* 🌟 TOP BAR WITH SORTING 🌟 */}
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-10 gap-6">
                     <h2 className="text-2xl font-bold text-gray-800">Available Plans ({sortedPlans.length})</h2>
-                    
+
                     <div className="flex flex-col sm:flex-row w-full lg:w-auto items-start sm:items-center gap-4">
-                        
+
                         {/* Category Filters */}
                         <div className="flex justify-center items-center bg-white gap-2 p-1.5 rounded-full border border-gray-200 shadow-sm w-full sm:w-auto overflow-x-auto">
                             <button onClick={() => { setFilter("all"); setShowAll(false); }} className={`px-5 cursor-pointer py-2.5 rounded-full font-bold text-sm transition-all whitespace-nowrap ${filter === "all" ? "bg-brand text-white shadow-sm" : "text-gray-500 hover:text-brand"}`}>All Plans</button>
@@ -300,8 +156,8 @@ export default function DestinationPage() {
                         {/* Sort Dropdown */}
                         <div className="flex items-center gap-2 bg-white px-4 py-3.5 rounded-full border border-gray-200 shadow-sm w-full sm:w-auto shrink-0">
                             <ArrowUpDown size={16} className="text-gray-400 shrink-0" />
-                            <select 
-                                value={sortBy} 
+                            <select
+                                value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
                                 className="bg-transparent text-sm font-bold text-gray-700 outline-none cursor-pointer w-full"
                             >
@@ -312,7 +168,7 @@ export default function DestinationPage() {
                                 <option value="days-desc">Validity: Long to Short</option>
                             </select>
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -322,7 +178,7 @@ export default function DestinationPage() {
                             <div className="flex justify-between items-start mb-4 gap-2">
                                 <div>
                                     <h3 className="text-[17px] font-bold text-gray-900 leading-tight mb-1">
-                                         {plan.data} {plan.dataUnit} {plan.category === "combo" ? "Combo" : "Data"}
+                                        {plan.data} {plan.dataUnit} {plan.category === "combo" ? "Combo" : "Data"}
                                     </h3>
                                     <p className="text-xs text-gray-500 font-semibold flex items-center gap-1 uppercase tracking-wide">
                                         <MapPin size={12} className="text-gray-400" /> {plan.local ? "Local" : "Global"}
@@ -360,8 +216,9 @@ export default function DestinationPage() {
                             </div>
 
                             <div className="flex gap-3 mb-4">
-                                <button 
-                                    onClick={() => setCheckoutPlan(plan)}
+                                {/* 🌟 REDIRECTS TO NEW PAGE INSTEAD OF OPENING MODAL 🌟 */}
+                                <button
+                                    onClick={() => router.push(`/checkout/${plan.id}?dest=${destinationID}`)}
                                     className="flex-1 py-2.5 bg-brand text-white rounded-[10px] text-sm font-bold hover:bg-[#d94a0e] transition-all shadow-md shadow-brand/20 active:scale-95 cursor-pointer"
                                 >
                                     Select Plan
