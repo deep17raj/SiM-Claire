@@ -86,7 +86,7 @@ const Destinations = () => {
         {destinations.map((dest) => (
           // Changed div to Link to enable routing using the destinationID
           <Link 
-            href={`/destination/${dest.destinationID}?countryCode=${currency}`}
+            href={`/destination/${dest.destinationID}`}
             key={dest.id} 
             className="relative block h-48 md:h-56 rounded-2xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
           >
