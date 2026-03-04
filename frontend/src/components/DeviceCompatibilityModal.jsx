@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
-import { X, CheckCircle2, Smartphone, XCircle, Info } from "lucide-react";
+import { X, CheckCircle2, Smartphone, Info, Search,Phone } from "lucide-react";
 
 export default function DeviceCompatibilityModal({ isOpen, onClose }) {
-  const [status, setStatus] = useState("idle"); // idle, checking, success, verify, fail
+  const router = useRouter();
+  const [status, setStatus] = useState("idle"); // idle, checking, success, verify
 
   // Reset status to idle every time the modal opens
   useEffect(() => {
@@ -31,16 +33,19 @@ export default function DeviceCompatibilityModal({ isOpen, onClose }) {
       
       const apiData = res.data.data || res.data;
 
+      // 🌟 STRICT LOGIC BASED ON CONFIDENCE 🌟
       if (apiData.confidence === "high" && apiData.requires_manual_selection === false) {
+        // High Confidence -> Full Success
         setStatus("success");
-      } else if (apiData.confidence === "medium") {
-        setStatus("verify");
       } else {
-        setStatus("fail");
+        // Medium & Low Confidence -> Show manual verification instructions
+        setStatus("verify");
       }
+
     } catch (err) {
       console.error("Error checking device", err);
-      setStatus("fail");
+      // If API fails or errors out, default to the manual verify state
+      setStatus("verify");
     }
   };
 
@@ -107,46 +112,44 @@ export default function DeviceCompatibilityModal({ isOpen, onClose }) {
             </div>
           )}
 
-          {/* STATE 4: VERIFY (MEDIUM CONFIDENCE) */}
+          {/* 🌟 STATE 4: VERIFY (MEDIUM & LOW CONFIDENCE) 🌟 */}
           {status === "verify" && (
             <div className="text-center bg-orange-50 p-6 md:p-8 rounded-2xl border border-orange-200 animate-in zoom-in-95 duration-300">
               <div className="w-16 h-16 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Info size={36} />
               </div>
-              <h3 className="font-bold text-orange-800 text-2xl mb-2">Device is Compatible!</h3>
+              <h3 className="font-bold text-orange-800 text-2xl mb-2">Manual Check Required</h3>
               <p className="text-orange-700 font-medium mb-5 text-sm md:text-base">
-                Your phone model supports eSIM, but to be 100% certain it is unlocked by your carrier, please verify it manually.
+                Due to recent browser privacy updates, we cannot detect your exact device model automatically.
               </p>
               
-              <div className="bg-white p-4 rounded-xl border border-orange-200 shadow-sm text-sm text-orange-900 font-medium">
-                Dial <span className="font-bold text-lg px-1">*#06#</span> on your phone.<br/>
-                If you see an <span className="font-extrabold text-black">EID</span> number on the screen, your device is ready!
+              <div className="bg-white p-4 rounded-xl border border-orange-200 shadow-sm text-sm text-orange-900 font-medium text-left">
+                <p className="font-bold text-gray-800 mb-2">How to check your compatibility:</p>
+                <ul className="list-decimal pl-5 space-y-2 text-gray-600">
+                  <li>Dial <span className="font-bold text-black">*#06#</span> on your phone's keypad. If an <span className="font-extrabold text-black">EID</span> number appears, your device supports eSIM!</li>
+                  <li>Alternatively, search for your device manually using our compatibility list.</li>
+                </ul>
               </div>
 
-              <button 
-                onClick={handleClose}
-                className="mt-6 w-full py-3.5 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-all cursor-pointer shadow-md active:scale-95"
-              >
-                Okay, I will check
-              </button>
-            </div>
-          )}
-
-          {/* STATE 5: FAIL (LOW CONFIDENCE) */}
-          {status === "fail" && (
-            <div className="text-center bg-red-50 p-8 rounded-2xl border border-red-100 animate-in zoom-in-95 duration-300">
-              <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <XCircle size={36} />
+              <div className="flex flex-col gap-3 mt-6">
+                <a 
+  href="tel:*%2306%23"
+  onClick={handleClose}
+  className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-all cursor-pointer shadow-md active:scale-95 flex items-center justify-center gap-2 no-underline"
+>
+  <Phone size={18} />
+  Got it, I'll check my phone
+</a>
+                <button 
+                  onClick={() => {
+                    handleClose();
+                    router.push("/supported-devices"); // Adjust to your actual supported devices route
+                  }}
+                  className="w-full py-3.5 bg-white border-2 border-orange-200 text-orange-700 font-bold rounded-xl hover:bg-orange-50 transition-all cursor-pointer shadow-sm active:scale-95 flex items-center justify-center gap-2"
+                >
+                  <Search size={18} /> Search Device Manually
+                </button>
               </div>
-              <h3 className="font-bold text-red-800 text-2xl mb-2">Not Compatible</h3>
-              <p className="text-red-700 font-medium">Sorry, it looks like this device does not support eSIM technology.</p>
-              
-              <button 
-                onClick={handleClose} 
-                className="mt-6 w-full py-3.5 bg-white border-2 border-red-200 text-red-700 font-bold rounded-xl hover:bg-red-100 transition-all cursor-pointer shadow-sm active:scale-95"
-              >
-                Close
-              </button>
             </div>
           )}
 
