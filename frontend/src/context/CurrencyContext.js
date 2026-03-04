@@ -3,52 +3,52 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 
-// 1. Define our supported currencies and fallback exchange rates
-// In a real app, you might fetch live exchange rates from your backend!
-const exchangeRates = {
-  USD: { symbol: "$", rate: 1 },       // Base currency (e.g., $1.00)
-  INR: { symbol: "₹", rate: 83.0 },    // 1 USD = 83 INR
-  EUR: { symbol: "€", rate: 0.92 },    // 1 USD = 0.92 EUR
-  GBP: { symbol: "£", rate: 0.79 },    // 1 USD = 0.79 GBP
-  CAD: { symbol: "C$", rate: 1.35 },   // 1 USD = 1.35 CAD
-  AUD: { symbol: "A$", rate: 1.52 },   // 1 USD = 1.52 AUD
-};
-
-// Map country codes to currencies
-const countryToCurrency = {
-  US: "USD", IN: "INR", GB: "GBP", CA: "CAD", AU: "AUD",
-  // Eurozone countries
-  FR: "EUR", DE: "EUR", IT: "EUR", ES: "EUR", NL: "EUR", IE: "EUR" 
-};
-
 const CurrencyContext = createContext();
 
 export const CurrencyProvider = ({ children }) => {
-  // Default to USD if we can't find them
-  const [currency, setCurrency] = useState("USD");
+  // Default to US (or whatever default country code your backend expects)
+  const [currency, setCurrency] = useState("US");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const detectLocation = async () => {
       try {
-        // We check localStorage first so we don't hit the IP API on every page reload
-        const savedCurrency = localStorage.getItem("userCurrency");
-        if (savedCurrency && exchangeRates[savedCurrency]) {
-          setCurrency(savedCurrency);
-          setLoading(false);
-          return;
+        // 1. Check local storage first
+        const savedDataString = localStorage.getItem("userCurrency");
+
+        if (savedDataString) {
+          const savedData = JSON.parse(savedDataString);
+          const currentTime = new Date().getTime();
+
+          // 2. Check if it's been less than 30 minutes
+          if (currentTime < savedData.expiry) {
+            setCurrency(savedData.value);
+            setLoading(false);
+            return;
+          } else {
+            // Expired, delete it to fetch fresh data
+            localStorage.removeItem("userCurrency");
+          }
         }
 
-        // Fetch location from a free IP Geolocation service
+        // 3. Fetch location from a free IP Geolocation service
         const res = await axios.get("https://ipapi.co/json/");
         const countryCode = res.data.country_code; // e.g., "US", "IN"
 
-        // Find the matching currency, or default to USD
-        
+        // 4. Calculate 30 min expiration (30 mins * 60 seconds * 1000 ms)
+        const expirationTime = new Date().getTime() + 30 * 60 * 1000;
+
+        const dataToSave = {
+          value: countryCode,
+          expiry: expirationTime,
+        };
+
+        // 5. Update state and save to local storage
         setCurrency(countryCode);
-        localStorage.setItem("userCurrency", countryCode); // Save for next time
+        localStorage.setItem("userCurrency", JSON.stringify(dataToSave));
+
       } catch (err) {
-        console.error("Failed to detect location, defaulting to USD", err);
+        console.error("Failed to detect location, defaulting to US", err);
         setCurrency("US"); // Fallback
       } finally {
         setLoading(false);
@@ -58,12 +58,23 @@ export const CurrencyProvider = ({ children }) => {
     detectLocation();
   }, []);
 
-  // Format Helper Function: Takes a base USD price and returns the localized string
-  const formatPrice = (basePriceInUSD) => {
-    const rateInfo = exchangeRates[currency] || exchangeRates.USD;
-    const convertedPrice = basePriceInUSD * rateInfo.rate;
+  // Format Helper Function: 
+  // Now it just takes the price and the currency code (e.g. "INR", "USD") from your backend
+  // and formats it nicely with the correct symbol. No math required!
+  const formatPrice = (price, displayCurrencyCode = "USD") => {
+    if (price === undefined || price === null) return "N/A";
     
-    return `${rateInfo.symbol}${convertedPrice.toFixed(2)}`;
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: displayCurrencyCode,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(price);
+    } catch (e) {
+      // Fallback if an invalid currency code is passed
+      return `${displayCurrencyCode} ${Number(price).toFixed(2)}`; 
+    }
   };
 
   return (
