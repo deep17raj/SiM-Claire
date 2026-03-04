@@ -3,26 +3,23 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { X, CheckCircle2, Smartphone, Info, Search,Phone } from "lucide-react";
+import { X, CheckCircle2, Smartphone, Info, Search, Phone } from "lucide-react";
 
 export default function DeviceCompatibilityModal({ isOpen, onClose }) {
   const router = useRouter();
-  const [status, setStatus] = useState("idle"); // idle, checking, success, verify
+  const [status, setStatus] = useState("idle"); // idle, checking, success, verify, fail
 
-  // Reset status to idle every time the modal opens
   useEffect(() => {
     if (isOpen) {
       setStatus("idle");
     }
   }, [isOpen]);
 
-  // Handle closing with a slight delay to prevent flicker
   const handleClose = () => {
     onClose();
     setTimeout(() => setStatus("idle"), 300);
   };
 
-  // Auto-Check Logic
   const handleAutoCheck = async () => {
     setStatus("checking");
 
@@ -33,18 +30,14 @@ export default function DeviceCompatibilityModal({ isOpen, onClose }) {
       
       const apiData = res.data.data || res.data;
 
-      // 🌟 STRICT LOGIC BASED ON CONFIDENCE 🌟
       if (apiData.confidence === "high" && apiData.requires_manual_selection === false) {
-        // High Confidence -> Full Success
         setStatus("success");
       } else {
-        // Medium & Low Confidence -> Show manual verification instructions
         setStatus("verify");
       }
 
     } catch (err) {
       console.error("Error checking device", err);
-      // If API fails or errors out, default to the manual verify state
       setStatus("verify");
     }
   };
@@ -52,104 +45,143 @@ export default function DeviceCompatibilityModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-200">
+    // 🌟 Premium Backdrop: slightly darker with a stronger blur
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-300">
+      
+      {/* 🌟 Premium Container: Hidden scrollbar, large border radius, subtle gradient background */}
+      <div className="w-full max-w-md max-h-[90vh] overflow-y-auto rounded-[2rem] bg-gradient-to-b from-white to-gray-50/50 shadow-2xl shadow-black/20 border border-white/60 relative animate-in zoom-in-95 duration-300 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         
+        {/* Floating Close Button */}
         <button 
           onClick={handleClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 p-1.5 rounded-full transition-colors z-10 cursor-pointer"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 text-gray-400 hover:text-gray-800 bg-gray-100/80 hover:bg-gray-200 p-2 rounded-full transition-all z-10 cursor-pointer backdrop-blur-sm"
         >
-          <X size={20} />
+          <X size={18} strokeWidth={2.5} />
         </button>
 
-        <div className="p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-            Device Compatibility
-          </h2>
-
+        <div className="p-6 sm:p-8 pt-10 sm:pt-10">
+          
           {/* STATE 1: IDLE */}
           {status === "idle" && (
             <div className="text-center animate-in fade-in duration-300">
-              <div className="w-16 h-16 bg-brand/10 text-brand rounded-full flex items-center justify-center mx-auto mb-4">
-                <Smartphone size={32} />
+              <div className="w-20 h-20 bg-gradient-to-tr from-brand/20 to-brand/5 text-brand rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 shadow-inner border border-brand/10">
+                <Smartphone size={36} strokeWidth={1.5} />
               </div>
-              <p className="text-gray-500 mb-6">Let's check if the device you are currently using supports eSIM technology.</p>
+              <h2 className="text-2xl font-extrabold text-gray-900 mb-3 tracking-tight">
+                Device Compatibility
+              </h2>
+              <p className="text-gray-500 mb-8 leading-relaxed">
+                Let's check if the device you are currently using supports eSIM technology.
+              </p>
               <button 
                 onClick={handleAutoCheck}
-                className="w-full py-3.5 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-all cursor-pointer shadow-md active:scale-95"
+                className="w-full py-4 bg-gray-900 text-white text-lg font-bold rounded-2xl hover:bg-black hover:shadow-xl hover:shadow-gray-900/20 hover:-translate-y-0.5 transition-all cursor-pointer active:scale-95"
               >
                 Auto-Detect My Device
               </button>
-              <div className="mt-6 text-sm text-gray-400">
-                Or dial <span className="font-bold text-gray-600">*#06#</span> on your phone. If you see an "EID" number, you are compatible!
-              </div>
             </div>
           )}
 
           {/* STATE 2: CHECKING */}
           {status === "checking" && (
-            <div className="text-center py-8 animate-in fade-in duration-300">
-              <div className="w-12 h-12 border-4 border-brand border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="font-medium text-gray-600">Analyzing device capabilities...</p>
+            <div className="text-center py-12 animate-in fade-in duration-300">
+              <div className="w-14 h-14 border-[4px] border-brand/30 border-t-brand rounded-full animate-spin mx-auto mb-6"></div>
+              <h2 className="text-xl font-bold text-gray-900 mb-2 tracking-tight">Analyzing Device</h2>
+              <p className="font-medium text-gray-500">Checking system capabilities...</p>
             </div>
           )}
 
-          {/* STATE 3: SUCCESS (HIGH CONFIDENCE) */}
+          {/* STATE 3: SUCCESS */}
           {status === "success" && (
-            <div className="text-center bg-emerald-50 p-8 rounded-2xl border border-emerald-100 animate-in zoom-in-95 duration-300">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 size={36} />
+            <div className="text-center animate-in zoom-in-95 duration-300">
+              <div className="w-20 h-20 bg-gradient-to-tr from-emerald-100 to-emerald-50 text-emerald-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 shadow-inner border border-emerald-200/50">
+                <CheckCircle2 size={40} strokeWidth={2} />
               </div>
-              <h3 className="font-bold text-emerald-800 text-2xl mb-2">Great news!</h3>
-              <p className="text-emerald-700 font-medium">Your device is fully eSIM compatible. You are ready to travel.</p>
+              <h3 className="font-extrabold text-gray-900 text-2xl mb-3 tracking-tight">Great news!</h3>
+              <p className="text-gray-600 leading-relaxed mb-8">
+                Your device is fully eSIM compatible. You are ready to purchase a plan and travel.
+              </p>
               
               <button 
                 onClick={handleClose}
-                className="mt-6 w-full py-3.5 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all cursor-pointer shadow-md active:scale-95"
+                className="w-full py-4 bg-emerald-600 text-white text-lg font-bold rounded-2xl hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-600/20 hover:-translate-y-0.5 transition-all cursor-pointer active:scale-95"
               >
-                Close
+                Awesome, close this
               </button>
             </div>
           )}
 
-          {/* 🌟 STATE 4: VERIFY (MEDIUM & LOW CONFIDENCE) 🌟 */}
+          {/* STATE 4: VERIFY (Premium Manual Check) */}
           {status === "verify" && (
-            <div className="text-center bg-orange-50 p-6 md:p-8 rounded-2xl border border-orange-200 animate-in zoom-in-95 duration-300">
-              <div className="w-16 h-16 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Info size={36} />
+            <div className="text-center animate-in zoom-in-95 duration-300">
+              <div className="w-16 h-16 bg-gradient-to-tr from-orange-100 to-orange-50 text-orange-500 rounded-[1.2rem] flex items-center justify-center mx-auto mb-5 shadow-inner border border-orange-200/50">
+                <Info size={32} strokeWidth={2} />
               </div>
-              <h3 className="font-bold text-orange-800 text-2xl mb-2">Manual Check Required</h3>
-              <p className="text-orange-700 font-medium mb-5 text-sm md:text-base">
+              <h3 className="font-extrabold text-gray-900 text-2xl mb-2 tracking-tight">Manual Check Required</h3>
+              <p className="text-gray-500 font-medium mb-6 text-sm sm:text-base leading-relaxed">
                 Due to recent browser privacy updates, we cannot detect your exact device model automatically.
               </p>
               
-              <div className="bg-white p-4 rounded-xl border border-orange-200 shadow-sm text-sm text-orange-900 font-medium text-left">
-                <p className="font-bold text-gray-800 mb-2">How to check your compatibility:</p>
-                <ul className="list-decimal pl-5 space-y-2 text-gray-600">
-                  <li>Dial <span className="font-bold text-black">*#06#</span> on your phone's keypad. If an <span className="font-extrabold text-black">EID</span> number appears, your device supports eSIM!</li>
-                  <li>Alternatively, search for your device manually using our compatibility list.</li>
+              <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm text-left mb-6 relative overflow-hidden">
+                {/* Subtle decorative accent */}
+                <div className="absolute top-0 left-0 w-1 h-full bg-orange-400"></div>
+                
+                <p className="font-bold text-gray-800 mb-3">How to check your phone:</p>
+                <ul className="space-y-3 text-gray-600 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="font-bold text-gray-400 mt-0.5">1.</span>
+                    <span className="leading-relaxed">
+                      Dial 
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 mx-1.5   text-gray-900 font-mono font-bold  text-xs">
+                        <Phone size={12} className="text-brand" /> *#06#
+                      </span> 
+                      on your phone's keypad. If an <span className="font-extrabold text-black">EID</span> number appears, you are compatible!
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="font-bold text-gray-400 mt-0.5">2.</span>
+                    <span>Or, search for your device manually.</span>
+                  </li>
                 </ul>
               </div>
 
-              <div className="flex flex-col gap-3 mt-6">
-                <a 
-  href="tel:*%2306%23"
-  onClick={handleClose}
-  className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-all cursor-pointer shadow-md active:scale-95 flex items-center justify-center gap-2 no-underline"
->
-  <Phone size={18} />
-  Got it, I'll check my phone
-</a>
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={handleClose}
+                  className="w-full py-4 bg-brand text-white text-base font-bold rounded-2xl hover:bg-[#d94a0e] hover:shadow-lg hover:shadow-brand/20 hover:-translate-y-0.5 transition-all cursor-pointer active:scale-95"
+                >
+                  Got it, I'll check my phone
+                </button>
                 <button 
                   onClick={() => {
                     handleClose();
-                    router.push("/supported-devices"); // Adjust to your actual supported devices route
+                    router.push("/supported-devices"); 
                   }}
-                  className="w-full py-3.5 bg-white border-2 border-orange-200 text-orange-700 font-bold rounded-xl hover:bg-orange-50 transition-all cursor-pointer shadow-sm active:scale-95 flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-2xl hover:bg-gray-50 transition-all cursor-pointer shadow-sm active:scale-95 flex items-center justify-center gap-2"
                 >
-                  <Search size={18} /> Search Device Manually
+                  <Search size={18} className="text-gray-400" /> Search Device Manually
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* STATE 5: FAIL */}
+          {status === "fail" && (
+            <div className="text-center animate-in zoom-in-95 duration-300">
+              <div className="w-20 h-20 bg-gradient-to-tr from-red-100 to-red-50 text-red-600 rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 shadow-inner border border-red-200/50">
+                <XCircle size={40} strokeWidth={2} />
+              </div>
+              <h3 className="font-extrabold text-gray-900 text-2xl mb-3 tracking-tight">Not Compatible</h3>
+              <p className="text-gray-600 leading-relaxed mb-8">
+                Sorry, it looks like this device does not support eSIM technology.
+              </p>
+              
+              <button 
+                onClick={handleClose} 
+                className="w-full py-4 bg-gray-100 text-gray-800 text-lg font-bold rounded-2xl hover:bg-gray-200 transition-all cursor-pointer active:scale-95"
+              >
+                Close
+              </button>
             </div>
           )}
 
