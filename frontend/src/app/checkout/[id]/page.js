@@ -6,10 +6,11 @@ import axios from "axios";
 import DeviceCompatibilityModal from "@/components/DeviceCompatibilityModal"; // Adjust path
 import { 
     Wifi, Phone, MessageSquare, Globe2, 
-    Calendar, Info, ChevronLeft, ShieldCheck, Tag, Smartphone 
+    Calendar, Info, ChevronLeft, ShieldCheck, Tag, Smartphone, MapPin
 } from "lucide-react";
 import { useCurrency } from "@/context/CurrencyContext";
 import { allDestinations } from "@/data/destinationData"; 
+import  CoverageModal  from "@/components/CoverageModal"; // Ensure this imports from your destination page!
 
 // --- Helper to get Flag URL ---
 const getFlagUrl = (isoCode) => {
@@ -59,6 +60,9 @@ export default function CheckoutPage() {
     const [promoCode, setPromoCode] = useState("");
     const [isPromoOpen, setIsPromoOpen] = useState(false);
     const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+    // 🌟 Coverage Modal State 🌟
+    const [coverageModalData, setCoverageModalData] = useState(null);
 
     const { currency, loading: isCurrencyLoading } = useCurrency();
     const countryInfo = getCountryDetails(destinationID);
@@ -161,9 +165,19 @@ export default function CheckoutPage() {
                         
                         <div className="flex justify-between items-center py-3 border-b border-orange-200/50">
                             <span className="text-gray-500 flex items-center gap-2"><Globe2 size={18} /> Coverage</span>
-                            <span className="font-bold text-brand text-lg">
-                                {checkoutPlan.local ? "Local Coverage" : "Global Coverage"}
-                            </span>
+                            {/* 🌟 COVERAGE LINK REPLACING STATIC TEXT 🌟 */}
+                            {checkoutPlan.supportedCountries && checkoutPlan.supportedCountries.length > 0 ? (
+                                <button 
+                                    onClick={() => setCoverageModalData(checkoutPlan.supportedCountries)}
+                                    className="font-bold text-brand text-lg flex items-center gap-1 hover:underline cursor-pointer"
+                                >
+                                    {checkoutPlan.supportedCountries.length} Countries <MapPin size={16} />
+                                </button>
+                            ) : (
+                                <span className="font-bold text-brand text-lg">
+                                    {checkoutPlan.local ? "Local Coverage" : "Global Coverage"}
+                                </span>
+                            )}
                         </div>
 
                         <div className="flex justify-between items-center py-3 border-b border-orange-200/50">
@@ -194,13 +208,13 @@ export default function CheckoutPage() {
 
                     {/* Check Compatibility Button */}
                     <div className="mb-8 mt-8">
-    <button 
-        onClick={() => setIsModalOpen(true)} 
-        className="w-full py-4 border-2 border-brand text-brand bg-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand hover:text-tertary transition-colors cursor-pointer shadow-sm text-lg"
-    >
-        <Smartphone size={20} /> Check if my device is compatible
-    </button>
-</div>
+                        <button 
+                            onClick={() => setIsModalOpen(true)} 
+                            className="w-full py-4 border-2 border-brand text-brand bg-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand hover:text-tertary transition-colors cursor-pointer shadow-sm text-lg"
+                        >
+                            <Smartphone size={20} /> Check if my device is compatible
+                        </button>
+                    </div>
                     
 
                     {/* Promo Code Section (Toggleable) */}
@@ -280,10 +294,18 @@ export default function CheckoutPage() {
                     </p>
                 </div>
             </div>
+            
             <DeviceCompatibilityModal 
-    isOpen={isModalOpen} 
-    onClose={() => setIsModalOpen(false)} 
-/>
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+            />
+
+            {/* 🌟 NEW COVERAGE MODAL INSTANCE 🌟 */}
+            <CoverageModal 
+                isOpen={!!coverageModalData} 
+                onClose={() => setCoverageModalData(null)} 
+                countries={coverageModalData} 
+            />
         </div>
     );
 }

@@ -6,10 +6,11 @@ import Image from "next/image";
 import axios from "axios";
 import {
     Wifi, Phone, MessageSquare, ArrowLeft, Globe2,
-    MapPin, Calendar, ArrowUpDown
+    MapPin, Calendar, ArrowUpDown, ChevronDown, ChevronUp
 } from "lucide-react";
 import { useCurrency } from "@/context/CurrencyContext";
 import { allDestinations } from "@/data/destinationData";
+import CoverageModal from "@/components/CoverageModal"; // 🌟 IMPORT IT HERE 🌟
 
 // --- Helper to get Flag URL ---
 const getFlagUrl = (isoCode) => {
@@ -55,6 +56,12 @@ export default function DestinationPage() {
     // 🌟 Sort State 🌟
     const [sortBy, setSortBy] = useState("featured");
 
+    // 🌟 Expanded Countries State 🌟
+    const [expandedPlanId, setExpandedPlanId] = useState(null);
+    
+    // 🌟 Coverage Modal State 🌟
+    const [coverageModalData, setCoverageModalData] = useState(null);
+
     const countryInfo = getCountryDetails(destinationID);
     const { currency, loading: isCurrencyLoading } = useCurrency();
 
@@ -96,6 +103,10 @@ export default function DestinationPage() {
 
     // 3. PAGINATION LOGIC (Using the sorted array)
     const displayedPlans = showAll ? sortedPlans : sortedPlans.slice(0, 8);
+
+    const toggleCountries = (id) => {
+        setExpandedPlanId(expandedPlanId === id ? null : id);
+    };
 
     if (loading) {
         return (
@@ -180,9 +191,7 @@ export default function DestinationPage() {
                                     <h3 className="text-[17px] font-bold text-gray-900 leading-tight mb-1">
                                         {plan.data} {plan.dataUnit} {plan.category === "combo" ? "Combo" : "Data"}
                                     </h3>
-                                    <p className="text-xs text-gray-500 font-semibold flex items-center gap-1 uppercase tracking-wide">
-                                        <MapPin size={12} className="text-gray-400" /> {plan.local ? "Local" : "Global"}
-                                    </p>
+                                    
                                 </div>
                                 <div className="text-right">
                                     <p className="text-2xl font-extrabold text-gray-900 leading-none">
@@ -214,8 +223,24 @@ export default function DestinationPage() {
                                     <span className="text-[10px] font-bold bg-orange-50 border border-orange-200 text-orange-600 px-2 py-1 rounded uppercase tracking-wider shadow-sm">KYC Needed</span>
                                 )}
                             </div>
+                            
+                            {/* 🌟 COVERAGE SECTION 🌟 */}
+                            {plan.supportedCountries && plan.supportedCountries.length > 0 && (
+                                <div className="mb-4">
+                                    <button 
+                                        onClick={() => setCoverageModalData(plan.supportedCountries)}
+                                        className="w-full flex items-center justify-between text-sm font-semibold text-gray-700 bg-gray-50 hover:bg-gray-100 py-2 px-3 rounded-lg transition-colors cursor-pointer"
+                                    >
+                                        <span className="flex items-center gap-1.5">
+                                            <MapPin size={14} className="text-brand" />
+                                            Coverage: {plan.supportedCountries.length} {plan.supportedCountries.length === 1 ? 'Country' : 'Countries'}
+                                        </span>
+                                        <ChevronDown size={16} />
+                                    </button>
+                                </div>
+                            )}
 
-                            <div className="flex gap-3 mb-4">
+                            <div className="flex gap-3 mb-4 mt-auto">
                                 {/* 🌟 REDIRECTS TO NEW PAGE INSTEAD OF OPENING MODAL 🌟 */}
                                 <button
                                     onClick={() => router.push(`/checkout/${plan.id}?dest=${destinationID}`)}
@@ -236,6 +261,14 @@ export default function DestinationPage() {
                     </div>
                 )}
             </div>
+
+            {/* 🌟 MOUNT THE REUSABLE MODAL HERE 🌟 */}
+            <CoverageModal 
+                isOpen={!!coverageModalData} 
+                onClose={() => setCoverageModalData(null)} 
+                countries={coverageModalData} 
+            />
+
         </div>
     );
 }
