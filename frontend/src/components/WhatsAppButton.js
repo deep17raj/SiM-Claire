@@ -1,15 +1,16 @@
 "use client";
 import React from 'react';
-import Link from 'next/link';
-import { MessageCircle } from 'lucide-react'; // You can also use a specific WhatsApp SVG if you prefer
+import { MessageCircle } from 'lucide-react'; 
 
 const WhatsAppButton = () => {
-  // Replace with your actual support number (including country code, e.g., 15551234567)
-  const phoneNumber = "+1-437-605-6560"; 
+  // 🌟 FIX 1: Remove all '+', '-', and spaces from the number. 
+  // It must be purely digits including the country code.
+  const phoneNumber = "14376056560"; 
   const message = "Hi SiM Claire, I need help with my eSIM.";
 
   return (
-    <Link 
+    // 🌟 FIX 2: Use a standard <a> tag instead of Next.js <Link> for external app deep-links
+    <a 
       href={`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
@@ -19,7 +20,7 @@ const WhatsAppButton = () => {
       <div className="relative w-14 h-14 bg-brand rounded-full flex items-center justify-center shadow-lg shadow-brand/30 transition-transform duration-300 hover:scale-110 hover:-translate-y-1">
         
         {/* Tooltip (Optional) */}
-        <span className="absolute right-full ml-4 bg-secondary text-white text-sm font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+        <span className="absolute right-full mr-4 bg-secondary text-white text-sm font-medium px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
           Chat with Support
         </span>
 
@@ -29,7 +30,7 @@ const WhatsAppButton = () => {
         {/* Pulse Effect */}
         
       </div>
-    </Link>
+    </a>
   );
 };
 
