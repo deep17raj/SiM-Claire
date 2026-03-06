@@ -49,8 +49,8 @@ const Navbar = () => {
           <Link href="/about-us" className={`${isActive('/about-us')} transition-colors`}>
             About Us
           </Link>
-          <Link href="/my-esims" className={`${isActive('/my-esims')} transition-colors`}>
-            My eSIMs & Top Up
+          <Link href="/profile" className={`${isActive('/profile')} transition-colors`}>
+            My Profile
           </Link>
         </div>
 
@@ -115,11 +115,11 @@ const Navbar = () => {
               About Us
             </Link>
             <Link 
-              href="/my-esims" 
-              className={`font-medium text-lg ${pathname === '/my-esims' ? 'text-brand' : 'text-gray-800 hover:text-brand'}`}
+              href="/profile" 
+              className={`font-medium text-lg ${pathname === '/profile' ? 'text-brand' : 'text-gray-800 hover:text-brand'}`}
               onClick={() => setIsOpen(false)}
             >
-              My eSIMs & Top Up
+              My Profile
             </Link>
             
             <hr className="border-gray-200 my-2" />
