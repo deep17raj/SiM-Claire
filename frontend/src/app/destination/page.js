@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { Flag, Map } from "lucide-react"; // Imported icons for the tabs
-// 🌟 Imported both lists from your data file
-import { countryList, regionList } from "@/data/destinationData"; 
+// 🌟 Imported allDestinations directly
+import { allDestinations } from "@/data/destinationData"; 
 import SearchBar from "@/components/SearchBar";
 
 // Since the data is now fixed, this helper is very clean and simple
@@ -16,16 +15,12 @@ const getFlagUrl = (isoCode) => {
 
 const HeroSearch = () => {
   const [showAll, setShowAll] = useState(false);
-  // 🌟 State for the active filter tab
-  const [activeTab, setActiveTab] = useState("country"); 
   const initialDisplayCount = 16;
   
-  // 🌟 Determine which data array to use based on the active tab
-  const activeDataList = activeTab === "country" ? countryList : regionList;
-
+  // 🌟 Directly map from the allDestinations array
   const displayedDestinations = showAll 
-    ? activeDataList 
-    : activeDataList.slice(0, initialDisplayCount);
+    ? allDestinations 
+    : allDestinations.slice(0, initialDisplayCount);
 
   return (
     <div className="px-4">
@@ -40,37 +35,6 @@ const HeroSearch = () => {
           </h1>
 
           <SearchBar/>
-
-          {/* 🌟 New Filter Capsules 🌟 */}
-          <div className="flex items-center justify-center gap-3">
-            <button 
-              onClick={() => {
-                setActiveTab("country");
-                setShowAll(false); // Reset "Show All" when switching tabs
-              }}
-              className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm md:text-base font-bold transition-all cursor-pointer ${
-                activeTab === "country" 
-                ? "bg-brand text-white shadow-md" 
-                : "bg-gray-100 text-secondary hover:bg-gray-200"
-              }`}
-            >
-              <Flag size={16} /> Country
-            </button>
-            
-            <button 
-              onClick={() => {
-                setActiveTab("region");
-                setShowAll(false); // Reset "Show All" when switching tabs
-              }}
-              className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm md:text-base font-bold transition-all cursor-pointer ${
-                activeTab === "region"
-                ? "bg-brand text-white shadow-md" 
-                : "bg-gray-100 text-secondary hover:bg-gray-200"
-              }`}
-            >
-              <Map size={16} /> Region
-            </button>
-          </div>
 
         </div>
 
@@ -116,22 +80,22 @@ const HeroSearch = () => {
             </Link>
           ))}
           
-          {/* Helper if a tab has no data */}
+          {/* Helper if the array is somehow empty */}
           {displayedDestinations.length === 0 && (
              <div className="col-span-full text-center py-10 text-gray-500">
-               No destinations found for this category.
+               No destinations found.
              </div>
           )}
         </div>
 
         {/* 3. VIEW ALL BUTTON (Toggles based on state) */}
-        {activeDataList.length > initialDisplayCount && (
+        {allDestinations.length > initialDisplayCount && (
           <div className="mt-16 text-center">
             <button 
               onClick={() => setShowAll(!showAll)}
               className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer"
             >
-              {showAll ? "Show Less" : `View All ${activeDataList.length} ${activeTab === 'country' ? 'Countries' : 'Regions'}`}
+              {showAll ? "Show Less" : `View All ${allDestinations.length} Destinations`}
             </button>
           </div>
         )}

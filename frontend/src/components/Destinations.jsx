@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Flag, Map } from "lucide-react"; 
 
 // Custom data for Countries
 const countryDestinations = [
@@ -73,24 +71,8 @@ const countryDestinations = [
   },
 ];
 
-// Custom data for Regions
-const regionDestinations = [
-  {
-    id: "eu-reg",
-    destinationID: "EU-1",
-    name: "Europe",
-    price: "₹899.00",
-    bgImg: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=800&auto=format&fit=crop", // Europe vibe
-    flag: "https://flagcdn.com/w40/eu.png", // EU Flag
-  },
-];
-
 const Destinations = () => {
-  const [activeTab, setActiveTab] = useState("country");
-
-  // Determine which list to display based on the active tab
-  const activeDataList = activeTab === "country" ? countryDestinations : regionDestinations;
-  const displayedDestinations = activeDataList.slice(0, 8);
+  const displayedDestinations = countryDestinations.slice(0, 8);
 
   return (
     <section className="w-full max-w-350 mx-auto px-4 py-10 md:py-14">
@@ -100,31 +82,6 @@ const Destinations = () => {
         <h2 className="text-2xl md:text-4xl font-bold text-gray-800 mb-6">
           Travel eSIM for <span className="text-brand font-bold">150+</span> countries
         </h2>
-        
-        {/* Filter Capsules */}
-        <div className="flex items-center justify-center gap-3">
-          <button 
-            onClick={() => setActiveTab("country")}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm md:text-base font-bold transition-all cursor-pointer ${
-              activeTab === "country" 
-              ? "bg-brand text-white shadow-md" 
-              : "bg-gray-100 text-secondary hover:bg-gray-200"
-            }`}
-          >
-            <Flag size={16} /> Country
-          </button>
-          
-          <button 
-            onClick={() => setActiveTab("region")}
-            className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm md:text-base font-bold transition-all cursor-pointer ${
-              activeTab === "region"
-              ? "bg-brand text-white shadow-md" 
-              : "bg-gray-100 text-secondary hover:bg-gray-200"
-            }`}
-          >
-            <Map size={16} /> Region
-          </button>
-        </div>
       </div>
 
       {/* 2. Grid Section - 🌟 Changed grid-cols-1 to grid-cols-2 for mobile 🌟 */}
@@ -186,7 +143,7 @@ const Destinations = () => {
 
         {displayedDestinations.length === 0 && (
            <div className="col-span-full text-center py-10 text-gray-500">
-             No destinations found for this category.
+             No destinations found.
            </div>
         )}
       </div>
@@ -196,7 +153,7 @@ const Destinations = () => {
           href="/destination"
           className="inline-block text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer"
         >
-          View All {activeTab === "country" ? "Countries" : "Regions"}
+          View All Countries
         </Link>
       </div>
 
