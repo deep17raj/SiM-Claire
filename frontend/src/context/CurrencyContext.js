@@ -6,64 +6,65 @@ import axios from "axios";
 const CurrencyContext = createContext();
 
 export const CurrencyProvider = ({ children }) => {
-  // Default to US (or whatever default country code your backend expects)
   const [currency, setCurrency] = useState("US");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const detectLocation = async () => {
-      try {
-        // 1. Check local storage first
-        const savedDataString = localStorage.getItem("userCurrency");
+      console.log("1. Starting location detection...");
 
+      try {
+        const savedDataString = localStorage.getItem("userCurrency");
+        
         if (savedDataString) {
+          console.log("2. Found existing data in Local Storage:", savedDataString);
           const savedData = JSON.parse(savedDataString);
           const currentTime = new Date().getTime();
 
-          // 2. Check if it's been less than 30 minutes
           if (currentTime < savedData.expiry) {
+            console.log("3. Data is still valid! Skipping API call. Using:", savedData.value);
             setCurrency(savedData.value);
             setLoading(false);
-            return;
+            return; // 🛑 This is why it wasn't printing before!
           } else {
-            // Expired, delete it to fetch fresh data
+            console.log("3. Data expired. Removing old data...");
             localStorage.removeItem("userCurrency");
           }
+        } else {
+          console.log("2. No data found in Local Storage. Making API call...");
         }
 
-        // 3. Fetch location from a free IP Geolocation service
-        const res = await axios.get("https://ipapi.co/json/");
-        const countryCode = res.data.country_code; // e.g., "US", "IN"
+        // Fetch location using GeoJS
+        console.log("4. Calling GeoJS API...");
+        const res = await axios.get("https://get.geojs.io/v1/ip/country.json");
+        
+        console.log("5. API Success! Location Data:", res.data); 
+        const countryCode = res.data.country;
 
-        // 4. Calculate 30 min expiration (30 mins * 60 seconds * 1000 ms)
         const expirationTime = new Date().getTime() + 30 * 60 * 1000;
-
         const dataToSave = {
           value: countryCode,
           expiry: expirationTime,
         };
 
-        // 5. Update state and save to local storage
+        console.log("6. Saving new data to Local Storage:", dataToSave);
         setCurrency(countryCode);
         localStorage.setItem("userCurrency", JSON.stringify(dataToSave));
 
       } catch (err) {
-        console.error("Failed to detect location, defaulting to US", err);
-        setCurrency("US"); // Fallback
+        console.error("❌ ERROR: Location detection failed. Defaulting to US.", err.message);
+        setCurrency("US"); 
       } finally {
         setLoading(false);
+        console.log("7. Detection process finished.");
       }
     };
 
     detectLocation();
   }, []);
 
-  // Format Helper Function: 
-  // Now it just takes the price and the currency code (e.g. "INR", "USD") from your backend
-  // and formats it nicely with the correct symbol. No math required!
   const formatPrice = (price, displayCurrencyCode = "USD") => {
     if (price === undefined || price === null) return "N/A";
-    
     try {
       return new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -72,8 +73,7 @@ export const CurrencyProvider = ({ children }) => {
         maximumFractionDigits: 2
       }).format(price);
     } catch (e) {
-      // Fallback if an invalid currency code is passed
-      return `${displayCurrencyCode} ${Number(price).toFixed(2)}`; 
+      return `${displayCurrencyCode} ${Number(price).toFixed(2)}`;
     }
   };
 
@@ -84,5 +84,4 @@ export const CurrencyProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use the context easily
 export const useCurrency = () => useContext(CurrencyContext);
