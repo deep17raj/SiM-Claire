@@ -1,6 +1,11 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 import HowItWorks from '@/components/HowItWorks';
+// Import your new data file (adjust the path if needed)
+import { brandsList, deviceData } from '@/data/deviceData'; 
+
 // 1. Define Custom SVG Icons for each brand
 const BrandIcons = {
   apple: (
@@ -10,7 +15,6 @@ const BrandIcons = {
   ),
   samsung: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-9 h-9">
-       {/* Stylized Galaxy Orbit / 'S' representation */}
        <path d="M13.2 2.06c4.6 1.15 7.17 6.07 5.76 10.98-1.4 4.91-6.2 7.82-10.8 6.67-4.6-1.15-7.17-6.07-5.76-10.98 1.4-4.91 6.2-7.82 10.8-6.67zm-1.12 2.05c-2.48.33-4.66 2.1-5.32 4.41-.67 2.31.25 4.7 2.26 5.86 2.01 1.16 4.62.99 6.28-.42 1.66-1.41 2.24-3.8 1.42-5.83-.82-2.03-2.9-3.52-4.64-4.02z"/>
        <path d="M19.46 15.68l1.35 1.35-3.54 3.54-1.35-1.35 3.54-3.54z" opacity="0.6"/>
     </svg>
@@ -25,13 +29,11 @@ const BrandIcons = {
   ),
   huawei: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-      {/* Abstract Flower/Petals Shape */}
       <path d="M12 2c-.6 0-1.1.2-1.5.6-.4.4-.6.9-.6 1.5s.2 1.1.6 1.5c.4.4.9.6 1.5.6s1.1-.2 1.5-.6c.4-.4.6-.9.6-1.5s-.2-1.1-.6-1.5C13.1 2.2 12.6 2 12 2zm-4.2 3.8c-.5-.3-1.1-.2-1.5.2-.4.4-.6 1-.2 1.5l1.5 2.1c.3.5.9.6 1.4.2.5-.3.6-.9.2-1.4L7.8 5.8zm8.4 0L14.8 8c-.4.5-.3 1.1.2 1.4.5.4 1.1.2 1.4-.2l1.5-2.1c.4-.5.2-1.1-.2-1.5-.5-.3-1.1-.2-1.5.2zM4.5 10.5c-.5-.2-1.1 0-1.3.5-.2.5 0 1.1.5 1.3l2.5 1c.5.2 1.1 0 1.3-.5.2-.5 0-1.1-.5-1.3l-2.5-1zm15 0l-2.5 1c-.5.2-.7.8-.5 1.3.2.5.8.7 1.3.5l2.5-1c.5-.2.7-.8.5-1.3-.2-.5-.8-.7-1.3-.5zM7.5 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm9 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
     </svg>
   ),
   motorola: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-9 h-9">
-       {/* Stylized M */}
        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h-2.5l-2.5 7h2.5l1-3 1.5 3h2l1.5-3 1 3h2.5l-2.5-7H11z"/>
     </svg>
   ),
@@ -44,46 +46,10 @@ const BrandIcons = {
   )
 };
 
-// 2. Data for Brand Tiles (Added 'iconKey' to map to BrandIcons)
-const brands = [
-  { id: 'apple', name: 'Apple', sub: 'iPhone & iPad', iconKey: 'apple', active: true },
-  { id: 'samsung', name: 'Samsung', sub: 'Galaxy Series', iconKey: 'samsung', active: false },
-  { id: 'google', name: 'Google', sub: 'Pixel Devices', iconKey: 'google', active: false },
-  { id: 'huawei', name: 'Huawei', sub: 'P & Mate Series', iconKey: 'huawei', active: false },
-  { id: 'motorola', name: 'Motorola', sub: 'Razr & Edge', iconKey: 'motorola', active: false },
-  { id: 'others', name: 'Others', sub: 'Xiaomi, Oppo...', iconKey: 'others', active: false },
-];
-
-// 3. Data for Device Lists
-const deviceCategories = [
-  {
-    title: '2024 Models',
-    badge: 'New Release',
-    models: ['iPhone 16 Pro Max', 'iPhone 16 Pro', 'iPhone 16 Plus', 'iPhone 16'],
-  },
-  {
-    title: '2023 Models',
-    models: ['iPhone 15 Pro Max', 'iPhone 15 Pro', 'iPhone 15 Plus', 'iPhone 15'],
-  },
-  {
-    title: '2022 Models',
-    models: ['iPhone 14 Pro Max', 'iPhone 14 Pro', 'iPhone 14 Plus', 'iPhone 14', 'iPhone SE (3rd Gen)'],
-  },
-  {
-    title: '2021 Models',
-    models: ['iPhone 13 Pro Max', 'iPhone 13 Pro', 'iPhone 13 mini', 'iPhone 13'],
-  },
-  {
-    title: 'iPads & Tablets',
-    models: ['iPad Pro 12.9 (4th Gen+)', 'iPad Air (3rd Gen+)', 'iPad mini (5th Gen+)', 'iPad (7th Gen+)'],
-  },
-  {
-    title: 'Legacy Models',
-    models: ['iPhone 12 Series', 'iPhone 11 Series', 'iPhone XR / XS / XS Max', 'iPhone SE (2nd Gen)'],
-  },
-];
-
 const CompatibilityChecker = () => {
+  // State to keep track of the currently selected brand
+  const [activeBrand, setActiveBrand] = useState('apple');
+
   return (
     <section className="bg-[#fafafa] text-slate-900 min-h-screen mt-20 ">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -94,7 +60,6 @@ const CompatibilityChecker = () => {
             <div className="relative w-24 h-24 md:w-28 md:h-28">
               <div className="absolute inset-0 bg-brand/10 rounded-[32px] rotate-6"></div>
               <div className="absolute inset-0 bg-white shadow-2xl rounded-[32px] flex items-center justify-center border border-slate-100">
-                {/* Main Smartphone Icon */}
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f2671c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
                     <line x1="12" y1="18" x2="12.01" y2="18"></line>
@@ -117,41 +82,43 @@ const CompatibilityChecker = () => {
 
         {/* Brand Selection Grid */}
         <div className="mb-20">
-          <h3 className="text-center subheading  text-slate-600 mb-10">Premium Brand Selection</h3>
+          <h3 className="text-center subheading text-slate-600 mb-10">Premium Brand Selection</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {brands.map((brand) => (
-              <button 
-                key={brand.id}
-                className={`group relative flex flex-col items-center cursor-pointer p-6 rounded-[32px] border border-slate-100 shadow-sm transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-white to-slate-50 ${
-                    brand.active 
-                    ? 'border-brand bg-gradient-to-br from-white to-[#fff5f0] shadow-[0_25px_50px_-12px_rgba(242,103,28,0.15)] ring-1 ring-brand/20' 
-                    : ''
-                }`}
-              >
-                {/* Icon Container: Inherits text color for hover/active states */}
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 ${
-                    brand.active 
-                    ? 'bg-gradient-to-br from-brand to-[#ff8c4a] text-white shadow-[0_10px_15px_-3px_rgba(242,103,28,0.3)]' 
-                    : 'bg-slate-50 text-secondary'
-                }`}>
-                  {/* Renders the specific SVG from the BrandIcons object */}
-                  {BrandIcons[brand.iconKey]}
-                </div>
-                
-                <span className={`subheading sec font-bold transition-colors ${brand.active ? 'text-brand' : 'text-secondary'}`}>
-                    {brand.name}
-                </span>
-                <span className={`desc mt-1  tracking-widest font-semibold transition-colors ${brand.active ? 'text-orange-400' : 'text-secondary'}`}>
-                    {brand.sub}
-                </span>
-              </button>
-            ))}
+            {brandsList.map((brand) => {
+              const isActive = activeBrand === brand.id;
+              return (
+                <button 
+                  key={brand.id}
+                  onClick={() => setActiveBrand(brand.id)}
+                  className={`group relative flex flex-col items-center cursor-pointer p-6 rounded-[32px] border border-slate-100 shadow-sm transition-all duration-300 hover:-translate-y-3 bg-gradient-to-br from-white to-slate-50 ${
+                      isActive 
+                      ? 'border-brand bg-gradient-to-br from-white to-[#fff5f0] shadow-[0_25px_50px_-12px_rgba(242,103,28,0.15)] ring-1 ring-brand/20' 
+                      : ''
+                  }`}
+                >
+                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300 ${
+                      isActive 
+                      ? 'bg-gradient-to-br from-brand to-[#ff8c4a] text-white shadow-[0_10px_15px_-3px_rgba(242,103,28,0.3)]' 
+                      : 'bg-slate-50 text-secondary'
+                  }`}>
+                    {BrandIcons[brand.iconKey]}
+                  </div>
+                  
+                  <span className={`subheading sec font-bold transition-colors ${isActive ? 'text-brand' : 'text-secondary'}`}>
+                      {brand.name}
+                  </span>
+                  <span className={`desc mt-1 tracking-widest font-semibold transition-colors ${isActive ? 'text-orange-400' : 'text-secondary'}`}>
+                      {brand.sub}
+                  </span>
+                </button>
+              )
+            })}
           </div>
         </div>
 
-        {/* Device Models Masonry/Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
-          {deviceCategories.map((category, idx) => (
+        {/* Device Models Masonry/Grid (Filtered Dynamically) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 animate-in fade-in duration-300">
+          {deviceData[activeBrand]?.map((category, idx) => (
             <div key={idx} className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 h-fit break-inside-avoid">
               <h4 className="subheading font-extrabold text-slate-900 mb-8 flex items-center justify-between">
                 {category.title}
@@ -167,7 +134,7 @@ const CompatibilityChecker = () => {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-secondary flex-shrink-0">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                     </svg>
-                    <span className="desc hv  transition-colors">
+                    <span className="desc hv transition-colors">
                         {model}
                     </span>
                   </li>
@@ -176,36 +143,6 @@ const CompatibilityChecker = () => {
             </div>
           ))}
         </div>
-
-        {/* Info Banner */}
-        {/* <div className="mt-24 bg-secondary  rounded-[40px] p-8 md:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-brand opacity-10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"></div>
-          <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
-            <div className="w-20 h-20 bg-brand rounded-3xl flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/20">
-               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                 <circle cx="12" cy="12" r="10"></circle>
-                 <line x1="12" y1="16" x2="12" y2="12"></line>
-                 <line x1="12" y1="8" x2="12.01" y2="8"></line>
-               </svg>
-            </div>
-            <div className="flex-grow text-center md:text-left">
-              <h5 className="text-2xl font-bold mb-4">Crucial Compatibility Factors</h5>
-              <p className="text-slate-400 text-lg leading-relaxed max-w-3xl">
-                Models listed above generally support eSIM technology. However, regional variations such as hardware configurations for mainland China or carrier locks may impact your specific device's capabilities.
-              </p>
-            </div>
-            <div className="flex-shrink-0 grid grid-cols-1 gap-4 w-full md:w-auto">
-              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 backdrop-blur-sm">
-                <p className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1">Region Lock</p>
-                <p className="text-xs text-slate-300 italic leading-snug">China/HK models with dual slots lack eSIM.</p>
-              </div>
-              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700 backdrop-blur-sm">
-                <p className="text-xs font-bold text-orange-400 uppercase tracking-widest mb-1">Carrier Status</p>
-                <p className="text-xs text-slate-300 italic leading-snug">Device must be network unlocked.</p>
-              </div>
-            </div>
-          </div>
-        </div> */}
 
         {/* Footer Actions */}
         <footer className="mt-10 flex flex-col md:flex-row items-center justify-between py-12 border-t border-slate-200">
@@ -218,16 +155,17 @@ const CompatibilityChecker = () => {
             <p className="text-slate-500 text-lg md:text-xl font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
           </div>
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <Link href={"/support"} className="px-16 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg">
+            <Link href={"/support"} className="px-16 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg">
               Help Center
             </Link>
-            <Link href={"/destination"} className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 transition-all duration-300 cursor-pointer">
+            <Link href={"/destination"} className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer">
               Get Your eSIM
             </Link>
           </div>
         </footer>
+        
         <div id='compat'>
-<HowItWorks/>
+          <HowItWorks/>
         </div>
           
       </div>
