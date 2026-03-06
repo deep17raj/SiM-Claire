@@ -6,6 +6,7 @@ import { useState } from "react";
 // 🌟 Imported allDestinations directly
 import { allDestinations } from "@/data/destinationData"; 
 import SearchBar from "@/components/SearchBar";
+import { useCurrency } from "@/context/CurrencyContext";
 
 // Since the data is now fixed, this helper is very clean and simple
 const getFlagUrl = (isoCode) => {
@@ -16,7 +17,7 @@ const getFlagUrl = (isoCode) => {
 const HeroSearch = () => {
   const [showAll, setShowAll] = useState(false);
   const initialDisplayCount = 16;
-  
+  const { currencyCode, exchangeRate, formatPrice, loading } = useCurrency();
   // 🌟 Directly map from the allDestinations array
   const displayedDestinations = showAll 
     ? allDestinations 
@@ -67,7 +68,7 @@ const HeroSearch = () => {
                   {country.destinationName}
                 </p>
                 <p className="desc text-sm">
-                  From <span className="font-medium text-gray-900">₹299.00</span>
+                   <span className="font-medium text-gray-900">{loading ? "Loading..." : `From ${formatPrice(3.26*exchangeRate, currencyCode)}`}</span>
                 </p>
               </div>
 

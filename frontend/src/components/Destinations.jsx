@@ -76,7 +76,7 @@ const Destinations = () => {
   // 🌟 Bring in the dynamically fetched real-time API values from context!
   const { currencyCode, exchangeRate, formatPrice, loading } = useCurrency();
 
-  const displayedDestinations = countryDestinations.slice(0, 8);
+  // const displayedDestinations = countryDestinations.slice(0, 8);
 
   return (
     <section className="w-full max-w-350 mx-auto px-4 py-10 md:py-14">
@@ -90,7 +90,7 @@ const Destinations = () => {
 
       {/* 2. Grid Section */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-10 animate-in fade-in duration-300">
-        {displayedDestinations.map((dest) => {
+        {countryDestinations.map((dest) => {
           
           // 🌟 Multiply the base USD price by the live API exchange rate
           const localPrice = dest.basePriceUSD * exchangeRate;
@@ -152,7 +152,7 @@ const Destinations = () => {
           );
         })}
 
-        {displayedDestinations.length === 0 && (
+        {countryDestinations.length === 0 && (
            <div className="col-span-full text-center py-10 text-gray-500">
              No destinations found.
            </div>
