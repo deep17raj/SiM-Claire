@@ -14,7 +14,7 @@ export const CurrencyProvider = ({ children }) => {
       console.log("1. Starting location detection...");
 
       try {
-        const savedDataString = localStorage.getItem("userCurrency");
+        const savedDataString = localStorage.getItem("user-Currency");
         
         if (savedDataString) {
           console.log("2. Found existing data in Local Storage:", savedDataString);
@@ -28,7 +28,7 @@ export const CurrencyProvider = ({ children }) => {
             return; // 🛑 This is why it wasn't printing before!
           } else {
             console.log("3. Data expired. Removing old data...");
-            localStorage.removeItem("userCurrency");
+            localStorage.removeItem("user-Currency");
           }
         } else {
           console.log("2. No data found in Local Storage. Making API call...");
@@ -49,7 +49,7 @@ export const CurrencyProvider = ({ children }) => {
 
         console.log("6. Saving new data to Local Storage:", dataToSave);
         setCurrency(countryCode);
-        localStorage.setItem("userCurrency", JSON.stringify(dataToSave));
+        localStorage.setItem("user-Currency", JSON.stringify(dataToSave));
 
       } catch (err) {
         console.error("❌ ERROR: Location detection failed. Defaulting to US.", err.message);
