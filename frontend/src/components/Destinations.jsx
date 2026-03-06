@@ -83,30 +83,6 @@ const regionDestinations = [
     bgImg: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&w=800&auto=format&fit=crop", // Europe vibe
     flag: "https://flagcdn.com/w40/eu.png", // EU Flag
   },
-  // {
-  //   id: "as-reg",
-  //   destinationID: "AS-1", // Update with your actual ID for Asia if you have one
-  //   name: "Asia",
-  //   price: "₹999.00",
-  //   bgImg: "https://images.unsplash.com/photo-1464817739973-0128fe77aaa1?q=80&w=800&auto=format&fit=crop", 
-  //   flag: "https://flagcdn.com/w40/un.png", // Generic flag for continent
-  // },
-  // {
-  //   id: "na-reg",
-  //   destinationID: "NA-1", // Update with your actual ID
-  //   name: "North America",
-  //   price: "₹1299.00",
-  //   bgImg: "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=800&auto=format&fit=crop", 
-  //   flag: "https://flagcdn.com/w40/un.png",
-  // },
-  // {
-  //   id: "la-reg",
-  //   destinationID: "LA-1", // Update with your actual ID
-  //   name: "Latin America",
-  //   price: "₹1099.00",
-  //   bgImg: "https://images.unsplash.com/photo-1518182170546-076616fd4aa5?q=80&w=800&auto=format&fit=crop",
-  //   flag: "https://flagcdn.com/w40/un.png",
-  // }
 ];
 
 const Destinations = () => {
@@ -151,13 +127,13 @@ const Destinations = () => {
         </div>
       </div>
 
-      {/* 2. Grid Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mt-10 animate-in fade-in duration-300">
+      {/* 2. Grid Section - 🌟 Changed grid-cols-1 to grid-cols-2 for mobile 🌟 */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mt-10 animate-in fade-in duration-300">
         {displayedDestinations.map((dest) => (
           <Link 
             href={`/destination/${dest.destinationID}`}
             key={dest.id} 
-            className="relative block h-48 md:h-56 rounded-2xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
+            className="relative block h-40 sm:h-48 md:h-56 rounded-2xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
           >
             {/* Background Image */}
             <Image
@@ -165,17 +141,17 @@ const Destinations = () => {
               alt={`${dest.name} background`}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
             />
 
             {/* Bottom Dark Gradient Overlay for text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
 
-            {/* Content Wrapper */}
-            <div className="absolute inset-0 p-4 flex flex-col justify-between">
+            {/* Content Wrapper - Adjusted padding for mobile */}
+            <div className="absolute inset-0 p-3 sm:p-4 flex flex-col justify-between">
               
               {/* Flag Icon */}
-              <div className="relative w-8 h-6 rounded overflow-hidden shadow-sm bg-gray-200">
+              <div className="relative w-6 h-4 sm:w-8 sm:h-6 rounded overflow-hidden shadow-sm bg-gray-200">
                 <Image
                   src={dest.flag}
                   alt={`${dest.name} flag`}
@@ -185,19 +161,20 @@ const Destinations = () => {
               </div>
 
               {/* Bottom Info Row */}
-              <div className="flex items-end justify-between w-full">
-                <div>
-                  <h3 className="text-white font-semibold text-lg md:text-xl tracking-wide">
+              <div className="flex items-end justify-between w-full gap-2">
+                <div className="min-w-0 flex-1">
+                  {/* Scaled text sizes for mobile so it fits in 2 columns */}
+                  <h3 className="text-white font-semibold text-base sm:text-lg md:text-xl tracking-wide truncate">
                     {dest.name}
                   </h3>
-                  <p className="text-gray-300 text-sm mt-0.5">
+                  <p className="text-gray-300 text-xs sm:text-sm mt-0.5 truncate">
                     From {dest.price}
                   </p>
                 </div>
 
-                {/* Arrow Button */}
-                <div className="w-8 h-8 rounded-full border border-white/60 flex items-center justify-center text-white backdrop-blur-sm group-hover:bg-brand group-hover:border-0 group-hover:text-tertary transition-all">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                {/* Arrow Button - Slightly scaled down for mobile */}
+                <div className="w-6 h-6 sm:w-8 sm:h-8 shrink-0 rounded-full border border-white/60 flex items-center justify-center text-white backdrop-blur-sm group-hover:bg-brand group-hover:border-0 group-hover:text-tertary transition-all">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>
                 </div>

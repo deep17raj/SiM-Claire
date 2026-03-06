@@ -169,9 +169,9 @@ export default function CheckoutPage() {
                             {checkoutPlan.supportedCountries && checkoutPlan.supportedCountries.length > 0 ? (
                                 <button 
                                     onClick={() => setCoverageModalData(checkoutPlan.supportedCountries)}
-                                    className="font-bold text-brand text-lg flex items-center gap-1 hover:underline cursor-pointer"
+                                    className="font-bold text-brand text-lg flex items-center gap-1 underline cursor-pointer"
                                 >
-                                    {checkoutPlan.supportedCountries.length} Countries <MapPin size={16} />
+                                    {checkoutPlan.supportedCountries.length} {checkoutPlan.supportedCountries.length==1?"Country":"Countries"}  <MapPin size={16} />
                                 </button>
                             ) : (
                                 <span className="font-bold text-brand text-lg">
