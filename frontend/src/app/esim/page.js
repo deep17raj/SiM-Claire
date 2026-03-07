@@ -49,7 +49,7 @@ const HeroSearch = () => {
           {displayedDestinations.map((country) => (
             <Link 
               key={country.destinationID} 
-              href={`/destination/${country.destinationID}`}
+              href={`/esim/${country.destinationName}`}
               className="flex items-center p-3 sm:p-4 rounded-full bg-gray-50 hover:bg-white border border-transparent hover:border-gray-200 hover:shadow-md transition-all group"
             >
               {/* Flag Circle */}

@@ -37,7 +37,7 @@ const Navbar = () => {
 
         {/* 2. Desktop Navigation Links */}
         <div className="hidden lg:flex items-center space-x-8 font-medium text-[15px]">
-          <Link href="/destination" className={`${isActive('/destination')} transition-colors`}>
+          <Link href="/esim" className={`${isActive('/esim')} transition-colors`}>
             Choose a Destination
           </Link>
           <Link href="/why-esim" className={`${isActive('/why-esim')} transition-colors`}>
@@ -87,8 +87,8 @@ const Navbar = () => {
           <div className="absolute top-full left-0 right-0 mt-2 mx-4 bg-white rounded-2xl shadow-xl border border-gray-100 p-6 flex flex-col gap-4 lg:hidden animate-in slide-in-from-top-2 duration-200 z-[100]">
             
             <Link 
-              href="/destination" 
-              className={`font-medium text-lg ${pathname === '/destination' ? 'text-brand' : 'text-gray-800 hover:text-brand'}`}
+              href="/esim" 
+              className={`font-medium text-lg ${pathname === '/esim' ? 'text-brand' : 'text-gray-800 hover:text-brand'}`}
               onClick={() => setIsOpen(false)}
             >
               Choose a Destination

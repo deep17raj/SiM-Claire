@@ -97,7 +97,7 @@ const Destinations = () => {
 
           return (
             <Link 
-              href={`/destination/${dest.destinationID}`}
+              href={`/esim/${dest.name}`}
               key={dest.id} 
               className="relative block h-40 sm:h-48 md:h-56 rounded-2xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow"
             >
