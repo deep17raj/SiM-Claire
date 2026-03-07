@@ -43,7 +43,7 @@ export default function SearchBar() {
   const handleSelectDestination = (destinationID) => {
     setIsDropdownOpen(false);
     setSearchTerm(""); // Clear search bar after selection
-    router.push(`/destination/${destinationID}`);
+    router.push(`/esim/${destinationID}`);
   };
 
   // Handle Clicking Outside the Dropdown
@@ -99,7 +99,7 @@ export default function SearchBar() {
               {filteredDestinations.map((dest) => (
                 <li 
                   key={dest.destinationID}
-                  onClick={() => handleSelectDestination(dest.destinationID)}
+                  onClick={() => handleSelectDestination(dest.destinationName)}
                   className="flex items-center gap-4 px-5 py-3 hover:bg-gray-50 cursor-pointer transition-colors"
                 >
                   <div className="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0 bg-gray-100 border border-gray-200">
