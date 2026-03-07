@@ -63,6 +63,7 @@ export default async function Page({ params }) {
   }
 
   // 🌟 BUILD THE SCHEMA MARKUP FOR GOOGLE
+ // 🌟 BUILD THE SCHEMA MARKUP FOR GOOGLE
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -74,10 +75,11 @@ export default async function Page({ params }) {
       name: 'SimClaire',
     },
     offers: {
-      '@type': 'AggregateOffer', // Tells Google you have multiple plans/prices
+      '@type': 'AggregateOffer', 
       url: `https://simclaire.com/esim/${urlSlug}`,
       priceCurrency: 'USD',
-      lowPrice: '3.99', // The starting price of your cheapest plan
+      lowPrice: '3.99', 
+      offerCount: '4', // Keeps Google happy and removes the warning!
       availability: 'https://schema.org/InStock',
     },
   };
