@@ -155,7 +155,7 @@ export default function DeviceCompatibilityModal({ isOpen, onClose }) {
                 <button 
                   onClick={() => {
                     handleClose();
-                    router.push("/supported-devices"); 
+                    router.push("/esim-compatible-devices"); 
                   }}
                   className="w-full py-3.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-2xl hover:bg-gray-50 transition-all cursor-pointer shadow-sm active:scale-95 flex items-center justify-center gap-2"
                 >

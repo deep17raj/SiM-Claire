@@ -3,10 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import HowItWorks from '@/components/HowItWorks';
-// Import your new data file (adjust the path if needed)
 import { brandsList, deviceData } from '@/data/deviceData'; 
 
-// 1. Define Custom SVG Icons for each brand
 const BrandIcons = {
   apple: (
     <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
@@ -47,7 +45,6 @@ const BrandIcons = {
 };
 
 const CompatibilityChecker = () => {
-  // State to keep track of the currently selected brand
   const [activeBrand, setActiveBrand] = useState('apple');
 
   return (
@@ -116,32 +113,51 @@ const CompatibilityChecker = () => {
           </div>
         </div>
 
-        {/* Device Models Masonry/Grid (Filtered Dynamically) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16 animate-in fade-in duration-300">
-          {deviceData[activeBrand]?.map((category, idx) => (
-            <div key={idx} className="bg-white rounded-[40px] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 h-fit break-inside-avoid">
-              <h4 className="subheading font-extrabold text-slate-900 mb-8 flex items-center justify-between">
-                {category.title}
-                {category.badge && (
-                  <span className="text-[10px] font-bold px-3 py-1 bg-green-100 text-green-700 rounded-full uppercase tracking-wider">
-                    {category.badge}
-                  </span>
-                )}
-              </h4>
-              <ul className="space-y-5">
-                {category.models.map((model, mIdx) => (
-                  <li key={mIdx} className="flex items-center gap-4 text-slate-600 group cursor-default">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-secondary flex-shrink-0">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    <span className="desc hv transition-colors">
-                        {model}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+        {/* 🌟 SEO FIXED: Normal Document Flow so parent expands naturally 🌟 */}
+        <div className="mt-16">
+          {Object.keys(deviceData).map((brandKey) => {
+            const isActive = activeBrand === brandKey;
+            
+            return (
+              <div 
+                key={brandKey}
+                // Hides inactive grids completely from view (but keeps them in DOM for SEO)
+                className={`transition-opacity duration-300 ${
+                  isActive 
+                  ? "opacity-100 h-auto overflow-visible" 
+                  : "opacity-0 h-0 overflow-hidden pointer-events-none"
+                }`}
+              >
+                {/* Responsive grid: 1 col on mobile, 2 on tablet, 3 on large screens */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-4">
+                  {deviceData[brandKey]?.map((category, idx) => (
+                    <div key={idx} className="bg-white rounded-[40px] p-8 md:p-10 border border-slate-100 shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-300 h-fit">
+                      <h4 className="subheading font-extrabold text-slate-900 mb-8 flex flex-wrap items-center justify-between gap-2">
+                        {category.title}
+                        {category.badge && (
+                          <span className="text-[10px] font-bold px-3 py-1 bg-green-100 text-green-700 rounded-full uppercase tracking-wider">
+                            {category.badge}
+                          </span>
+                        )}
+                      </h4>
+                      <ul className="space-y-5">
+                        {category.models.map((model, mIdx) => (
+                          <li key={mIdx} className="flex items-center gap-4 text-slate-600 cursor-default">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-secondary flex-shrink-0">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            <span className="desc font-medium transition-colors">
+                                {model}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
         {/* Footer Actions */}
@@ -154,11 +170,11 @@ const CompatibilityChecker = () => {
             </div>
             <p className="text-slate-500 text-lg md:text-xl font-semibold">Trusted by <span className="text-slate-900">10,000+</span> global travelers</p>
           </div>
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <Link href={"/support"} className="px-16 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg">
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 w-full md:w-auto">
+            <Link href={"/support"} className="w-full md:w-auto text-center px-10 md:px-16 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer text-brand text-lg md:text-xl border-brand border-2 rounded-lg">
               Help Center
             </Link>
-            <Link href={"/destination"} className="text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer">
+            <Link href={"/destination"} className="w-full md:w-auto text-center text-brand text-lg md:text-xl border-brand border-2 rounded-lg px-10 md:px-14 py-4 font-bold hover:bg-brand hover:text-white hover:shadow-lg hover:shadow-orange-500/20 transition-all transform active:scale-95 duration-300 cursor-pointer">
               Get Your eSIM
             </Link>
           </div>
